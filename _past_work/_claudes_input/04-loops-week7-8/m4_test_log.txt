@@ -1,0 +1,30 @@
+# m4 test log txt
+TEST CASE 1: Menu Navigation
+- Test all menu options
+- Verify return to main menu
+- Test quit functionality
+Result: [PASS/FAIL]
+
+TEST CASE 2: Input Validation
+- Enter text when number expected
+- Enter negative numbers
+- Enter numbers outside valid range
+Result: [PASS/FAIL]
+
+TEST CASE 3: Game Loop
+- Play through complete game
+- Test win condition
+- Test lose condition
+Result: [PASS/FAIL]
+
+TEST CASE 4: Edge Cases
+- Enter maximum values
+- Enter minimum values
+- Rapid input testing
+Result: [PASS/FAIL]
+
+TEST CASE 5: Extended Play
+- Play multiple rounds
+- Check statistics accuracy
+- Verify no memory issues
+Result: [PASS/FAIL]
