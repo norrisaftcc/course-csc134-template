@@ -252,7 +252,7 @@ One equals sign **assigns**. Two equals signs **compare**. Inside an `if`, you a
 if (strength = 70)   // BUG: this ASSIGNS 70 to strength, then the if is "true"
 ```
 
-That line sets `strength` to `70` and then treats the result as true — so the branch runs *every time*, no matter what the player typed. The good news: the compiler is watching. Under `-Wall` it prints a warning like *"using the result of an assignment as a condition"* and even suggests `==`. That warning is exactly why the course compiles with `-Wall -Wextra` and demands zero warnings. **Fix:** use `==`. Memory hook: *one equals gives, two equals asks.*
+That line sets `strength` to `70` and then treats the result as true — so the branch runs *every time*, no matter what the player typed. The good news: the compiler is watching. Under `-Wall` it prints a warning like *"suggest parentheses around assignment used as truth value [-Wparentheses]"* and even suggests `==`. That warning is exactly why the course compiles with `-Wall -Wextra` and demands zero warnings. **Fix:** use `==`. Memory hook: *one equals gives, two equals asks.*
 
 ### Trap 2: `switch` fall-through
 

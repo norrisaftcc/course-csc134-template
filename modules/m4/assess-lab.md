@@ -57,7 +57,9 @@ you exactly what to build.
 - An **`if` / `else if` / `else` chain with at least three branches** compares
   the score against thresholds and picks the outcome. Order the branches from
   the highest bar down to the lowest, so each `else if` only runs when the ones
-  above it were false.
+  above it were false. The threshold *values* are yours to choose — they need
+  not match the example numbers (`70`, `40`) used here. The only rule is highest
+  bar first.
 
 **Outputs:**
 
@@ -177,8 +179,10 @@ Everything here, all working:
 
 ### A Tier — synthesis (everything in B, plus...)
 
-- [ ] A real branching tree with **four or more distinct endings** depending on
-      a mix of the category and the score.
+- [ ] A real branching tree with **four or more distinct outcome messages,
+      where each prints for a different combination of category and score**.
+      Distinct means different printed text — four separate messages, not the
+      same line reached four ways.
 - [ ] At least one **genuinely nested** condition — an `if` *inside* another
       branch's body, not just another link in the `else if` chain. (Example:
       inside the top-score branch, a further check that adds a category-specific
@@ -249,7 +253,8 @@ A good build order:
 3. Read the score, add the three-branch `if` / `else if` / `else`. Compile and
    run each branch.
 4. (B) Add the compound condition and the single-pass validation check.
-5. (A) Add the nested condition and grow to four-plus endings.
+5. (A) Add the nested condition and grow to four or more distinct outcome
+   messages, each for a different combination of category and score.
 
 Create your file, then build and run with the course-standard command:
 
@@ -278,6 +283,10 @@ Try each of these and check the ending is the one you intended:
 - A high score, a middle score, and a low score — one run per branch.
 - The exact threshold numbers themselves (if your top bar is `>= 70`, test `70`
   and `69`). Off-by-one at a boundary is the most common Logic error here.
+- The low-end boundary: a score of `0` is **valid** input. A range check written
+  `score < 0 || score > 100` rejects only values *below* `0`, so `0` itself
+  passes and should flow into your lowest branch — not the out-of-range reject
+  message. Test `0` and confirm it lands in a real ending.
 - (B) An out-of-range score like `250` or `-5`. Your single check should reject
   it, not run the normal branches.
 - (B) A letter where a number is expected — type `banana` at the score prompt.
@@ -299,8 +308,8 @@ Organized by the four error classes so the name points you at the fix.
 
 - **`expected ';' before ...`** — **Syntax.** Check the line *above* the one the
   compiler names; a missing `;` or `}` usually shows up one line late.
-- **`suggest parentheses around assignment used as truth value`** — a
-  **warning**, not an error: the program still compiles. It flags the `=`-vs-`==`
+- **`suggest parentheses around assignment used as truth value [-Wparentheses]`**
+  — a **warning**, not an error: the program still compiles. It flags the `=`-vs-`==`
   trap, which is a **Logic** bug (see the Logic section below). You wrote `=`
   where you meant `==` inside a condition. Change one equals sign to two.
 - **`'else' without a previous 'if'`** — **Syntax.** A brace is misplaced, or an
@@ -343,7 +352,7 @@ note, not a penalty.
 |---|---|
 | **C — core** | A Mermaid flowchart drawn first, then a program that uses a `switch` (3+ cases plus a graceful `default`) on the category and an `if` / `else if` / `else` chain (3+ branches) on the score, with every branch reachable, matching the flowchart, compiling clean. |
 | **B — depth** | Everything in C, plus one compound condition (`&&` / `\|\|` / `!`) that changes an outcome, and one **single-pass** out-of-range input check that rejects and ends cleanly (no loop). |
-| **A — synthesis** | Everything in B, plus a branching tree with 4+ distinct endings driven by a mix of category and score, and at least one genuinely nested condition (an `if` inside a branch, not just another `else if`). |
+| **A — synthesis** | Everything in B, plus a branching tree with four or more distinct outcome messages (distinct = different printed text), where each prints for a different combination of category and score, and at least one genuinely nested condition (an `if` inside a branch, not just another `else if`). |
 | **Badge — above & beyond** | A recovered flowchart for the provided snippet (code → flowchart, the reverse direction), a complete `prompts.md` if AI was used, and a 3-5 sentence reflection naming where `&&` vs `\|\|` was used and why. Badge is documentation, never more code, and never rescues a failed column. |
 
 ### Four-column scoring
@@ -351,7 +360,7 @@ note, not a penalty.
 | Criterion | Points | What we're looking for |
 |---|---|---|
 | **Correctness** | 8 | Every branch prints the ending the flowchart says it should for the inputs listed in Testing. The `default` ends cleanly on an unknown category; the boundary values (e.g. `70` vs `69`) land in the right branch. At B, the compound condition changes the outcome it claims to, and the out-of-range check rejects rather than running a normal branch. Any remaining defect is logic-level and named in `m4lab-plan.md`. |
-| **Completeness** | 6 | Everything the attempted tier lists is present: the flowchart in `m4lab-plan.md`, the `switch` with `default`, the 3+ branch chain (C); the compound condition and single-pass check (B); the 4+ endings and one nested condition (A); the recovered flowchart, `prompts.md`, and reflection (Badge). The flowchart and the code tell the same story. |
+| **Completeness** | 6 | Everything the attempted tier lists is present: the flowchart in `m4lab-plan.md`, the `switch` with `default`, the 3+ branch chain (C); the compound condition and single-pass check (B); the four or more distinct outcome messages and one nested condition (A); the recovered flowchart, `prompts.md`, and reflection (Badge). The flowchart and the code tell the same story. |
 | **Format** | 3 | Compiles clean under `g++ -std=c++17 -Wall -Wextra` — **zero warnings.** Everything in `main` — no functions, no prototypes, no loops. Variables named for what they hold. Every branch body braced. The Mermaid diagram renders on GitHub. |
 | **Submission** | 3 | `m4lab.cpp` and `m4lab-plan.md` in the correct folder, committed and pushed to your repo (commit and push directly — no branches). `prompts.md` present if you used AI. If it isn't visible on github.com, it isn't submitted. |
 | **Total** | **20** | |
@@ -376,10 +385,12 @@ note, not a penalty.
 1. Pull first: `git pull`
 2. Confirm a clean build: `g++ -std=c++17 -Wall -Wextra -o m4lab m4lab.cpp`
    (zero warnings).
-3. Stage your files: `git add m4lab.cpp m4lab-plan.md`
-4. Commit: `git commit -m "M4 Lab: decision scene (C/B/A — say which you reached)"`
-5. Push: `git push`
-6. Open your repo on github.com and confirm both files are there. If you can't
+3. Put both files in the `m4/` folder of your course repo. Create it at the top
+   level if it isn't there yet, then move into it: `cd m4`
+4. Stage your files: `git add m4lab.cpp m4lab-plan.md`
+5. Commit: `git commit -m "M4 Lab: decision scene (C/B/A — say which you reached)"`
+6. Push: `git push`
+7. Open your repo on github.com and confirm both files are there. If you can't
    see them, neither can your instructor.
 
 Going for the Badge? Also `git add prompts.md` and commit it with every AI

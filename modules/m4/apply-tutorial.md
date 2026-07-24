@@ -67,6 +67,10 @@ She looks away. You pick the lock and slip inside.
 The visit ends.
 ```
 
+> Note: see the `1` sitting right against `no): "` with no space in front of
+> it? That's your keystroke echoing to the screen as you type it — it lands
+> right where the cursor is, not after a space. That's not a formatting mistake.
+
 ---
 
 ## Instructor Notes
@@ -328,6 +332,70 @@ Your strength score (0-100): 20
 "Too weak, and no trick to make up for it. Turned away."
 The visit ends.
 ```
+
+---
+
+## Optional: Two Quick Breaks (Stage 3 traps)
+
+Two "break it on purpose" experiments, both **optional** — skip them if the
+clock is tight. Each is a one-spot edit to the program you have right now, just
+like the switch break at the end. **Restore the original before you go on to
+Stage 4.**
+
+### Break A: `=` instead of `==` (~2 min)
+
+Find your strength check `if (strength >= 70)`. Change the `>=` to a single
+`=` — one character — so the line reads:
+
+```cpp
+    if (strength = 70)     // one character changed on purpose
+```
+
+**Predict first.** Ask: "Will this even compile?"
+
+**Build and run.** It won't build — under `-Wall` the compiler stops on a
+warning, and our zero-warning rule treats that as a failed build:
+
+```text
+warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+```
+
+A single `=` *assigns* 70 into `strength` instead of comparing against it — it
+would quietly overwrite the score and force the branch. The compiler is
+flagging a **Logic** error before it can bite you.
+
+**The fix:** put the `>=` back. (Same slip to remember with `==`: a comparison
+is two equals signs, never one.) Rebuild and confirm it's clean again.
+
+### Break B: drop the braces (dangling `else`) (~3 min)
+
+We brace every branch in this course for a reason — here's the reason. For a
+single run, replace your **whole strength `if / else if / else` block** with
+this nested, brace-free version (delete all of it, paste this in its place). The
+indentation says one thing; watch C++ do another:
+
+```cpp
+    // TEMPORARY — braces removed on purpose
+    if (strength >= 40)
+        if (strength >= 70)
+            cout << "The gate swings wide. \"Strong enough. Go through.\"\n";
+    else
+        cout << "\"Too weak, and no trick to make up for it. Turned away.\"\n";
+```
+
+**Predict first.** Ask: "Strength `50` — the indenting lines the `else` up with
+`strength >= 40`, so what should print?"
+
+**Build and run — type class `1`, then strength `50`.** It compiles clean, then
+prints *"Too weak... Turned away."* A strength of 50 turned away?
+
+The `else` bound to the **nearest** `if` — `if (strength >= 70)` — not the one
+your indentation lined it up with. The grammar is fine, so it compiles in
+silence; it just does the wrong thing. That's a **Logic** error, and it's
+exactly why we wrap every branch in `{ }`.
+
+**The fix:** restore your braced `if` / `else if` / `else` ladder from Stage 3.
+Rebuild, type strength `50`, and confirm you're back to the half-open riddle.
 
 ---
 

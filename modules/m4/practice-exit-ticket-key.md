@@ -2,7 +2,7 @@
 title: "Module 4 Exit Ticket — Answer Key (INSTRUCTOR-FACING)"
 module: M4
 lpaa_beat: Practice
-items: 7
+items: 8
 audience: instructor
 gate: completion
 ---
@@ -40,6 +40,28 @@ grow — harvest wrong-answer rates after the first run and append.
     both, review how `else` blocks the second path once the `if` is false.
   - **D** — It compiles fine. Every line is legal C++. "Does not compile" is only
     the answer when there is a real Syntax or Static semantic error.
+
+## Item 1.5 — Bridge: trace a two-branch chain
+- **Type:** Trace-the-branch · **MLO:** 4.1 (`if`/`else if` chain) · **Source:** inline snippet (verified separately; not in `code/`)
+- **Key: B** — `You cast a minor spell.`
+- **Filled trace table:**
+
+  | Check, in order | With `mana` = 30           |
+  |-----------------|----------------------------|
+  | `mana >= 50`    | false (30 is not ≥ 50)     |
+  | `mana >= 20`    | **true → this branch runs** |
+
+- **Why:** This item bridges Item 1 (one `if`, one `else`) to Item 2's longer
+  chain by adding exactly one `else if` — no `&&` yet. `mana` is 30: the first
+  check fails, so control moves to the `else if`, which is true, so the minor-spell
+  line runs. Only one branch runs.
+- **Per-distractor feedback:**
+  - **A** — That branch needs `mana >= 50`. 30 is below 50.
+  - **C** — In an `if / else if` chain, at most one branch runs, never both. The
+    `else if` only runs *because* the first `if` was false.
+  - **D** — Something does print: 30 passes `mana >= 20`. "Nothing prints" would be
+    correct only if `mana` were below 20, since there is no final `else` to catch
+    the leftover case. (Good moment to notice this chain has no `else`.)
 
 ## Item 2 — Trace the branch (else-if chain, no lockpick)
 - **Type:** Trace-the-branch · **MLO:** 4.1 + 4.2 · **Source:** `code/practice-gatekeeper.cpp`, inputs `1`, `55`
@@ -112,11 +134,16 @@ grow — harvest wrong-answer rates after the first run and append.
 ## Item 6 — Which line must change?
 - **Type:** Which-line-changes · **MLO:** 4.1 + 4.3 · **Source:** `code/practice-gatekeeper.cpp` (outcome block)
 - **Key: A — Line 1** (`if (strength >= 70)`)
-- **Why:** To let strength `65` reach `The gate swings wide`, the first
-  condition's threshold (`>= 70`) is what blocks it. Lowering that threshold to
-  `65` (or lower) is the single change. No other line's condition controls that
-  top outcome. *(Confirmed by running the program: Warrior, strength 65 currently
-  prints "Borderline"; only line 1 gates the "gate swings wide" outcome.)*
+- **Why:** The stem asks which line **rejects strength 65** — the one whose
+  **threshold** must be lowered. Trace strength 65 (Warrior, no lockpick):
+  `65 >= 70` is false (line 1 rejects it), `65 >= 40 && hasLockpick` is false (no
+  lockpick), `65 >= 40` is true → it lands in `Borderline` (line 9). Line 1 is the
+  gate to `The gate swings wide`; its `>= 70` threshold is exactly what turns 65
+  away. Lowering that threshold to `65` (or lower) is the single change. The skill
+  here is recognizing a **threshold-value** change, not counting lines: no other
+  condition controls the top outcome. *(Confirmed by running the program: Warrior,
+  strength 65 currently prints "Borderline"; only line 1 gates the "gate swings
+  wide" outcome.)*
 - **Per-distractor feedback:**
   - **B (Line 5)** — This is the Rogue-lockpick branch. Changing it will not send
     a strength-65 Warrior to the top outcome; a Warrior has no lockpick.
@@ -180,8 +207,14 @@ g++ -std=c++17 -Wall -Wextra  → zero warnings on:
   practice-item1-vault.cpp, practice-gatekeeper.cpp,
   practice-item4-doors.cpp, practice-item7-status.cpp
 
-Item 1  (no input)                         → Not enough gold. Come back richer.
-Item 4  (no input)                         → You walk into a wall.
+Item 1.5 bridge snippet is inline (not yet a code/ file). It is a trivial
+if / else-if program with no toolchain-specific behavior; compiled clean with
+zero warnings under -Wall -Wextra when this beat was updated. If it graduates to
+code/, add practice-item1_5-mana.cpp and fold it into the canonical run.
+
+Item 1   (no input)                        → Not enough gold. Come back richer.
+Item 1.5 (no input)                        → You cast a minor spell.
+Item 4   (no input)                         → You walk into a wall.
 Item 5  (no input)                         → Red potion: +10 health.
                                              Blue potion: +10 mana.   (fall-through; no warning emitted)
 Item 2  gatekeeper 1,55                    → A Warrior steps up. / Borderline. Answer the riddle to pass.
