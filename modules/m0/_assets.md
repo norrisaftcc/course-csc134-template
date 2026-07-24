@@ -39,7 +39,7 @@ should not resolve that unilaterally by writing there.
 | Asset | Tag | Slots into | Note |
 |---|---|---|---|
 | `assignments/m0/01_workspace_setup.md` | `PORT` | M0 Apply/Learn | Legacy tutorial: Codespaces setup, customization, first compile. Content already matches spine M0's Apply beat closely. Stays exactly as-is on disk (frozen); port operation (copy/adapt into a real M0 Apply-beat file under `modules/m0/`) is a deep-build-pass action, not this skeleton pass. |
-| `assignments/m0/02_first_pull_request.md` | `PORT — FLAGGED` | M0 Assess (candidate) | See "Numbering flags" below. Teaches the full fork → branch → PR workflow, which conflicts with ADR-004's student-flow rule (commit + push only, pre-capstone). **Do not port as-is** — needs a rewrite-or-grandfather ruling before this content becomes part of M0's canonical Assess artifact. |
+| `assignments/m0/02_first_pull_request.md` | `DO NOT PORT` (frozen provenance) | — (superseded) | **RESOLVED Q4 (A+C):** not ported. Deep-build authors a fresh **Mail-Run M0 lab** (commit/push + Postmark Rule, no PR); the fork/branch/PR walkthrough relocates to the **M8 capstone**. See "Numbering flags" #1 below. |
 | `assignments/m0/README.md` | *(legacy, not ported)* | — | Legacy module overview. Per non-clobber rule 3, stays exactly as-is; the canonical overview is `modules/m0/_overview.md`, not a replacement for this file. Note: this README's own "Next Module" link points to `../m1/` framed as "Variables and Basic I/O" — that is the drifted numbering (legacy `assignments/m1` = spine M3 content, per `_tracking/numbering-reconciliation-map.md` row 6/manifest-delta). Recorded, not fixed — out of scope for this module's skeleton. |
 | Chapter 1 — Introduction to C++ Programming (partial) | `PORT` | M0 Learn | Per spine asset table (`_storming/CSC-134-course-spine.md` line 359: "Chapter 1 — Intro to C++ → M0 (partial)") and spine's own M0 "Assets" line (line 114). Physical source file not located under `assignments/m0/`; likely lives in `_past_work/` — deep-build pass should confirm exact path before porting. |
 | Toolchain guidance | `PORT` | M0 Apply | Per spine's M0 "Assets" line ("toolchain guidance"). Likely overlaps with `01_workspace_setup.md` above — deep-build pass should confirm whether these are the same asset or two. |
@@ -73,9 +73,14 @@ pass should be aware of:
    question 5 in `_tracking/skeleton-plan.md`. The file teaches
    fork → branch → commit → PR to students in their first module; ADR-004's
    student flow is commit + push directly, no branches, no PRs before the
-   capstone. **This is a content-authoring decision (rewrite vs. grandfather
-   exception), not something this skeleton pass resolves.** Recorded here so
-   the deep-build pass does not port this file's workflow uncritically.
+   capstone. **RESOLVED (2026-07-24, Q4 ruling — A+C):** do NOT port this file.
+   The legacy file stays frozen provenance (ADR-008). Deep-build **authors a
+   fresh Mail-Run M0 lab** in `modules/m0/` — pull → commit → push, framed with
+   the Postmark Rule ([[ADR-007-postmark-rule]]) and the Mail Run
+   ([[ADR-006-mail-run-and-import-direction]]), no branch and no PR (ADR-004
+   student flow). The branch/PR walkthrough content is **not discarded — it
+   relocates to the M8 capstone**, where branching is an age-appropriate
+   capstone-tier skill. Applies existing ADRs (004/006/007/008); no new ADR.
 2. **Namespace conflict** between this task's literal instruction
    ("scaffold `assignments/m0/`") and the authoritative
    `_tracking/skeleton-plan.md` / layout-spec ruling (`modules/m0/` is

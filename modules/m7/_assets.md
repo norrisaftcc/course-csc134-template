@@ -56,8 +56,15 @@ drive or an LMS) — that search, if needed, is a deep-build task.
   line describes `M7LAB1`'s C-tier in exactly `M6LAB2`'s terms, which is why
   `_assess-spec.STUB.md` in this folder writes the C-tier as if it is already
   absorbed. But the reconciliation map flags this as still open, pending a
-  builder/maintainer call. **This scaffold does not make that call.** Read
-  the stub's C-tier framing as "most likely shape," not "decided shape."
+  builder/maintainer call. **RESOLVED (2026-07-24, Q3 ruling):** neither absorb
+  nor standalone-lab — `M6LAB2`'s parallel-arrays→`Room`-struct-array move
+  becomes **M7's Apply-beat exemplar** (the spine already calls for an M7 Apply
+  that "builds a `Room` struct array"; the transformation *is* that hands-on
+  beat). `M7LAB1` remains the **Assess** anchor and grades the result — Apply
+  teaches the move, Assess tests it, one contract artifact. Deep-build authors
+  the Apply against this; the `_assess-spec.STUB.md` C-tier stays as the Assess's
+  own tier, no longer doubling as the stepping-stone. Lightweight packaging call
+  within the ratified Room/Hero contract — recorded here, no ADR.
 - **F-001 open question #2:** the legacy course manifest's `M06`
   (Arrays/Strings/STL) and `M07` (File I/O/Structs) entries partially overlap
   M7's scope (the struct half of manifest-`M07` clearly maps here) but also
