@@ -125,7 +125,7 @@ Nine modules across sixteen weeks. Module numbers are clean and supersede the cu
 - **Learn:** Markdown reading; why it exists; why LLMs made it ubiquitous.
 - **Practice:** exit ticket on Markdown syntax + the commit/push cycle.
 - **Apply:** instructor-led — make a repo, write a real `README.md`, commit, push, preview it on GitHub.
-- **Assess:** **the Robot Sandwich** (shared with CTI, adopted essentially unchanged — it contains no code). Rubric: Precision / Completeness / Format / Submission — the template every later rubric inherits.
+- **Assess:** **the Robot Sandwich** (shared with CTI, adopted essentially unchanged — it contains no code). Rubric: Correctness / Completeness / Format / Submission — the template every later rubric inherits (column one reconciled to *Correctness* per ADR-002).
 
 **Spine connection:** Decomposition and precise communication, before any code exists to hide behind.
 
