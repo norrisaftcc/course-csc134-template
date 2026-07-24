@@ -49,7 +49,7 @@ The Format column's clean-compile requirement is **non-negotiable** on any tier 
 ---
 rubric_type: "[lab|project|capstone|communication]"
 assignment: "[Assignment name]"
-module: M0X
+module: MX
 version: "1.0"
 ---
 

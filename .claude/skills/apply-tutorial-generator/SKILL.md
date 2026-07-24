@@ -46,7 +46,7 @@ This is deliberate de-scaffolding: students are walked *off* the training wheels
 ```markdown
 ---
 title: "MX Apply: [Program Name]"
-module: M0X
+module: MX
 lpaa_beat: Apply
 mode: FULL | EIGHTY
 estimated_time: "XX minutes (class session)"

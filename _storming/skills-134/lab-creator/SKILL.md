@@ -45,7 +45,7 @@ Tier rules:
 ```markdown
 ---
 title: "MXLABY: [Lab Title]"
-module: M0X
+module: MX
 lpaa_beat: Assess
 estimated_time: "XX minutes"
 prerequisites:

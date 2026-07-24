@@ -30,7 +30,7 @@ Create module readings for CSC-134's **Learn** beat — the first stop in the LP
 ```markdown
 ---
 title: "Reading Title"
-module: M0X
+module: MX
 lpaa_beat: Learn
 estimated_time: "XX minutes"
 prerequisites: ["previous-reading"] or "None"
