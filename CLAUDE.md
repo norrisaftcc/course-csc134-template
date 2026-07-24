@@ -77,9 +77,11 @@ silent edit. See `_contracts/README.md`.
   runnable example, name the common pitfall, acknowledge C++ is hard, celebrate
   when it clicks.
 - **Honest freshman C++ in deliverables.** Student-facing code is imperative and
-  plain: `cin`, `cout`, loops, and mutation, taught proudly. `using namespace
-  std;` is fine. No clever one-liners, no functional flourishes — the code models
-  what a freshman writes, not what an expert would compress.
+  plain: `cin`, `cout`, loops, and mutation, taught proudly. **`using namespace
+  std;` is taught on purpose** (ADR-009) — beginners should not trip over `std::`
+  on every line; the namespace-pollution objection does not bite in single-file,
+  single-TU freshman work. No clever one-liners, no functional flourishes — the
+  code models what a freshman writes, not what an expert would compress.
 - **Debugging is celebrated, not hidden.** The first error is a planned event.
   Break working programs on purpose and read the compiler's complaint together.
 
