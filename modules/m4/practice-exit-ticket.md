@@ -2,8 +2,8 @@
 title: "Module 4 Exit Ticket: Decisions — Which Branch Runs?"
 module: M4
 lpaa_beat: Practice
-items: 7
-estimated_time: "12-15 minutes"
+items: 8
+estimated_time: "13-16 minutes"
 gate: completion   # finishing unlocks the Apply tutorial; score is feedback only
 ---
 
@@ -49,6 +49,45 @@ int main()
 - B) `Not enough gold. Come back richer.`
 - C) Both lines print, one after the other.
 - D) It does not compile.
+
+---
+
+## Item 1.5 — Bridge: trace a two-branch chain
+
+Item 1 had one `if` and one `else`. This one puts a **second check** in the
+middle — an `else if` — before deciding. What does it print?
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int mana = 30;
+
+    if (mana >= 50)
+        cout << "You cast the great spell.\n";
+    else if (mana >= 20)
+        cout << "You cast a minor spell.\n";
+
+    return 0;
+}
+```
+
+Filling in this trace table may help you decide (it's a scratchpad, not
+graded — the last question is what counts):
+
+| Check, in order | True or false with `mana` = 30? |
+|-----------------|---------------------------------|
+| `mana >= 50`    |                                 |
+| `mana >= 20`    |                                 |
+
+**Which line prints?**
+
+- A) `You cast the great spell.`
+- B) `You cast a minor spell.`
+- C) Both lines print, one after the other.
+- D) Nothing prints.
 
 ---
 
@@ -152,6 +191,15 @@ A different player runs the same gatekeeper program and types:
 - Class: `3` (Rogue)
 - Strength: `50`
 - Lockpick: `1` (yes)
+
+Filling in this trace table may help you decide (it's a scratchpad, not
+graded — the last question is what counts):
+
+| Check, in order         | True or false with these inputs? |
+|-------------------------|----------------------------------|
+| `strength >= 70`        |                                  |
+| `strength >= 40 && hasLockpick` |                          |
+| `strength >= 40`        |                                  |
 
 **Which line is the final outcome that prints?**
 
@@ -262,8 +310,18 @@ Right now, a Warrior with strength `65` gets `Borderline. Answer the riddle to
 pass.` You want strength `65` (and up) to **fully pass** — to get
 `The gate swings wide. Go through.` instead.
 
-**Which single line's condition must change?** (You do not have to write the
-new line — just name which one to change.)
+Filling in this trace table may help you see where strength `65` lands today
+(it's a scratchpad, not graded — the question below is what counts):
+
+| Check, in order                          | True or false for a Warrior, strength 65? |
+|------------------------------------------|-------------------------------------------|
+| `strength >= 70` (line 1)                |                                           |
+| `strength >= 40 && hasLockpick` (line 5) |                                           |
+| `strength >= 40` (line 9)                |                                           |
+
+**Which line currently rejects strength 65 — the line whose threshold must be
+lowered?** (You do not have to write the new line — just name which one to
+change.)
 
 - A) Line 1
 - B) Line 5
@@ -335,5 +393,5 @@ flowchart TD
 
 ---
 
-*That's the whole ticket. Once you've answered all seven, you're cleared for
-the Apply tutorial, where you'll type in a decision program of your own.*
+*That's the whole ticket. Once you've worked through every item, you're cleared
+for the Apply tutorial, where you'll type in a decision program of your own.*
