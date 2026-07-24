@@ -1,6 +1,6 @@
 # Persona Sheet — Jaylen (the Skimmer)
 
-**Status:** DRAFT — requires human approval before any cohort run (Phase 0.5).
+**Status:** APPROVED (Phase 0.5) — cleared for cohort runs by human sign-off in PR #8 / [[F-003-module-skeleton-and-persona-review]].
 **Archetype:** 19, college-transfer track (the 75%), future CS major. Gaming PC, comfortable installing things, types fast.
 **Prior knowledge:** Modded some games, wrote a Discord bot once by pasting snippets. Overestimates his fluency; underestimates the reading.
 
