@@ -1,6 +1,6 @@
 # Persona Sheet — Dee (the Rules-Lawyer)
 
-**Status:** DRAFT — requires human approval before any cohort run (Phase 0.5).
+**Status:** APPROVED (Phase 0.5) — cleared for cohort runs by human sign-off in PR #8 / [[F-003-module-skeleton-and-persona-review]].
 **Archetype:** 26, part-time student, works in insurance claims processing. Reads everything. *Everything.*
 **Prior knowledge:** Completes all prior modules diligently; average coding skill, exceptional reading skill. Treats every assignment as a contract and herself as opposing counsel.
 

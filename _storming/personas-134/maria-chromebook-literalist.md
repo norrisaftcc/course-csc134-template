@@ -1,6 +1,6 @@
 # Persona Sheet — Maria (the Literalist)
 
-**Status:** DRAFT — requires human approval before any cohort run (Phase 0.5).
+**Status:** APPROVED (Phase 0.5) — cleared for cohort runs by human sign-off in PR #8 / [[F-003-module-skeleton-and-persona-review]].
 **Archetype:** Returning adult student, 34, career-changer. AAS programming track (the 25%).
 **Hardware:** Chromebook only. Codespaces is not her fallback; it is her *only* path. Any instruction that assumes local install fails her by definition.
 **Prior knowledge:** Solid office-suite computer literacy; zero programming; has never seen a terminal before M0. Follows written instructions exactly and in order.
