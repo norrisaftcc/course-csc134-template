@@ -99,7 +99,7 @@ Produce two artifacts per ticket:
 ```markdown
 ---
 title: "Module X Exit Ticket: [Topic]"
-module: M0X
+module: MX
 lpaa_beat: Practice
 items: N
 estimated_time: "10-15 minutes"
