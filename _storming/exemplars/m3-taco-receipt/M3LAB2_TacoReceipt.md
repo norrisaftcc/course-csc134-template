@@ -40,6 +40,8 @@ Sales tax is **7%** (Cumberland County, NC), also a named constant.
 
 **Processing:** subtotal = each quantity times its price, added up. Tax = subtotal × 0.07. Tip (B tier) = subtotal × (tip percent ÷ 100) — **tip is figured on the subtotal, before tax.** Total = subtotal + tax (+ tip at B tier and up).
 
+**Quantities are whole numbers, zero or more.** Your program does not have to defend itself against anything else yet — see "The Negative Taco Problem" below.
+
 **Output:** a receipt. All money shows exactly two decimal places (`fixed` and `setprecision(2)` from `<iomanip>`).
 
 > **Order of prompts matters:** ask for the name FIRST, before any numbers. (Moving it after the numbers breaks in a way you'll learn to fix in Module 5. For now, name first.)
@@ -157,6 +159,14 @@ Zero warnings is the bar. A warning fails the Format column.
 - All zeros: does the receipt print $0.00 everywhere without falling over?
 - The Penny Mystery order (5, 0, 1, 2, tip 15): does your subtotal + tax line math disagree with your total by one cent? **It should.** If it doesn't, check that you computed tax from the subtotal *variable*, not from a re-typed number.
 - Type `three` instead of `3` for a quantity and watch what happens. Don't fix it — you don't have the tools yet (that's Module 5). Just notice which *kind* of error it is.
+
+### The Negative Taco Problem
+
+Try ordering **-3** tacos al pastor. Your program will cheerfully compute a negative subtotal and offer to pay the customer for the privilege of not eating.
+
+Is that a bug? Not quite — it's a **missing rule**. The spec above says quantities are zero or more, so today the register simply trusts you, and what it does with a negative order is nobody's business and nobody's grade. But hold this thought, because the taqueria is on notice: a request for negative three tacos should not be honored. In Module 4 you get the tool that lets a program say *no* (`if`), and in Module 5 you make the no stick.
+
+One more thing, since you've been typing it all along: that `return 0;` at the bottom of `main` is your program telling the computer "this request completed fine." By long tradition, a program that *refuses* a request exits with something other than zero. When this receipt grows up and learns to turn away negative tacos, the exit code of that request will not be zero. Remember you heard it here.
 
 ## Troubleshooting
 

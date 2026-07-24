@@ -34,7 +34,9 @@ The tip is the star exhibit: students *know* .675 rounds to .68. The machine dis
 Filed before any cohort run, so the cohort audits our guesses too:
 1. Jaylen skims past `fixed`, gets `$27`, burns his two fixes on the wrong lines.
 2. Maria completes cleanly *if* prompt order is followed; if any draft moves `getline` after `cin >>`, she stops exactly there. (Which is the point of the spec note.)
-3. Dee tests "tip on subtotal, before tax" — we pinned it — and will instead probe "whole numbers" on quantities (negative quantities are *not* excluded by the spec; ruling needed: accept as valid input at M3, validation is M5's material).
+3. Dee tests "tip on subtotal, before tax" — we pinned it — and probed negative quantities. **Ruled (ADR-002):** the spec pins quantities to zero-or-more; negative input is out of spec and ungraded at M3, *and the lab says so out loud* ("The Negative Taco Problem" section) rather than hiding the hole. No trick questions includes no silent holes.
+
+**The class moment (don't waste it):** if a student asks the negative-taco question live, that's the best question of the week — say so, then deliver the ruling in the house voice: *"No — the register will not pay you for the privilege of giving you negative three tacos. The exit code of that request is not zero."* Then cash the joke: point at the `return 0;` they've been typing since M0, explain zero-means-success / nonzero-means-refused, and promise them that in M4 they personally get to install the bouncer. The gag is a load-bearing forward reference: same receipt, M4, first `if` statement is `if (qtyPastor < 0)`.
 
 ## Re-skin check
 

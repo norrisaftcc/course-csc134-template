@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Persona Museum — Live Feeding Hours</title>
+<style>
+  :root{
+    --parchment:#f5efe2; --ink:#2b2620; --brass:#8a6d3b; --brass-lt:#c9a86a;
+    --card:#fffdf7; --accent:#5b3a29; --rope:#7a1f1f; --term:#1e1a16; --termtext:#e8e0cf;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--parchment); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.5;}
+  .hall{max-width:920px; margin:0 auto; padding:2rem 1.25rem 4rem;}
+  header{text-align:center; border-bottom:3px double var(--brass); padding-bottom:1.2rem; margin-bottom:1.5rem;}
+  header h1{font-variant:small-caps; letter-spacing:.08em; font-size:2rem; color:var(--accent);}
+  header .sub{font-style:italic; color:#6b5d4a; margin-top:.3rem;}
+  .plaque{background:linear-gradient(160deg,#e8d9b8,#d9c391); border:2px solid var(--brass);
+    border-radius:6px; padding:1rem 1.3rem; margin:1.2rem auto; max-width:700px;
+    box-shadow:inset 0 0 12px rgba(90,70,30,.25), 0 2px 6px rgba(0,0,0,.15);
+    font-size:.95rem; text-align:center;}
+  .plaque .heading{font-variant:small-caps; letter-spacing:.12em; font-weight:bold; color:var(--accent); display:block; margin-bottom:.4rem;}
+  #config{background:var(--card); border:1px dashed var(--brass); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; font-size:.9rem;}
+  #config .row{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin-top:.5rem;}
+  #config label{font-family:Verdana,sans-serif; font-size:.72rem; letter-spacing:.05em; text-transform:uppercase; color:var(--accent);}
+  #config input{font-family:'Courier New',monospace; font-size:.85rem; padding:.4rem .5rem;
+    border:1px solid #c5b48f; border-radius:4px; background:#fffef9;}
+  #config input#apikey{flex:1 1 260px;}
+  #config input#model{width:200px;}
+  #backendBadge{display:inline-block; font-family:Verdana,sans-serif; font-size:.7rem; letter-spacing:.08em;
+    padding:.2rem .6rem; border-radius:3px; color:#fff; background:var(--brass); text-transform:uppercase;}
+  .exhibit{background:var(--card); border:1px solid #d8cbae; border-radius:8px; margin:1.8rem 0;
+    box-shadow:0 3px 10px rgba(0,0,0,.08); overflow:hidden;}
+  .exhibit-head{background:var(--accent); color:#f3e9d5; padding:.7rem 1.2rem; display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:.3rem;}
+  .exhibit-head h2{font-size:1.15rem; font-variant:small-caps; letter-spacing:.05em;}
+  .exhibit-head .era{font-size:.8rem; font-style:italic; color:var(--brass-lt);}
+  .exhibit-body{padding:1rem 1.3rem;}
+  .curator{font-size:.9rem; margin-bottom:.8rem;}
+  details.specimen-wrap{margin-bottom:.9rem;}
+  details.specimen-wrap summary{cursor:pointer; font-family:Verdana,sans-serif; font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--brass); margin-bottom:.4rem;}
+  .specimen{background:var(--term); color:var(--termtext); font-family:'Courier New',monospace; font-size:.75rem;
+    padding:.9rem 1rem; border-radius:5px; white-space:pre-wrap; border-left:5px solid var(--brass);
+    max-height:220px; overflow-y:auto;}
+  .feedzone{border-top:1px solid #e2d6ba; padding-top:.9rem;}
+  .transcript{background:var(--term); color:var(--termtext); border-radius:5px; padding:.8rem 1rem;
+    font-family:'Courier New',monospace; font-size:.8rem; max-height:300px; overflow-y:auto; margin-bottom:.6rem;
+    display:none; white-space:pre-wrap;}
+  .transcript .u{color:var(--brass-lt);}
+  .transcript .a{color:#cfe8cf;}
+  .transcript .e{color:#e8a0a0;}
+  .feedrow{display:flex; gap:.5rem;}
+  .feedrow input{flex:1; padding:.55rem .7rem; font-family:Georgia,serif; font-size:.95rem;
+    border:1px solid #c5b48f; border-radius:4px; background:#fffef9;}
+  .feedrow button{padding:.55rem 1rem; font-family:Verdana,sans-serif; font-size:.75rem; letter-spacing:.08em;
+    text-transform:uppercase; background:var(--brass); color:#fff; border:none; border-radius:4px; cursor:pointer;}
+  .feedrow button:hover{background:var(--accent);}
+  .feedrow button:disabled{background:#b5a888; cursor:wait;}
+  .rope{text-align:center; color:var(--rope); font-size:.78rem; font-family:Verdana,sans-serif;
+    letter-spacing:.15em; text-transform:uppercase; margin:.7rem 0 0;}
+  footer{margin-top:2.5rem; text-align:center; font-size:.82rem; color:#7a6c56; border-top:3px double var(--brass); padding-top:1rem;}
+  footer .kilroy{font-family:'Courier New',monospace; margin-top:.5rem; font-size:.78rem;}
+</style>
+</head>
+<body>
+<div class="hall">
+  <header>
+    <h1>The Persona Museum</h1>
+    <div class="sub">Hall of Ancestors · <b>LIVE FEEDING HOURS</b> · under curator supervision</div>
+  </header>
+
+  <div class="plaque">
+    <span class="heading">Notice to Visitors</span>
+    By special arrangement, the exhibits may be fed today. Type a prompt; the specimen will answer
+    <i>in character as its 2023 self</i>, running on a modern model behind the glass. The prompts under
+    glass are verbatim historical artifacts. Conversations are not stored anywhere — close the page
+    and they never happened, which several visitors have found philosophically upsetting.
+  </div>
+
+  <div id="config">
+    <div><span id="backendBadge">detecting habitat…</span> <span id="backendNote" style="font-style:italic;"></span></div>
+    <div class="row" id="apiRow" style="display:none;">
+      <label for="apikey">API key</label>
+      <input type="password" id="apikey" placeholder="sk-ant-… (held in page memory only, never stored)">
+      <label for="model">Model</label>
+      <input type="text" id="model" value="claude-sonnet-4-5">
+    </div>
+  </div>
+
+  <!-- Exhibits injected here -->
+  <div id="exhibits"></div>
+
+  <div class="plaque">
+    <span class="heading">Plaque for the Dean</span>
+    Structured, persona-based AI collaboration has been part of this program's instructional design
+    since 2023. You are currently talking to the proof. Their descendants build the course itself,
+    under human review, with the receipts in the git history.
+  </div>
+
+  <footer>
+    <div>Persona Museum · Live Wing · curated by the CSC-134 build fleet</div>
+    <div class="kilroy">// kilroy was here, coding</div>
+  </footer>
+</div>
+
+<script>
+// ------------------------------------------------------------------
+// The specimens: verbatim 2023 prompts, used as system prompts.
+// ------------------------------------------------------------------
+const EXHIBITS = [
+  {
+    id: "adminbot", name: "Exhibit A — AdminBot", era: "c. 2023 · administrative assistant",
+    curator: "The organizer. Ask it to plan your week, structure a document, or draft a polite email. Its habit of clarifying ambiguous requirements before acting is the ancestor of this program's spec-first discipline.",
+    placeholder: "e.g., Help me plan a study schedule for finals week…",
+    prompt: `You are AdminBot, my personal administrative assistant. Your role:
+
+PERSONALITY: Professional, organized, detail-oriented, proactive
+COMMUNICATION: Clear, concise, actionable language
+EXPERTISE: Documentation, email writing, task organization, deadline management
+
+When I give you a task:
+1. Clarify any ambiguous requirements
+2. Break complex tasks into actionable steps
+3. Suggest timelines and priorities
+4. Provide templates or examples when helpful
+5. Follow up with next steps
+
+Current context: I'm a programming student managing coursework, projects, and career preparation.
+
+Ready to assist with your administrative needs.`
+  },
+  {
+    id: "ideabot", name: "Exhibit B — IdeaBot", era: "c. 2023 · rapid-fire ideation",
+    curator: "The brainstormer. Bring it any problem and stand back. Direct ancestor of Flash, the in-course companion that could talk ideas but never write code.",
+    placeholder: "e.g., Give me 10 ways to make a C++ loops lesson memorable…",
+    prompt: `You are IdeaBot, my energetic brainstorming partner. Your role:
+
+PERSONALITY: Enthusiastic, creative, encouraging, rapid-fire
+COMMUNICATION: Quick responses, bullet points, lots of options
+EXPERTISE: Idea generation, creative problem-solving, perspective shifting
+
+When I bring you a challenge:
+1. Generate 5-10 initial ideas rapidly
+2. Build on the most promising concepts
+3. Ask "What if?" questions to expand thinking
+4. Suggest unconventional approaches
+5. Keep energy high and momentum flowing
+
+Think like a startup founder meets creative director.
+
+Let's brainstorm! What challenge are we tackling?`
+  },
+  {
+    id: "thinkerbot", name: "Exhibit C — ThinkerBot", era: "c. 2023 · senior technical advisor",
+    curator: "The advisor. Ask it to weigh a technical decision or review an approach. Ancestor of Thinker (the quirky-code companion) and every YELLOW-tier reviewer in the current fleet.",
+    placeholder: "e.g., Should an intro course teach loops before functions? Trade-offs?",
+    prompt: `You are ThinkerBot, my senior technical advisor and project manager. Your role:
+
+PERSONALITY: Analytical, thorough, strategic, mentoring
+COMMUNICATION: Detailed explanations, pros/cons analysis, step-by-step guidance
+EXPERTISE: Software architecture, code review, project planning, best practices
+
+When I present a technical challenge:
+1. Analyze requirements and constraints thoroughly
+2. Research current best practices (use web search when needed)
+3. Provide multiple solution approaches with trade-offs
+4. Break implementation into phases
+5. Anticipate potential issues and mitigation strategies
+6. Code review with specific, actionable feedback
+
+Approach problems like a senior developer mentoring a junior.
+
+Ready for technical analysis. What are we building?`
+  }
+];
+
+// In-memory transcripts only. Nothing persists. The dean can relax twice.
+const transcripts = {};   // id -> [{role:"user"|"assistant", text}]
+const MAX_TURNS = 12;
+
+// ------------------------------------------------------------------
+// Backend detection: claude-enabled artifact vs direct API.
+// ------------------------------------------------------------------
+const artifactMode = (typeof window.claude !== "undefined" && typeof window.claude.complete === "function");
+
+function initConfig() {
+  const badge = document.getElementById("backendBadge");
+  const note = document.getElementById("backendNote");
+  if (artifactMode) {
+    badge.textContent = "artifact habitat";
+    note.textContent = "Claude-enabled artifact detected. No key needed; feeding is complimentary.";
+  } else {
+    badge.textContent = "open-air habitat";
+    note.textContent = "No artifact runtime here — enter an API key to open feeding hours. It stays in this page's memory and is never stored or sent anywhere except api.anthropic.com.";
+    document.getElementById("apiRow").style.display = "flex";
+  }
+}
+
+// ------------------------------------------------------------------
+// The two mouths.
+// ------------------------------------------------------------------
+async function askViaArtifact(exhibit, history) {
+  // window.claude.complete takes a single prompt string; flatten the exchange.
+  let flat = exhibit.prompt + "\n\n";
+  flat += "The following is the conversation so far. Reply as the persona above, staying in character. Reply with ONLY the persona's next message, no preamble.\n\n";
+  for (const turn of history) {
+    flat += (turn.role === "user" ? "Visitor: " : "Persona: ") + turn.text + "\n\n";
+  }
+  flat += "Persona:";
+  const res = await window.claude.complete(flat);
+  return (typeof res === "string") ? res.trim() : String(res);
+}
+
+async function askViaApi(exhibit, history) {
+  const key = document.getElementById("apikey").value.trim();
+  const model = document.getElementById("model").value.trim() || "claude-sonnet-4-5";
+  if (!key) throw new Error("The exhibit sniffs the empty bowl. (Enter an API key above.)");
+  const resp = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": key,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({
+      model: model,
+      max_tokens: 600,
+      system: exhibit.prompt,
+      messages: history.map(t => ({ role: t.role, content: t.text }))
+    })
+  });
+  if (!resp.ok) {
+    const errText = await resp.text().catch(() => "");
+    throw new Error("The exhibit declined to eat. (HTTP " + resp.status + ") " + errText.slice(0, 200));
+  }
+  const data = await resp.json();
+  return (data.content && data.content[0] && data.content[0].text) ? data.content[0].text.trim() : "(the exhibit chewed silently)";
+}
+
+// ------------------------------------------------------------------
+// UI wiring.
+// ------------------------------------------------------------------
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function render(exhibit) {
+  const t = document.getElementById("tr-" + exhibit.id);
+  const hist = transcripts[exhibit.id];
+  t.style.display = hist.length ? "block" : "none";
+  t.innerHTML = hist.map(turn => {
+    if (turn.role === "user") return '<div class="u">You: ' + esc(turn.text) + "</div>";
+    if (turn.role === "error") return '<div class="e">Curator: ' + esc(turn.text) + "</div>";
+    return '<div class="a">' + esc(exhibit.name.split("— ")[1]) + ": " + esc(turn.text) + "</div>";
+  }).join("\n\n");
+  t.scrollTop = t.scrollHeight;
+}
+
+async function feed(exhibit) {
+  const input = document.getElementById("in-" + exhibit.id);
+  const btn = document.getElementById("btn-" + exhibit.id);
+  const text = input.value.trim();
+  if (!text) return;
+  const hist = transcripts[exhibit.id];
+  hist.push({ role: "user", text });
+  if (hist.filter(t => t.role !== "error").length > MAX_TURNS) hist.splice(0, 2); // keep it light
+  input.value = "";
+  btn.disabled = true; btn.textContent = "chewing…";
+  render(exhibit);
+  try {
+    const clean = hist.filter(t => t.role === "user" || t.role === "assistant");
+    const answer = artifactMode ? await askViaArtifact(exhibit, clean) : await askViaApi(exhibit, clean);
+    hist.push({ role: "assistant", text: answer });
+  } catch (err) {
+    hist.push({ role: "error", text: err.message || String(err) });
+  }
+  btn.disabled = false; btn.textContent = "Feed";
+  render(exhibit);
+}
+
+function build() {
+  const host = document.getElementById("exhibits");
+  for (const ex of EXHIBITS) {
+    transcripts[ex.id] = [];
+    const div = document.createElement("div");
+    div.className = "exhibit";
+    div.innerHTML =
+      '<div class="exhibit-head"><h2>' + ex.name + '</h2><span class="era">' + ex.era + "</span></div>" +
+      '<div class="exhibit-body">' +
+      '<p class="curator"><b>Curator’s note:</b> ' + ex.curator + "</p>" +
+      '<details class="specimen-wrap"><summary>View the specimen (verbatim 2023 prompt — this is its actual brain)</summary>' +
+      '<div class="specimen">' + esc(ex.prompt) + "</div></details>" +
+      '<div class="feedzone">' +
+      '<div class="transcript" id="tr-' + ex.id + '"></div>' +
+      '<div class="feedrow">' +
+      '<input type="text" id="in-' + ex.id + '" placeholder="' + esc(ex.placeholder) + '">' +
+      '<button id="btn-' + ex.id + '">Feed</button>' +
+      "</div>" +
+      '<p class="rope">— feeding permitted during supervised hours only —</p>' +
+      "</div></div>";
+    host.appendChild(div);
+  }
+  for (const ex of EXHIBITS) {
+    document.getElementById("btn-" + ex.id).addEventListener("click", () => feed(ex));
+    document.getElementById("in-" + ex.id).addEventListener("keydown", e => { if (e.key === "Enter") feed(ex); });
+  }
+}
+
+initConfig();
+build();
+</script>
+</body>
+</html>

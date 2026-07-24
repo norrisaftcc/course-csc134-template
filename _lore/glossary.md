@@ -16,3 +16,5 @@ One line per term. Add on first use; point to where it's defined.
 - **Skin / structure** — theme flavor vs. load-bearing content; must separate cleanly (Two-Skin Exemplar).
 - **Boss key** — the buttoned-up fork option: course + decisions, minus storming clutter, for external audiences.
 - **The wall** — `_lore/`; marks go on it daily.
+- **Mail Run** — 134's submission loop, pull → commit → push: check the mailbox, box it and write the label (the commit message), hand it to the carrier and check the tracking (ADR-003).
+- **Exit ticket (134 sense)** — completion-gated comprehension checkpoint (predict/classify/trace). NOT the weekly *reflection* instrument other program courses call by the same name — imports get renamed (ADR-003).
