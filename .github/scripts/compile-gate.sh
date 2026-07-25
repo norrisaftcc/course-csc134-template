@@ -61,32 +61,62 @@ if [ "${#FILES[@]}" -eq 0 ]; then
   exit 2
 fi
 
-clean=0; warned=0; errored=0
-warn_list=(); err_list=()
+clean=0; warned=0; errored=0; expected=0
+warn_list=(); err_list=(); silent_list=()
 
 for f in "${FILES[@]}"; do
+  # Some teaching artifacts are BROKEN ON PURPOSE — an exit-ticket item whose whole
+  # job is to demonstrate a warning. Holding them to the zero-warning bar would force
+  # someone to "fix" the file and destroy the item it supports. They opt out by name:
+  #
+  #     // GATE: EXPECT-WARNING
+  #
+  # The opt-out is an ASSERTION, not a mute. A marked file that stops warning FAILS,
+  # because the artifact has quietly stopped demonstrating what it claims to.
+  expect_warn=0
+  grep -q 'GATE: EXPECT-WARNING' "$f" && expect_warn=1
+
   out="$("$CXX" -std="$CXX_STD" $WARN_FLAGS "$f" -o "$WORK/$(basename "${f%.cpp}")" 2>&1)"
   rc=$?
   label="$f"
+
   if [ $rc -ne 0 ]; then
     printf '  %sERROR%s  %s\n' "$RED" "$OFF" "$label"
     err_list+=("$f"); errored=$((errored+1))
     echo "$out" | sed 's/^/           /'
+
   elif [ -n "$out" ]; then
-    printf '  %sWARN %s  %s\n' "$YELLOW" "$OFF" "$label"
-    warn_list+=("$f"); warned=$((warned+1))
-    # Always show the warning line itself — a gate that hides its evidence is not a gate.
-    echo "$out" | grep -E 'warning:' | sed 's/^/           /'
+    if [ "$expect_warn" = "1" ]; then
+      printf '  %sexpect%s %s  %s(marked EXPECT-WARNING)%s\n' "$DIM" "$OFF" "$label" "$DIM" "$OFF"
+      expected=$((expected+1))
+      echo "$out" | grep -E 'warning:' | sed 's/^/           /'
+    else
+      printf '  %sWARN %s  %s\n' "$YELLOW" "$OFF" "$label"
+      warn_list+=("$f"); warned=$((warned+1))
+      # Always show the warning itself — a gate that hides its evidence is not a gate.
+      echo "$out" | grep -E 'warning:' | sed 's/^/           /'
+    fi
     [ "$VERBOSE" = "1" ] && echo "$out" | sed 's/^/           /'
+
   else
-    printf '  %sclean%s  %s\n' "$GREEN" "$OFF" "$label"
-    clean=$((clean+1))
+    if [ "$expect_warn" = "1" ]; then
+      printf '  %sSILENT%s %s\n' "$RED" "$OFF" "$label"
+      printf '         marked GATE: EXPECT-WARNING but compiled clean.\n'
+      printf '         The artifact no longer demonstrates the warning it exists for.\n'
+      silent_list+=("$f")
+    else
+      printf '  %sclean%s  %s\n' "$GREEN" "$OFF" "$label"
+      clean=$((clean+1))
+    fi
   fi
 done
 
 total="${#FILES[@]}"
 echo
-echo "${BOLD}$total file(s): $clean clean, $warned warned, $errored errored${OFF}"
+summary="$total file(s): $clean clean, $warned warned, $errored errored"
+[ "$expected" -gt 0 ] && summary="$summary, $expected expected-warning"
+[ "${#silent_list[@]}" -gt 0 ] && summary="$summary, ${#silent_list[@]} wrongly silent"
+echo "${BOLD}${summary}${OFF}"
 
 if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
   {
@@ -117,6 +147,13 @@ fi
 
 if [ "$errored" -gt 0 ]; then
   echo "${RED}GATE FAILED${OFF} — compile errors."
+  exit 1
+fi
+if [ "${#silent_list[@]}" -gt 0 ]; then
+  echo "${RED}GATE FAILED${OFF} — a file marked EXPECT-WARNING compiled clean."
+  echo "Either the compiler changed its mind, or someone 'fixed' a file that is"
+  echo "broken on purpose. Check what the artifact is supposed to demonstrate"
+  echo "before removing the marker."
   exit 1
 fi
 if [ "$warned" -gt 0 ] && [ "$FAIL_ON_WARNING" = "1" ]; then
