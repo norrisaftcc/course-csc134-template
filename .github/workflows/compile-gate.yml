@@ -46,9 +46,32 @@ jobs:
           g++ --version
           lsb_release -d || true
 
+      - name: Self-test — prove the gate can still fail
+        # A gate that cannot fail is not a gate. This compiles a fixture that is
+        # GUARANTEED to warn and asserts the script exits non-zero.
+        #
+        # This step exists because the first version of this workflow silently
+        # did not enforce: on pull_request and push, `inputs` is undefined, and
+        # in GitHub expressions `null == false` is TRUE — so the old
+        # `inputs.fail_on_warning == false && '0' || '1'` evaluated to '0' and
+        # the gate reported the real M4 warning, then passed anyway.
+        # Never trust a green gate that has not proved it can go red.
+        run: |
+          set -e
+          if FAIL_ON_WARNING=1 SEARCH_PATHS=.github/scripts/selftest \
+               bash .github/scripts/compile-gate.sh; then
+            echo "::error::Gate self-test FAILED — the gate passed a file that must warn."
+            echo "The gate is not enforcing. Treat every green run as unverified."
+            exit 1
+          fi
+          echo "Self-test OK: the gate correctly fails on a warning."
+
       - name: Run the compile gate
         env:
           CXX: ${{ inputs.compiler || 'g++' }}
-          FAIL_ON_WARNING: ${{ inputs.fail_on_warning == false && '0' || '1' }}
+          # Default HARD to enforcing. Only an explicit manual dispatch that
+          # deliberately unticked the box can relax it — see the self-test above
+          # for why this is written the long way round.
+          FAIL_ON_WARNING: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_warning == false) && '0' || '1' }}
           SEARCH_PATHS: ${{ inputs.search_paths || '_contracts modules' }}
         run: bash .github/scripts/compile-gate.sh
