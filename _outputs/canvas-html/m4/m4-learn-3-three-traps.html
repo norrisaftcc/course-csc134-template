@@ -1,13 +1,15 @@
 <!-- compositor: M4 · learn -->
 <!-- SOURCE: modules/m4/learn.md (Three Traps, Named Out Loud → Next Steps) — build output, do not hand-edit. -->
-<!-- Part 3 of the M4 Learn series. See _lore/findings/F-009 re: the fall-through warning claim below. -->
+<!-- Part 3 of the M4 Learn series. Re-emitted after F-010 corrected learn.md Trap 2. -->
 <div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
 
 <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 04 &middot; Reading 3 of 3</p>
 <p style="margin:0 0 1.4rem;font-size:1.1rem;">Three classic decision bugs. This course does not spring traps on you as gotchas — we name them here, out loud, so that when one bites in lab you recognize it instead of losing an afternoon.</p>
 <hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
 
-<p style="margin:0 0 1.6rem;">All three are <strong>Logic</strong> errors: the program did exactly what you said, not what you meant. That is what makes them worth naming. A Syntax error stops you at the door and tells you so. These let you all the way in and then quietly hand you the wrong answer.</p>
+<p style="margin:0 0 1.2rem;">All three are <strong>Logic</strong> errors: the program did exactly what you said, not what you meant. That is what makes them worth naming. A Syntax error stops you at the door and tells you so. These let you all the way in and hand you the wrong answer.</p>
+
+<p style="margin:0 0 1.6rem;">Here is the good news, and it is worth knowing before you start: <strong>our build flags catch all three of these.</strong> The compiler sees each one coming and says so by name. What it says is a <em>warning</em>, not an error — and the difference between those two words is most of this page.</p>
 
 <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Trap 1: one equals sign instead of two</h2>
 
@@ -34,14 +36,17 @@
 
 <p style="margin:0 0 1.2rem;"><strong>Predict first.</strong> The player is class <strong>1</strong> — a Warrior. What prints? Decide before you read on.</p>
 
-<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">"A Warrior."
-"A Mage."</pre>
+<p style="margin:0 0 .6rem;">Both lines print — the Warrior line <em>and</em> the Mage line. With no <strong>break</strong> after case 1, control "falls through" into case 2 and runs it too. One player, two identities.</p>
 
-<p style="margin:0 0 1.2rem;">Both. With no <strong>break</strong> after case 1, control "falls through" into case 2 and runs it too. One player, two identities, no complaint from anybody.</p>
+<p style="margin:0 0 .6rem;">But you will meet the compiler before you meet that output, because it spots this one:</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">warning: this statement may fall through [-Wimplicit-fallthrough=]</pre>
+
+<p style="margin:0 0 1.2rem;">In your own build that comes with line numbers, and with a second line reading <strong>note: here</strong> pointing at the <strong>case 2:</strong> below. Read both: the warning marks where control falls <em>from</em>, the note marks where it falls <em>to</em>. Both ends of the bug, named precisely — the compiler doing work you would otherwise do by hand.</p>
 
 <div style="border-left:2px solid #9A6700;padding-left:1rem;margin:0 0 1.6rem;">
   <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9A6700;">Caution</p>
-  <p style="margin:0;">This is the most dangerous of the three, and the reason is what the compiler <em>does not</em> say. On our compiler this produces <strong>no warning at all</strong> — it compiles clean and just does the wrong thing quietly. There is no red text to save you here; only your own testing will. Put a <strong>break;</strong> at the end of every case.</p>
+  <p style="margin:0;">A <strong>warning is not an error</strong>, and that catches people out. An error means no program was produced. A warning means the compiler built your program <em>anyway</em> — so it will run, and it will print both lines. That is exactly why this is a <strong>Logic</strong> error and not a Syntax one: the grammar was fine, the thing ran, it just did what you said instead of what you meant. In this course a warning still fails the build, on purpose — because the alternative is learning to scroll past the one message trying to save you.</p>
 </div>
 
 <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Trap 3: the dangling else</h2>
