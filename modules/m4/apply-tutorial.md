@@ -93,9 +93,10 @@ introduced last, on purpose, as its own stage — so it's taught, never sprung.
 **Where students typically stall (per stage):**
 
 - *Stage 2 — `switch`.* Two classics. (1) Forgetting `break;` after a `case`
-  — this is the **switch fall-through** trap; we hit it on purpose at the
-  deliberate break, so if a student trips it early, that's a preview, not a
-  failure. (2) Typing `case 1;` (semicolon) instead of `case 1:` (colon).
+  — this is the **switch fall-through** trap; we hit it on purpose in optional
+  Break C, and the compiler flags it (`-Wimplicit-fallthrough`), so a student who
+  trips it early gets a preview and a readable warning, not a mystery.
+  (2) Typing `case 1;` (semicolon) instead of `case 1:` (colon).
   The colon-vs-semicolon slip gives a **Syntax** error — let them read it.
 - *Stage 3 — the ladder.* The big one is `=` vs `==`. Writing
   `if (strength = 70)` is legal C++ that assigns instead of comparing — a
@@ -114,10 +115,21 @@ introduced last, on purpose, as its own stage — so it's taught, never sprung.
   branch, or the shortcut can never run (that would be a **Logic** error — an
   unreachable branch).
 
-**Deliberate break:** at the end, students remove the `break;` from `case 1:`
-in the `switch` and watch a Warrior get greeted as both a Warrior *and* a Mage.
-It compiles clean — the lesson is that a clean compile is not a correct
-program. Full script below.
+**Deliberate break:** at the end, students swap two branches in the outcome
+ladder — putting `>= 40` above `>= 70` — and watch a strength-85 Warrior get the
+borderline riddle instead of the open gate. **It compiles with zero warnings**,
+and that is the whole point: a clean compile is not a correct program. Full
+script below.
+
+> **Why this demo and not the missing `break;`.** The fall-through demo used to
+> live here, and it was wrong. Under `-Wall -Wextra` on **GCC** — which is what
+> Codespaces runs — a missing `break;` produces `warning: this statement may fall
+> through [-Wimplicit-fallthrough=]`. It only looks silent on Apple clang, which
+> does not turn that warning on. **All three of M4's named traps are caught by
+> our flags**; the mis-ordered ladder is not, which is what makes it the honest
+> closer. Fall-through moved to the optional breaks, where the
+> compiler-catches-it lesson now lives. See
+> `_lore/findings/F-009-fallthrough-warning-claim-is-toolchain-dependent.md`.
 
 **Theme note (instructor-facing).** The gatekeeper is this beat's worked skin.
 The Assess lab lets students re-skin it (a nightclub bouncer, an airport gate
@@ -217,7 +229,8 @@ int main()
 Point out three things as they type:
 
 - Each `case` ends with `break;`. That's what stops the code from sliding into
-  the next case. We'll prove why it matters at the end.
+  the next case. We'll prove why it matters in the optional breaks below — and
+  you'll see the compiler catch it for you.
 - `case 1:` uses a **colon**, not a semicolon. `case 1;` is a **Syntax** error.
 - `default:` is the "none of the above" branch. Here it prints a message and
   `return 0;` — the gatekeeper turns away an unknown class and the visit ends.
@@ -335,12 +348,16 @@ The visit ends.
 
 ---
 
-## Optional: Two Quick Breaks (Stage 3 traps)
+## Optional: Three Quick Breaks — the ones the compiler catches
 
-Two "break it on purpose" experiments, both **optional** — skip them if the
-clock is tight. Each is a one-spot edit to the program you have right now, just
-like the switch break at the end. **Restore the original before you go on to
-Stage 4.**
+Three "break it on purpose" experiments, all **optional** — skip them if the
+clock is tight. Each is a one-spot edit to the program you have right now.
+**Restore the original before you go on to Stage 4.**
+
+What ties them together: **every one of these gets caught by `-Wall -Wextra`.**
+The compiler sees all three coming and says so. That is worth feeling directly,
+because the deliberate break at the end of the session is the one it *cannot*
+see — and the contrast is the real lesson.
 
 ### Break A: `=` instead of `==` (~2 min)
 
@@ -386,16 +403,85 @@ indentation says one thing; watch C++ do another:
 **Predict first.** Ask: "Strength `50` — the indenting lines the `else` up with
 `strength >= 40`, so what should print?"
 
-**Build and run — type class `1`, then strength `50`.** It compiles clean, then
-prints *"Too weak... Turned away."* A strength of 50 turned away?
+**Build it.** The compiler has something to say before you even run it:
+
+```text
+apply-gatekeeper.cpp: In function 'int main()':
+apply-gatekeeper.cpp:60:8: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
+   60 |     if (strength >= 40)
+      |        ^
+```
+
+Read that out loud: *suggest explicit braces to avoid ambiguous `else`.* The
+compiler is telling you the exact thing this experiment exists to teach, before
+you have run a single line. Under our zero-warning rule that is a failed build —
+but it still produces a program, which is why you can run it anyway.
+
+(You may see a second warning about `hasLockpick` being set but not used. That's
+honest too: pasting this block over the ladder removed the branch that used it.)
+
+**Now run it — type class `1`, then strength `50`.** It prints *"Too weak...
+Turned away."* A strength of 50 turned away?
 
 The `else` bound to the **nearest** `if` — `if (strength >= 70)` — not the one
-your indentation lined it up with. The grammar is fine, so it compiles in
-silence; it just does the wrong thing. That's a **Logic** error, and it's
-exactly why we wrap every branch in `{ }`.
+your indentation lined it up with. The grammar is fine, so the program builds and
+runs; it just does the wrong thing. That's a **Logic** error, and it's exactly
+why we wrap every branch in `{ }`.
 
 **The fix:** restore your braced `if` / `else if` / `else` ladder from Stage 3.
-Rebuild, type strength `50`, and confirm you're back to the half-open riddle.
+Rebuild, type strength `50`, and confirm you're back to the half-open riddle —
+and that the warnings are gone.
+
+### Break C: the missing `break;` (~3 min)
+
+Find `case 1:` in your `switch`. Delete or comment out the `break;` right below
+its `cout` line. Leave everything else alone.
+
+```cpp
+        case 1:
+            cout << "\"A Warrior. Strong arms, I hope.\"\n";
+            // break;   <-- deliberately removed
+        case 2:
+```
+
+**Predict first.** Ask: "Will this even build? If it runs, what does a Warrior
+see?"
+
+**Build it.** The compiler catches this one too:
+
+```text
+apply-gatekeeper.cpp: In function 'int main()':
+apply-gatekeeper.cpp:30:21: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   30 |             cout << "\"A Warrior. Strong arms, I hope.\"\n";
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+apply-gatekeeper.cpp:32:9: note: here
+   32 |         case 2:
+      |         ^~~~
+```
+
+Note the `note: here` line pointing at `case 2:`. The compiler is showing you
+both ends of the problem: where control falls *from* and where it falls *to*.
+That is a warning worth learning to read, because it names the bug precisely.
+
+**Run it anyway — type `1` (Warrior), then `90`:**
+
+```text
+A gatekeeper blocks the dungeon door. She looks you over.
+Your class? (1 = Warrior, 2 = Mage, 3 = Rogue): 1
+"A Warrior. Strong arms, I hope."
+"A Mage. Let us see if the mind is as sharp as the robes."
+Your strength score (0-100): 90
+The gate swings wide. "Strong enough. Go through."
+The visit ends.
+```
+
+A Warrior got greeted as a Warrior **and** a Mage. Without the `break;`, `case 1`
+finished and kept going into `case 2` — that's **switch fall-through**, and it is
+a **Logic** error: the program built, it ran, it just did what you said instead of
+what you meant.
+
+**The fix:** put the `break;` back. Rebuild, confirm the warning is gone and the
+Warrior only hears the Warrior line.
 
 ---
 
@@ -512,25 +598,30 @@ tutorial, diamond for diamond.
 
 ## The Deliberate Break (~5 min)
 
-Time to break it on purpose. We talked about `break;` in Stage 2 — now let's
-see what happens without it.
+Every break you have done so far, the compiler saw coming. This one it cannot.
 
-**Do this:** find `case 1:` in your `switch`. Delete the `break;` right below
-its `cout` line (or comment it out). Leave everything else alone.
+**Do this:** find your outcome ladder at the bottom of the program. Swap the
+order of the first two bars — move the `>= 40` branch **above** the `>= 70`
+branch. Change nothing else. No text, no conditions, just the order:
 
 ```cpp
-        case 1:
-            cout << "\"A Warrior. Strong arms, I hope.\"\n";
-            // break;   <-- deliberately removed
-        case 2:
-            cout << "\"A Mage. Let us see if the mind is as sharp as the robes.\"\n";
-            break;
+    // TEMPORARY — branches swapped on purpose
+    if (strength >= 40)
+    {
+        cout << "\"Borderline. Answer me this and the gate is yours:\"\n";
+        cout << "\"What must be broken before you can use it?\"\n";
+        cout << "(Answer it in your head — the gate waits, half-open.)\n";
+    }
+    else if (strength >= 70)
+    {
+        cout << "The gate swings wide. \"Strong enough. Go through.\"\n";
+    }
 ```
 
-**Predict first.** Ask: "Will this even compile? If it runs, what does a
-Warrior see?"
+**Predict first.** Ask: "A Warrior with strength `85` — that clears the top bar
+easily. What does she say?"
 
-**Build and run — and type `1` (Warrior), then `90`:**
+**Build and run — type `1` (Warrior), then `85`:**
 
 ```bash
 g++ -std=c++17 -Wall -Wextra -o apply-gatekeeper apply-gatekeeper.cpp
@@ -543,22 +634,38 @@ g++ -std=c++17 -Wall -Wextra -o apply-gatekeeper apply-gatekeeper.cpp
 A gatekeeper blocks the dungeon door. She looks you over.
 Your class? (1 = Warrior, 2 = Mage, 3 = Rogue): 1
 "A Warrior. Strong arms, I hope."
-"A Mage. Let us see if the mind is as sharp as the robes."
-Your strength score (0-100): 90
-The gate swings wide. "Strong enough. Go through."
+Your strength score (0-100): 85
+"Borderline. Answer me this and the gate is yours:"
+"What must be broken before you can use it?"
+(Answer it in your head — the gate waits, half-open.)
 The visit ends.
 ```
 
-A Warrior got greeted as a Warrior **and** a Mage. Without the `break;`, `case
-1` finished and just kept going into `case 2` — that's **switch fall-through**.
+A strength of **85** got the borderline riddle. She should have walked straight
+through. And `85 >= 70` is obviously true — that line is sitting right there in
+the program, spelled correctly, and it **never runs**. The ladder stops at the
+first true branch, and `85 >= 40` was true first, so the gate branch is now
+unreachable.
 
-**Name the error class:** this is a **Logic** error. The grammar is fine — it
-compiled clean, no warnings. The program ran fine, too — no crash. It just did
-what you said, not what you meant. A clean compile is not proof of a
-correct program. This is exactly the kind of bug M4 makes you hunt.
+**Name the error class:** this is a **Logic** error. The grammar is fine. The
+program ran fine — no crash, no complaint. It just did what you said, not what
+you meant.
 
-**The fix:** put the `break;` back. Rebuild, type `1` again, confirm the
-Warrior only hears the Warrior line.
+**And this time the compiler said nothing at all.** Zero warnings. That is the
+difference worth taking away from today:
+
+- The three optional breaks — `=` vs `==`, the dangling `else`, the missing
+  `break;` — all got caught. `-Wall -Wextra` sees them and tells you.
+- **This one is invisible to it.** Nothing is malformed. Every branch is
+  reachable *grammatically*; one is just never reached in practice. No compiler
+  can know which order you meant.
+
+So: **a clean compile is not proof of a correct program.** It only proves the
+grammar is fine. Whether the program does what you wanted is a question only
+testing answers — which is why you ran it with `85` instead of trusting it.
+
+**The fix:** put the `>= 70` branch back on top. Highest bar first, always.
+Rebuild, type `1` and `85`, and confirm the gate swings wide.
 
 ---
 
@@ -571,9 +678,15 @@ You built the whole Dungeon Gatekeeper by hand, and you used every M4 tool:
 - a **compound condition** with **`&&`** (the Rogue's shortcut),
 - and a **`default`** / **`else`** for the "none of the above" cases.
 
-You also met the two classic traps by name — **switch fall-through** (the
-missing `break;`) and the **dangling else** (why we brace everything) — plus
-the `=` vs `==` slip the compiler warns you about.
+You also met the classic traps by name — **switch fall-through** (the missing
+`break;`), the **dangling else** (why we brace everything), and the `=` vs `==`
+slip. The compiler warns you about all three, which is worth knowing: those
+warnings are not noise, they are the compiler doing the job you would otherwise
+do by hand.
+
+And you met the one it **can't** warn you about — a ladder in the wrong order,
+where a perfectly correct-looking branch simply never runs. That is the one that
+needs you.
 
 **What the Assess lab asks next.** The lab hands you a spec and asks you to
 build your *own* decision program in this same shape — a `switch` on one input,
