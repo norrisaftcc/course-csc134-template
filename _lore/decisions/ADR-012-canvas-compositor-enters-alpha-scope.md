@@ -67,6 +67,45 @@ and the readability and compile bars — and that is where reuse belongs.
 This is a decision about *rendering*, not a scope ruling for #19. Whether the mini-textbook is in
 the alpha at all remains open.
 
+## Pocketed options (deliberately preserved, not discarded)
+
+Raised at visual inspection of the first M4 output and judged **not blocking**. Recorded here because
+reviewers are likely to raise them independently, and re-deriving an answer is worse than reading one.
+
+### 1. Emitting real multi-column tables where a table is genuinely the right shape
+
+Tier one caps tables at **two columns**, because a three-column table at 375px is a horizontal scroll
+bar with data in it. M4's four-column rubric was therefore restructured into four labelled gutter
+blocks. Inspected verdict: *"reads at a glance like a minimally decorated table, so I think it gets the
+job done."*
+
+The gutter restructure works because the rubric is genuinely a list of criteria, each with a paragraph
+of prose. It will not always work. A comparison matrix, a truth table, or an operator reference with
+three genuinely parallel short columns is a table in substance, and turning it into gutter blocks
+would be a lie about its shape.
+
+Not adopted now because no artifact in the alpha needs it, and a device added before it is needed gets
+used where it does not belong. If one appears, the options in preference order are: keep two columns
+and move the third into the second cell (what Reading 1's operator table does); ship the wide table as
+a PDF (tier two, where print layout is the point); or add a narrow-screen table device to the skill
+deliberately, with a rule for when it applies. **Do not** simply raise the column ceiling — the 375px
+constraint that set it has not changed.
+
+### 2. A horizontal rule at the predict/reveal boundary
+
+With no `<details>` on tier one, PRIMM predict moments end with a prose instruction ("Decide before you
+read past the code") and a hairline gutter labelled *Have your answer? Read on.* Inspected verdict: it
+works, but it **may want an `<hr>`** for stronger emphasis on where to stop.
+
+Not adopted now because the gutter label already carries the meaning and an extra rule risks reading as
+a section break rather than a stop sign — and because the honest test is a student who has not been
+told the convention. Cheap to add if a cohort round shows students reading past the boundary: it is one
+`<hr style="border:0;border-top:1px solid #DFE3E8;">` per reveal, in three M4 pages.
+
+**This is the thing to watch for in the first cohort round that meets a composed page.** The device is
+new, it replaces a widget students may expect from GitHub-rendered Markdown, and whether it stops
+anybody is an empirical question the design cannot settle on its own.
+
 ## Consequences
 
 - The record no longer contradicts itself: both `_storming/` files carry the amendment and point here.

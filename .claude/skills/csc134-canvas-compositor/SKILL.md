@@ -592,6 +592,14 @@ scroll bar with data in it; restructure it as gutter blocks or move it to a PDF.
 `border-bottom` on the last row. Use `<thead>` with `<th style="text-align:left;">` only
 when the table genuinely has a header row — a label/value table does not.
 
+**When the gutter restructure is a lie about the shape.** Four labelled gutter blocks stand
+in well for a criteria list — M4's four-column rubric became exactly that, and reads as a
+minimally decorated table. They stand in badly for a comparison matrix, a truth table, or
+three genuinely parallel short columns, which are tables *in substance*. Nothing in the alpha
+needs one, so no device exists yet. If you hit one, read the pocketed options in ADR-012
+before inventing anything — and do not just raise the column ceiling, because the 375px
+constraint that set it has not changed.
+
 ### Code and machine output
 
 ```html
@@ -650,6 +658,38 @@ monospace column grid.
 
 Checkbox lists almost always live inside a panel. The panel says *this is a steppable
 object*; the boxes say *here is how you step it*.
+
+### Predict / reveal — the PRIMM moment without a disclosure widget
+
+CSC-134 readings are built on predict-then-reveal, and the source Markdown uses `<details>`,
+which **does not survive this sanitizer**. There is no spoiler device on tier one and nothing
+may be authored expecting one. So the boundary is stated in prose and marked with a gutter,
+which is reading flow and spends no breakout budget:
+
+```html
+<p style="margin:0 0 1.2rem;"><strong>Predict first.</strong> … Decide your answer before you read past the program.</p>
+<!-- the code or question being predicted about -->
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Have your answer? Read on.</p>
+  <p style="margin:0 0 .5rem;">The answer, stated plainly first.</p>
+  <p style="margin:0;">Then why — the reasoning the predict moment existed to teach.</p>
+</div>
+```
+
+Three rules, because the device is weaker than the widget it replaces and has to work anyway:
+
+1. **The instruction goes before the thing being predicted**, never after. A student who has
+   already read the answer cannot be asked to predict it.
+2. **The label is an instruction, not a noun.** "Have your answer? Read on." works where
+   "Answer" does not, because the reader meets the label *before* deciding whether to stop.
+3. **Answer first, reasoning second.** A reader who guessed right needs one line; a reader who
+   guessed wrong needs the paragraph. Burying the answer under the explanation serves neither.
+
+The honest cost: **this is a weaker stop than a closed `<details>`**, and the same reading is
+richer on GitHub than on Canvas. That asymmetry is real and is the sanitizer's doing, not a
+choice. Whether the prose boundary actually stops a student is an empirical question — see the
+pocketed `<hr>` option in ADR-012, and watch for it in the first cohort round that meets a
+composed page.
 
 ### Panel
 
