@@ -1,97 +1,137 @@
 ---
 name: F-009-fallthrough-warning-claim-is-toolchain-dependent
-description: M4 learn.md and apply-tutorial.md claim switch fall-through produces no warning; true on clang, likely false on GCC — the course's stated toolchain. Needs GCC verification.
+description: M4 tells students two deliberate-break demos "compile clean". Confirmed false — fall-through warns on GCC, dangling-else warns on BOTH compilers. Needs a content fix.
 ---
 
-# F-009 — The "fall-through produces no warning" claim is toolchain-dependent
+# F-009 — Two M4 "compiles clean" claims are false under the course's own flags
 
-**Date:** 2026-07-25 · **Status:** Open — needs verification on GCC · **Branch:** `phase0/canvas-compositor`
+**Date:** 2026-07-25 · **Status:** **Confirmed** — needs a content fix (#25) · **Branch:** `phase0/canvas-compositor`
 **Found by:** composing M4 Learn Reading 3, while testing a factual claim before emitting it
-**Affects:** `modules/m4/learn.md` (Trap 2), `modules/m4/apply-tutorial.md` (The Deliberate Break)
-**Severity:** major — M4 is certified **Ready**, and this is a factual claim about compiler behaviour
-in student-facing material, load-bearing for the beat's whole lesson
+**Affects:** `modules/m4/learn.md` (Trap 2), `modules/m4/apply-tutorial.md` (The Deliberate Break, Break B)
+**Severity:** **major** — M4 is certified **Ready**, and both claims are load-bearing for their beat's lesson
 
-## The claim
+## Summary
 
-`learn.md`, Trap 2:
+M4 tells students, in three places, that a deliberately broken program **compiles with zero warnings**.
+Tested under the exact course flags. **Both claims are false**, and the second is false everywhere:
 
-> Here's the scary part: on our compiler this produces **no warning at all** — it compiles clean and
-> just does the wrong thing quietly. That's why fall-through is the most dangerous of the three.
+| Claim | Where | Apple clang 21 | GNU g++ 16.1.0 | Verdict |
+|---|---|---|---|---|
+| `switch` fall-through compiles silently | `learn.md` Trap 2; `apply-tutorial.md` Deliberate Break | **silent** ✅ | **warns** ❌ | false on the course toolchain |
+| dangling `else` compiles clean | `apply-tutorial.md` Break B | **warns** ❌ | **warns** ❌ | **false on both** |
 
-`apply-tutorial.md`, The Deliberate Break, makes the same claim:
+The second is the more embarrassing one: it is wrong even on the machine it was presumably written on.
 
-> **What actually happens — it compiles with zero warnings, then:** … A clean compile is not proof of
-> a correct program.
+## Evidence
 
-The entire pedagogical point of the deliberate break rests on it: the student removes a `break;`,
-sees a **clean** build, and learns that a clean compile does not mean a correct program.
+Course flags throughout: `-std=c++17 -Wall -Wextra`.
 
-## What was actually tested
+**Fall-through**, GNU g++ 16.1.0:
 
-Built the exact fall-through case (case 1 losing its `break;`, falling into a non-empty case 2)
-under the course flags `-std=c++17 -Wall -Wextra`:
+```
+warning: this statement may fall through [-Wimplicit-fallthrough=]
+   13 |             cout << "\"A Warrior. Strong arms, I hope.\"\n";
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+note: here
+   15 |         case 2:
+```
 
-| Toolchain | Result |
+**Which flag is responsible** — this is the whole story:
+
+| Flags | Fall-through warning? |
 |---|---|
-| **Apple clang 21.0.0** (this machine) | **No warning.** Compiles clean. Prints both the Warrior and the Mage line. Claim holds. |
-| **GCC** (the course's stated toolchain) | **Not verified — no GCC on this machine.** |
+| `-Wall` alone | **no** |
+| `-Wextra` alone | **yes** |
+| `-Wall -Wextra` (course flags) | **yes** |
+| with a `// falls through` marker comment | no — GCC accepts it as intentional |
 
-## Why GCC probably contradicts it
+So it is **`-Wextra`**, which GCC has carried since version 7 and which clang does not enable by name.
+That single flag difference is the entire discrepancy. Neither source comment
+(`// BUG: no break here!`, `// break;   <-- deliberately removed`) matches the marker patterns that
+would suppress it.
 
-Three independent reasons to expect GCC to warn:
+**Dangling `else`**, the verbatim Break B snippet, on both compilers:
 
-1. **GCC enables `-Wimplicit-fallthrough=3` as part of `-Wextra`** (GCC 7 onward), and `-Wextra` is a
-   course flag. Clang does not enable it under `-Wall -Wextra`; it must be asked for by name. That
-   difference alone explains the split.
-2. **Level 3 only accepts specific fall-through marker comments** matching patterns like *"falls
-   through"*. Neither source comment qualifies — `learn.md` has `// BUG: no break here!` and
-   `apply-tutorial.md` has `// break;   <-- deliberately removed`. Both would warn.
-3. **The parallel session's own notes say GCC warns.** Their `PLACEHOLDERS.md`, verified on GCC/Ubuntu,
-   records: *"The fallthrough warning is verbatim output at the line numbers students see in the
-   stage-1 file."* Independent corroboration from a different author on the target toolchain.
+```
+GCC:   warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
+clang: warning: add explicit braces to avoid dangling else [-Wdangling-else]
+```
 
-The course targets GCC/Ubuntu — Codespaces, and the compile-warden's stated environment. If GCC warns,
-**the claim is false in exactly the environment the students are in**, and true only on an instructor's
-Mac.
+## Why this matters more than an ordinary inaccuracy
 
-## Why this is worse than an ordinary inaccuracy
+Under the course's **zero-warning rule a warning is a failed build.** So on GCC — Codespaces, which is
+where students are — the deliberate break does not demonstrate *clean compile, wrong behaviour*. It
+demonstrates a build that fails the course's own Format standard. The student is promised silence and
+handed a diagnostic, and the lesson inverts from *the compiler cannot save you here* to *the compiler
+caught it*.
 
-Under the course's **zero-warning rule**, a warning is a failed build. So on GCC the deliberate break
-does not demonstrate "clean compile, wrong behaviour" — it demonstrates a build that fails the course's
-own Format standard. The student is told to expect silence and gets a diagnostic. The lesson inverts:
-instead of *the compiler cannot save you here*, they learn *the compiler caught it*, which is the
-opposite of why fall-through was chosen as the most dangerous trap.
+It is also self-undermining in a course that teaches reading compiler output closely: the one moment
+the material tells students to expect nothing is a moment their compiler is talking.
 
-It is also self-undermining in a course that teaches reading compiler output closely. The one moment
-the material tells students to expect nothing is a moment their compiler may be talking.
+## This invalidates the fix originally proposed here
 
-## What was done about it here
+The first draft of this finding suggested rebuilding the deliberate break on the **dangling `else`**,
+on the assumption it was silent. **It is not** — `-Wdangling-else` fires on both compilers. Recorded
+explicitly so nobody re-proposes it.
 
-**Nothing to the content.** M4's material was composed to Canvas faithfully, claim intact. Rewriting
-prose during a composition pass is the exact move that put the imported exemplars out of sync with
-`_contracts/m4_gatekeeper.cpp` (see [[F-008-canvas-compositor-import]] § F-008-1), and content changes
-to a certified-Ready module do not belong in a formatting PR.
+Of M4's three named traps, checked under the course flags:
 
-The composed page carries a source comment pointing here.
+| Trap | clang | GCC | Usable as a "compiles clean" demo? |
+|---|---|---|---|
+| `=` vs `==` | warns | warns | No — and the material correctly says so already |
+| `switch` fall-through | silent | **warns** | No, not on the target toolchain |
+| dangling `else` | **warns** | **warns** | No |
 
-## What needs to happen
+**None of the three is silent on GCC.** That is the real finding, and it is bigger than a wording fix:
+`-Wall -Wextra` is a genuinely good pair of flags, and the course chose them precisely because they
+catch this class of mistake. The material wants a trap the compiler misses; these flags were selected
+so that it would not miss things.
 
-1. **Verify on GCC.** `docker run --rm -v "$PWD":/w -w /w gcc:13 g++ -std=c++17 -Wall -Wextra …`, or any
-   Ubuntu box, or Codespaces — which is the most honest place to test it, being where students are.
-2. **If GCC warns**, decide which way to fix it. Two options, and they are not equivalent:
-   - **Keep the demo, change the prose.** Show the fall-through warning as real compiler output, and
-     move "a clean compile is not proof of a correct program" onto a trap the compiler genuinely
-     misses. Costs the deliberate break its punchline.
-   - **Keep the lesson, change the demo.** Find a Logic error that is genuinely silent under
-     `-Wall -Wextra` on GCC and build the deliberate break on that instead. The dangling `else`
-     (Trap 3) is silent on both toolchains and is already in the module.
-3. **Either way, re-gate M4 and re-emit the composed pages.** The composed page is build output; it
-   costs seconds to regenerate once the source is right.
+## What needs to happen (#25)
+
+The demo and the lesson can no longer both survive in their current form. Three honest options:
+
+1. **Keep the demos, change the prose.** Show the real warning as verbatim compiler output and teach
+   *the compiler caught this one — read what it says*. Costs the deliberate break its punchline, but it
+   is truthful, it uses output students will actually see, and reading diagnostics is a course goal in
+   its own right.
+2. **Keep the lesson, swap the demo for a genuinely silent Logic error.** Two candidates were
+   **tested, not assumed** — the mistake this finding was created by:
+
+   | Candidate | GCC 16 | clang 21 | Misbehaves? |
+   |---|---|---|---|
+   | Mis-ordered chain — `>= 40` before `>= 70`, making a branch unreachable | **silent** | **silent** | yes: strength 85 prints *"Borderline. A riddle."* |
+   | Off-by-one at the boundary — `> 70` where `>= 70` was meant | **silent** | **silent** | yes: strength 70 prints *"Turned away."* |
+
+   Both compile with **zero warnings on both compilers** and both do visibly the wrong thing, which is
+   exactly the demonstration the deliberate break was built to give. Both are **Logic** errors by the
+   course's own taxonomy, and both are already in M4's vocabulary — the module already teaches
+   "highest bar first," and `assess-lab.md` already calls boundary off-by-one "the most common Logic
+   error here." So the replacement reinforces existing material instead of introducing a new idea.
+3. **Drop the zero-warning framing for the demo only**, telling students explicitly that this one
+   exercise is expected to warn. Cheapest, but it puts an exception inside the rule the course is
+   strictest about, and exceptions to a zero-tolerance rule teach that the rule is negotiable.
+
+**Recommended: option 2, using the mis-ordered chain.** It is the only candidate that is silent on both
+compilers, genuinely wrong at runtime, and already taught in the module. Option 1 remains a good
+*addition* rather than a replacement: the fall-through warning is real output students will meet, and
+showing it as verbatim compiler text is worth doing on its own merits — just not while claiming the
+compiler said nothing.
+
+Whichever is chosen, **`learn.md` and `apply-tutorial.md` must be fixed together.** They make the same
+claim, and issue #14 was the last time these files were allowed to disagree about a compiler warning.
+
+## Verification status
+
+Confirmed locally on **GNU g++ 16.1.0** (Homebrew) and **Apple clang 21.0.0**. Still worth confirming
+on **Codespaces / Ubuntu**, which ships an older GCC (12–14) and is the environment students actually
+use. `-Wimplicit-fallthrough` has been in `-Wextra` since GCC 7 and `-Wdangling-else` far longer, so
+the result is expected to hold — but "expected to hold" is exactly the reasoning this finding exists to
+punish. Handoff procedure: `_lore/findings/F-009-verification-procedure.md`.
 
 ## The general lesson
 
-The compile-warden gate runs on one machine. A claim of the form *"the compiler says X"* is only as
-portable as that machine, and `-Wall -Wextra` is not the same set of warnings on GCC and clang. Any
-material asserting compiler **silence** — rather than quoting compiler output — should be verified on
-the toolchain students actually use, because silence is the one result that looks identical whether
-you tested it or not.
+The compile-warden runs on one machine, and **`-Wall -Wextra` is not the same warning set on GCC and
+clang**. Any material asserting compiler **silence** — as opposed to quoting compiler output — must be
+verified on the toolchain students actually use. Silence is the one result that looks identical whether
+or not you tested it.
