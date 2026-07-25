@@ -126,6 +126,50 @@ Both bit this verification run and are recorded in the exit-ticket key:
    `cin.ignore(..., '\n')` eats the rest of it — silently changing what is under
    test. Use `printf '5\nx\n2\n'`.
 
+## Caught in review: a cognitive-load derailer in A tier
+
+Worth recording as a **generalizable authoring lesson**, not just an M5 fix.
+
+A tier was first drafted as four requirements: ① an M4-style decision inside the
+loop, ② a `continue` retry, ③ a fourth menu option that searches a sequence, and
+④ a value persisting across turns. It passed every mechanical bar — tiers nested,
+each item was observable by running the program, nothing came from a future
+module. It looked fine.
+
+It was not fine, and **the problem was not the workload.** Measured against the
+reference: ①+② cost 29 lines, ③ cost 26, ④ cost 2. The total is defensible for a
+synthesis tier. What was wrong was the **shape**:
+
+- ①②④ tell **one** story — the program remembers what you have, decides what it
+  is worth, and sends you back to try again when the answer is impossible. That
+  is the M4→M5 seam, which is the entire thesis of the module.
+- ③ tells a **second, unrelated** story, and re-assesses a skill every student
+  already demonstrated at C tier (Part 1, Exercise 3 *is* a search). A student
+  reaching for A would have written a search twice and the seam once — with the
+  module's central idea taking up less of the assignment than a review exercise.
+
+The derailer is that ③ pulls attention *off* the thesis at the exact moment the
+student is finally equipped to meet it. A tier is where the module's idea should
+land hardest; instead the idea was competing for room with a checklist item.
+
+**The rule this yields:** a tier's cost is a weight question, but a tier's
+coherence is a *design* question, and the two are easy to confuse. "Is this too
+much?" is the wrong review question. Ask **"how many stories does this tier
+tell?"** One is right. Two means the tier has no thesis, however reasonable each
+half looks alone.
+
+**Cross-check against M4, which got this right by instinct:** its A tier is a
+single ask (a branching tree with four or more distinct outcomes and at least one
+genuinely nested condition). One idea, pushed further. M5's A tier now reads the
+same way. **Any future module whose A tier enumerates independent features should
+be re-read against this finding before it ships.**
+
+Fix applied in four places in `assess-lab.md`: the A-tier section (rewritten as
+one idea in three inseparable pieces), the tier-ladder row, the instructor notes
+(with the reasoning preserved so it is not silently re-added later), and the time
+estimate. `assess-reference.cpp` keeps its satchel search — a reference may
+exceed the tier it exemplifies, and that is now stated.
+
 ## Status: **M5 (Loops) is Built — not Ready**
 
 All four LPAA beats authored, gate green, contracts honored

@@ -2,7 +2,7 @@
 title: "M5LAB: Loop Fundamentals + Project 2 — The Menu-Driven Game"
 module: M5
 lpaa_beat: Assess
-estimated_time: "90 minutes for C tier; B adds ~20 min, A adds ~40 min"
+estimated_time: "90 minutes for C tier; B adds ~20 min, A adds ~35 min"
 prerequisites:
   reading: "Loops: Teaching Your Program to Repeat (modules/m5/learn.md)"
   exit_ticket: "Module 5 exit ticket (completion-gated)"
@@ -100,23 +100,26 @@ the second time you are choosing it.
 
 ### A Tier — The Seam (everything in B, plus…)
 
-Three additions, all of which make the loop *do something a single pass could
-not*:
+One idea, pushed all the way: **make the loop do something a single pass could
+not.** Three pieces, and they only work together.
 
-1. **Wrap an M4-style decision around that number.** The barkeep replies
+1. **Carry a value across menu turns.** Gold, reputation, hit points — something
+   the player keeps between choices. Declare it **before** the `do`, not inside
+   it. Declared inside, it resets every turn and the loop has no memory.
+2. **Wrap an M4-style decision around your B-tier number.** The barkeep replies
    differently depending on what you offered — a generous amount, a fair amount,
    an insult. This is an `if` / `else if` / `else` chain living **inside** the
    loop.
-2. **Give one bad answer a second chance with `continue`.** If the player offers
-   more gold than they have, say so and `continue` back to the menu. In M4 a bad
-   answer ended the program. Here the loop hands them another turn. *That is the
-   seam this whole module is about.*
-3. **Add a fourth menu option that searches a sequence** — reuse the search you
-   wrote in Part 1, Exercise 3, as a real feature (rummaging a satchel, checking
-   a bounty list). Remember to widen your validation range from 1-3 to 1-4.
+3. **Give one bad answer a second chance with `continue`.** If the player offers
+   more gold than they actually have, say so and `continue` back to the menu.
 
-Carry at least one value — gold, reputation, hit points — **across** menu turns,
-so the loop has memory. Declare it before the `do`, not inside it.
+Read those three again as one sentence: *the program remembers what you have,
+decides what that is worth, and — when the answer is impossible — sends you back
+to try again.* In M4 an impossible answer ended the program. Here the loop hands
+the player another turn.
+
+**That is the seam, and it is the whole point of M5.** A tier is not "more
+features." It is this one idea, built properly.
 
 ### Badge — Show Your Work
 
@@ -377,7 +380,7 @@ hidden.*
 |---|---|---|
 | **C — core** | The core competency, demonstrated end to end; a complete, passing submission. | Part 1's three exercises correct; Part 2's menu read fully validated for **type and range**, re-prompting without spinning, exiting cleanly. |
 | **B — depth** | One added concept from the module, or a harder case of the first. | A **second** validated numeric read inside a menu action, bulletproofed the same way. |
-| **A — synthesis** | Concepts combined, or the taught case pushed further. | An M4-style decision wrapped **inside** the loop; one bad answer routed back with `continue`; a fourth menu action that searches a sequence; at least one value carried across menu turns. |
+| **A — synthesis** | Concepts combined, or the taught case pushed further. | The seam, built properly: a value carried **across** menu turns (declared before the `do`), an M4-style decision wrapped **inside** the loop, and one impossible answer routed back with `continue` for another turn. |
 | **Badge — above & beyond** | Documentation/reflection beyond the code. | A hand-completed trace table (4+ passes, including the stopping pass) **and** `prompts.md` with a short `for`-vs-`while` reflection. |
 
 ### The four-column scoring table
@@ -418,9 +421,15 @@ the lab, not in your idea. Tell your instructor.
   compiles clean, reads plausibly, and silently disables all validation. It
   cannot be caught by reading quickly — run test case 1 (`banana`) on every
   submission before anything else.
-- **Do not require array-search in Part 2 below A tier.** It is exercised in
-  Part 1 by every student at every tier; folding it into the game is the
-  synthesis ask, and the starter has no scaffold for it.
+- **Array-search is assessed once, in Part 1 — never required in Part 2, at any
+  tier.** An earlier draft of A tier asked students to add a fourth menu option
+  that searched a sequence. It was cut deliberately. Every student already writes
+  a search at C tier (Part 1, Exercise 3); requiring it again inside the game
+  made A tier tell *two* stories and cost more code than the seam itself. If a
+  student adds one anyway, it is a fine flourish — credit it under Correctness
+  like any working feature, but do not look for it and do not miss it.
+  `assess-reference.cpp` still demonstrates one, because a reference may exceed
+  the tier it exemplifies.
 - **Scope guard:** everything here is `while` / `do-while` / `for`, the `cin`
   fail-state idiom, and one fixed-size array walked by index. No functions (M6),
   no structs or array manipulation beyond iteration (M7), no file I/O (descoped,
