@@ -121,6 +121,35 @@ compiler said nothing.
 Whichever is chosen, **`learn.md` and `apply-tutorial.md` must be fixed together.** They make the same
 claim, and issue #14 was the last time these files were allowed to disagree about a compiler warning.
 
+## The gate itself has been running on the wrong compiler
+
+The reason this survived M4's certification is bigger than the claim: **this repo's compile gate has
+been running under Apple clang, not GCC.** `g++` on the build machine *is* clang. The course targets
+GCC/Ubuntu via Codespaces. Every "clean compile" certification to date was made against a compiler
+students do not use.
+
+Re-gated everything on this branch under GNU g++ 16.1.0, course flags:
+
+| Artifact set | Result |
+|---|---|
+| `_contracts/m4_gatekeeper.cpp`, `_contracts/m5_menu.cpp` | **both clean** — the frozen contracts survive the swap |
+| `modules/m4/code/` — 9 of 10 files | **clean** |
+| `modules/m4/code/practice-item5-fallthrough.cpp` | **WARNS** — `this statement may fall through [-Wimplicit-fallthrough=]` |
+
+So M4's certification very nearly survives: **one shipped code file** fails mechanical bar #1 on the
+real toolchain, and it is — consistently with everything above — the fall-through demo. It backs an
+M4 exit-ticket item, so this is not only prose: a student compiling that file in Codespaces gets a
+warning the course's own zero-warning rule calls a failed build.
+
+**Two consequences beyond fixing the file:**
+
+1. **The compile-warden should run GCC**, not whatever `g++` resolves to locally. Until it does, "gate
+   green" means "green on clang." Options: a `gcc:13` container, a CI job on `ubuntu-latest` (this repo
+   has **no CI at all** today), or requiring the warden to run in Codespaces.
+2. **M5 has not been re-checked.** Its sources live on `module/m5-deep` (PR #20) and were not on this
+   branch, so they were never compiled under GCC here. M5 is **Built-not-Ready** and its cohort round
+   is still ahead of it — re-gating it under GCC belongs in that round, before certification, not after.
+
 ## Verification status
 
 Confirmed locally on **GNU g++ 16.1.0** (Homebrew) and **Apple clang 21.0.0**. Still worth confirming
