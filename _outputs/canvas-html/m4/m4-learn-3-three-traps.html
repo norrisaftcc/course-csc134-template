@@ -1,0 +1,123 @@
+<!-- compositor: M4 · learn -->
+<!-- SOURCE: modules/m4/learn.md (Three Traps, Named Out Loud → Next Steps) — build output, do not hand-edit. -->
+<!-- Part 3 of the M4 Learn series. See _lore/findings/F-009 re: the fall-through warning claim below. -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+<p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 04 &middot; Reading 3 of 3</p>
+<p style="margin:0 0 1.4rem;font-size:1.1rem;">Three classic decision bugs. This course does not spring traps on you as gotchas — we name them here, out loud, so that when one bites in lab you recognize it instead of losing an afternoon.</p>
+<hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+<p style="margin:0 0 1.6rem;">All three are <strong>Logic</strong> errors: the program did exactly what you said, not what you meant. That is what makes them worth naming. A Syntax error stops you at the door and tells you so. These let you all the way in and then quietly hand you the wrong answer.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Trap 1: one equals sign instead of two</h2>
+
+<p style="margin:0 0 .6rem;">One equals sign <strong>assigns</strong>. Two equals signs <strong>compare</strong>. Inside an if, you almost always want two.</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">if (strength = 70)   // BUG: this ASSIGNS 70 to strength, then the if is "true"</pre>
+
+<p style="margin:0 0 1.6rem;">That line sets <strong>strength</strong> to 70 and then treats the result as true — so the branch runs <em>every time</em>, no matter what the player typed. The good news is that the compiler is watching. Under our build flags it prints <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">suggest parentheses around assignment used as truth value [-Wparentheses]</span> and even suggests the fix. That warning is exactly why this course compiles with <strong>-Wall -Wextra</strong> and demands zero warnings. Memory hook: <em>one equals gives, two equals asks.</em></p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Trap 2: switch fall-through</h2>
+
+<p style="margin:0 0 .6rem;">Every case needs its own <strong>break;</strong>. Forget it, and the program keeps running straight into the <em>next</em> case.</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">switch (characterClass)
+{
+    case 1:
+        cout &lt;&lt; "\"A Warrior.\"\n";
+        // BUG: no break here!
+    case 2:
+        cout &lt;&lt; "\"A Mage.\"\n";
+        break;
+    ...
+}</pre>
+
+<p style="margin:0 0 1.2rem;"><strong>Predict first.</strong> The player is class <strong>1</strong> — a Warrior. What prints? Decide before you read on.</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">"A Warrior."
+"A Mage."</pre>
+
+<p style="margin:0 0 1.2rem;">Both. With no <strong>break</strong> after case 1, control "falls through" into case 2 and runs it too. One player, two identities, no complaint from anybody.</p>
+
+<div style="border-left:2px solid #9A6700;padding-left:1rem;margin:0 0 1.6rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9A6700;">Caution</p>
+  <p style="margin:0;">This is the most dangerous of the three, and the reason is what the compiler <em>does not</em> say. On our compiler this produces <strong>no warning at all</strong> — it compiles clean and just does the wrong thing quietly. There is no red text to save you here; only your own testing will. Put a <strong>break;</strong> at the end of every case.</p>
+</div>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Trap 3: the dangling else</h2>
+
+<p style="margin:0 0 .6rem;">Without braces, an <strong>else</strong> pairs with the <strong>nearest</strong> if — not the one your indentation seems to point at.</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">if (strength &gt;= 40)
+    if (hasLockpick)
+        cout &lt;&lt; "Clever hands.\n";
+else                              // looks like it pairs with the OUTER if...
+    cout &lt;&lt; "Turned away.\n";     // ...but it actually pairs with the INNER if</pre>
+
+<p style="margin:0 0 1.6rem;">The indentation <em>suggests</em> the else belongs to the strength check. It does not. It binds to the lockpick check, the closest one. So a strong player <em>without</em> a lockpick prints "Turned away." — the opposite of what the layout implied. The indentation was a lie, and C++ never read it.</p>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.6rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Pro tip</p>
+  <p style="margin:0;">Braces on every if, else if, and else — always, even for a single line. It kills Trap 3 outright and makes Trap 1 easier to spot. It is the cheapest good habit in the module.</p>
+</div>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Putting it together</h2>
+
+<p style="margin:0 0 1.2rem;">You now have the whole M4 toolkit. An <strong>if / else if / else</strong> chain for ranges and thresholds, checked top to bottom and stopping at the first true branch. A <strong>switch</strong> with a <strong>default</strong> for matching one number against exact choices. Comparison operators to build a single condition, and <strong>&amp;&amp; || !</strong> to combine them. Nesting, to ask a follow-up question only when it makes sense. And three named traps that all show up as <strong>Logic</strong> errors.</p>
+
+<p style="margin:0 0 1.6rem;">That is exactly the gatekeeper. And the gatekeeper is exactly the diamond you have been drawing since M2 — now executable.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Common questions</h2>
+
+<p style="margin:0 0 .3rem;"><strong>"What if the user types a letter where I asked for a number?"</strong></p>
+<p style="margin:0 0 1.1rem;">Input reading stops and the variable keeps its old value — the stream enters a "fail state." That is a <strong>Runtime</strong> failure: the program ran, then fell over. M4 programs assume you typed a number; M5 is where you learn to loop until the input is valid. For now, test with good input and <em>name</em> the failure when you see it.</p>
+
+<p style="margin:0 0 .3rem;"><strong>"When do I use switch instead of else if?"</strong></p>
+<p style="margin:0 0 1.1rem;">Use <strong>switch</strong> when you are comparing <strong>one</strong> variable against a list of <strong>exact</strong> whole-number values — a menu, a class code. Use <strong>else if</strong> for ranges, and for conditions that mix different variables. You cannot switch on "70 or more"; a range is not an exact value.</p>
+
+<p style="margin:0 0 .3rem;"><strong>"Do I have to memorize all this syntax?"</strong></p>
+<p style="margin:0 0 1.1rem;">The shapes, yes — you will type them enough that they stick. The exact operator list, no; keep the tables from Readings 1 and 2 open while you work. Reading fluency matters more than recall.</p>
+
+<p style="margin:0 0 .3rem;"><strong>"Can I just ask AI to write the branches?"</strong></p>
+<p style="margin:0 0 1.6rem;">For <em>explaining</em> a branch you are stuck on, yes — that is a fine use of the AI ladder. But you will be graded on whether <em>you</em> can trace which branch runs and read the flowchart against the code. You cannot supervise code you cannot read, and Assess will ask you to read it. If you use AI, record it in your prompts file.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Check yourself</h2>
+
+<p style="margin:0 0 .8rem;"><strong>1. Trace it.</strong> In the Reading 1 program, the player types <strong>40</strong>. What prints?</p>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Answer</p>
+  <p style="margin:0;"><strong>Borderline. Answer my riddle and the gate is yours.</strong> — 40 is not 70 or more, but 40 <em>is</em> 40 or more, because the operator includes the number itself. So the middle branch runs.</p>
+</div>
+
+<p style="margin:0 0 .8rem;"><strong>2. Classify the error.</strong> A student writes a condition that assigns instead of compares. It compiles, with a warning, and the branch runs every single time. Which of the four error types is this — Syntax, Static semantic, Runtime, or Logic?</p>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Answer</p>
+  <p style="margin:0;"><strong>Logic.</strong> It compiled and it ran. It just did what was written — assign, always true — instead of what was meant. The warning is the compiler trying to save you from a Logic bug, which is a favour it does not usually do.</p>
+</div>
+
+<p style="margin:0 0 .8rem;"><strong>3. Recover the flowchart.</strong> Read the switch from Reading 2 and sketch its flowchart on paper: one entry, one diamond per class, and where <strong>default</strong> goes. This "code back to a diagram" move is graded later in the module, so practise it now.</p>
+
+<p style="margin:0 0 .6rem;">One valid shape, written as Mermaid — the notation you will be writing yourself:</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">flowchart TD
+    A([Read class]) --&gt; B{class == 1?}
+    B -- yes --&gt; W["A Warrior"]
+    B -- no --&gt; C{class == 2?}
+    C -- yes --&gt; M["A Mage"]
+    C -- no --&gt; D{class == 3?}
+    D -- yes --&gt; R["A Rogue"]
+    D -- no --&gt; X["default: unknown class"]</pre>
+
+<p style="margin:0 0 1.6rem;">A switch is really a stack of exact-match diamonds, with <strong>default</strong> as the final "none of these" exit. Seeing it drawn that way is also the clearest argument for always giving one.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Next steps</h2>
+
+<ol style="margin:0 0 1.4rem;padding-left:1.4rem;">
+  <li style="margin:0 0 .5rem;"><strong>Take the M4 exit ticket.</strong> It is short, low-stakes, and completion-gated — a few trace-which-branch and classify-the-error items just like Check Yourself above. It confirms you can read a decision before you write one.</li>
+  <li style="margin:0 0 .5rem;"><strong>Bring this reading to class for the Apply tutorial.</strong> You will draw the gatekeeper's flowchart first, then type the whole program in yourself, one compiling stage at a time — the same build you just read.</li>
+  <li style="margin:0;"><strong>Optional deeper dive:</strong> the thinkcpp chapter on conditionals, and the switch page on cppreference, if you want a second voice on the same ideas.</li>
+</ol>
+
+</div>

@@ -96,15 +96,34 @@ Resolved by making the boundary **visible prose** — "Decide your answer before
 rather than fake a widget. Note this means GitHub and Canvas render the same reading differently, and the
 Markdown remains the richer of the two.
 
-### F-008-6 — A Learn beat does not fit one Canvas page *(open: needs a ruling)*
+### F-008-6 — A Learn beat does not fit one Canvas page *(closed: multi-page series)*
 
 The tier-one budget is three to five breakouts. M4's reading carries ten-plus code blocks, two Mermaid
-diagrams, and two operator tables across 17KB — roughly three pages' worth. Composed as
-**Reading 1 of 3**; readings 2 and 3 are not yet built.
+diagrams, and two operator tables across 17KB — roughly three pages' worth.
 
-**Ruling needed:** are Learn beats a multi-page Canvas series (proposed split: the chain / `switch` and
-logical operators / the three traps), or does the budget bend for Learn? The budget was calibrated for a
-course with shorter readings, so this is a genuine fork rather than a mistake.
+**Ruling taken (norrisa, 2026-07-25): Learn beats become a multi-page Canvas series.** The budget does
+not bend. All three readings are built:
+
+| Page | Covers | Breakouts |
+|---|---|---|
+| `m4-learn-1-when-programs-fork.html` | why programs fork; if/else; the chain; comparison operators; the decision drawn | 5 |
+| `m4-learn-2-switch-and-combining.html` | `switch` and `default`; `&&` `\|\|` `!`; nesting and the whole gate | 5 |
+| `m4-learn-3-three-traps.html` | the three traps; wrap-up; common questions; check yourself | 5 |
+
+Each lands **exactly at the ceiling**, which is the evidence the split was necessary rather than
+tidy-minded: as one page it would have been three times over budget.
+
+Both Mermaid blocks in `learn.md` survive composition byte-for-byte, and the C++ extracted back out of
+Reading 2 is byte-identical to `modules/m4/code/learn-gate-class.cpp`, compiles clean, and reproduces
+both claimed outputs verbatim.
+
+**Pattern for later modules:** split at section boundaries the source already has, carry a `Reading N of
+M` kicker, and end each page with a *Next* gutter carrying a placeholder link to the following one. The
+series is a Canvas module sequence, not a single page with anchors — there are no anchors on tier one.
+
+One thing the split surfaced that a single page would have hidden: composing Reading 3 meant testing a
+factual claim about compiler silence, which turns out to be toolchain-dependent. See
+[[F-009-fallthrough-warning-claim-is-toolchain-dependent]].
 
 ### F-008-7 — The skill says never restate the rubric; the course says the opposite *(resolved toward the course)*
 
