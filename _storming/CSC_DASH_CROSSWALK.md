@@ -13,7 +13,7 @@
 | `user-story-practice.html` + data (10 exercises) | **Adapt 1–6; defer 7–10** | M2 Practice supplement |
 | Estimation / scrum / velocity tools & data | **Defer** | CTS-285/289 material, not 134 |
 | Engines: `random-engine`, `adaptive-engine`, `personalization`, `portfolio-generator` | **Defer (beta idea)** | Randomized exit-ticket variants, later |
-| `canvas-export.js` | **Defer** | LMS packaging is out of alpha scope |
+| `canvas-export.js` | **Defer** | LMS *packaging* is out of alpha scope. Note: Canvas **composition** entered scope via [[ADR-012]] (2026-07-25) as the `csc134-canvas-compositor` skill — a different concern. This export tool stays deferred. |
 | `ai-tools-guide/` (comparison, decision tree, prompt engineering) | **Adapt selectively** | AI ladder companion doc (spine open item #4) + M0 |
 
 ## The big one: the harvest format already exists

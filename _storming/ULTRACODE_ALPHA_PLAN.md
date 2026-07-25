@@ -13,7 +13,8 @@ Build the **alpha** of the CSC-134 course refresh:
 - **All nine modules (M0–M8) scaffolded**: module directory, README, module learning objectives, and an Assess spec stub each.
 - **M4 (Decisions) and M5 (Loops) built to full LPAA depth** — all four beats, assessed artifacts, rubrics — with the **M4→M5 seam demonstrated** (M5 material visibly builds on the M4 program, per the Make gradient).
 - **Dungeon theme is canon** for instructor-facing material. Student-side re-skinning is supported and used as a test (see §6).
-- Out of scope for alpha: M8 capstone content beyond its scaffold stub, multi-file projects, Canvas/LMS packaging, thinkcpp fork decisions.
+- Out of scope for alpha: M8 capstone content beyond its scaffold stub, multi-file projects, Canvas/LMS **packaging** (`canvas-export.js`, LMS API automation, course-package generation, term-rollover tooling), thinkcpp fork decisions.
+  - **Amended by [[ADR-012]] (2026-07-25):** Canvas **composition** — rendering module Markdown into sanitizer-safe Canvas HTML — is now **in** alpha scope, via the `csc134-canvas-compositor` skill. Packaging stays out. Composition produces the artifact an instructor pastes into a page; it ships nothing and automates no LMS API. Composed output is build output and lives in `_outputs/`, never in `modules/`.
 
 The alpha exists so humans can review a *calibration exemplar pair* before the remaining modules are built at depth.
 

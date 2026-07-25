@@ -1,0 +1,143 @@
+<!-- CSC 134 · compositor: M7 · apply · Canvas PAGE · build output, do not hand-edit in the RCE -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+  <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 07 &middot; Apply</p>
+  <p style="margin:0 0 1.4rem;font-size:1.1rem;">Your dungeon currently keeps its rooms in three separate arrays that have to stay in step with each other. Today we collapse them into one array of rooms. Most of the program is written below; one piece is yours.</p>
+  <hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+  <h2 style="margin:0 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">The problem with three arrays</h2>
+
+  <p style="margin:0 0 1rem;">Here is what you have been working with since Module 6. Three arrays, and the only thing tying them together is that you agreed to use the same index in all three:</p>
+
+  <figure style="margin:0 0 1.4rem;">
+    <pre style="margin:0;padding:1rem 1.1rem;background-color:#F4F6F7;color:#16191D;border:1px solid #DFE3E8;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.8rem;line-height:1.45;overflow-x:auto;">index:     0     1     2
+         ┌─────┬─────┬─────┐
+name     │Cave │Hall │Vault│
+         └─────┴─────┴─────┘
+         ┌─────┬─────┬─────┐
+gold     │  10 │   0 │ 250 │
+         └─────┴─────┴─────┘
+         ┌─────┬─────┬─────┐
+locked   │  0  │  0  │  1  │
+         └─────┴─────┴─────┘</pre>
+    <figcaption style="margin:.5rem 0 0;font-size:.85rem;color:#6B7280;">Figure 1. Three parallel arrays. Room 2 is the Vault: 250 gold, locked.</figcaption>
+  </figure>
+
+  <p style="margin:0 0 1.2rem;">Read it in columns, not rows. Column 2 is one room, spread across three arrays: the name in one, the gold in another, the locked flag in a third. The room does not exist anywhere as a single thing. It exists as an agreement about the number 2.</p>
+
+  <p style="margin:0 0 1.2rem;">Now insert a new room between the Cave and the Hall. You have to shift three arrays, identically, in the same direction, by the same amount. Miss one and the Hall's gold now belongs to a room it was never in. Your program still compiles. It still runs. It is simply wrong, quietly, and it will stay wrong until someone notices the numbers don't add up &mdash; that's a <strong>logic error</strong>, the fourth word in our taxonomy and the only one no tool will find for you.</p>
+
+  <p style="margin:0 0 1.4rem;">This is not a mistake you made. Parallel arrays were the right tool for Module 6, when the only thing you had was arrays. The pain you just read about is the reason the next tool exists.</p>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">One box per room</h2>
+
+  <p style="margin:0 0 1rem;">A <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">struct</span> lets you say that these three pieces of data are one thing:</p>
+
+  <figure style="margin:0 0 1.4rem;">
+    <pre style="margin:0;padding:1rem 1.1rem;background-color:#F4F6F7;color:#16191D;border:1px solid #DFE3E8;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.8rem;line-height:1.45;overflow-x:auto;">rooms[2]
+┌──────────────┐
+│ name   Vault │
+│ gold     250 │
+│ locked     1 │
+└──────────────┘</pre>
+    <figcaption style="margin:.5rem 0 0;font-size:.85rem;color:#6B7280;">Figure 2. The same room, as one record.</figcaption>
+  </figure>
+
+  <p style="margin:0 0 1.4rem;">Same three values, one box. Now there is exactly one array, the fields travel together, and inserting a room moves all three pieces at once because they were never apart. You cannot half-update a room any more &mdash; not because you got more careful, but because the shape of the data stopped allowing it. That is what picking a better structure buys you: not less typing, fewer ways to be wrong.</p>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Build it &mdash; one piece is yours</h2>
+
+  <p style="margin:0 0 .8rem;">Type this into <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">rooms.cpp</span>. It is complete except for the <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">TODO</span>, which is the part you write:</p>
+
+  <pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+const int ROOM_COUNT = 3;
+
+struct Room
+{
+    string name;
+    int gold;
+    bool locked;
+};
+
+int main()
+{
+    Room rooms[ROOM_COUNT];
+
+    rooms[0] = {"Cave", 10, false};
+    rooms[1] = {"Hall", 0, false};
+    rooms[2] = {"Vault", 250, true};
+
+    int totalGold = 0;
+
+    for (int i = 0; i &lt; ROOM_COUNT; i++)
+    {
+        cout &lt;&lt; i &lt;&lt; ": " &lt;&lt; rooms[i].name;
+
+        if (rooms[i].locked)
+        {
+            cout &lt;&lt; " (locked)";
+        }
+
+        cout &lt;&lt; " - " &lt;&lt; rooms[i].gold &lt;&lt; " gold" &lt;&lt; endl;
+
+        // TODO: add this room's gold to totalGold,
+        //       but only if the room is not locked.
+    }
+
+    cout &lt;&lt; "Reachable gold: " &lt;&lt; totalGold &lt;&lt; endl;
+
+    return 0;
+}</pre>
+
+  <p style="margin:0 0 .8rem;">The dot in <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">rooms[i].gold</span> is the only new punctuation on this page. Read it right to left: the gold, of the room, at index i. Build it with <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">g++ -std=c++17 -Wall -Wextra rooms.cpp -o rooms</span> and run it <em>before</em> you touch the TODO:</p>
+
+  <pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">0: Cave - 10 gold
+1: Hall - 0 gold
+2: Vault (locked) - 250 gold
+Reachable gold: 0</pre>
+
+  <p style="margin:0 0 1.4rem;">Zero warnings, and a wrong answer. There is gold in two rooms you can walk into, and the program says nothing is reachable. Nothing is broken in any way a tool can see &mdash; the total is zero because nobody ever added to it. Look at that last line and then look at the TODO: that gap is the entire bug. Fill it in, rebuild, and the number you are aiming for is <strong>10</strong>: the Cave's gold, plus the Hall's nothing, and not one coin from the locked Vault.</p>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .3rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#1F6F5C;"><span style="letter-spacing:normal;">--------{---(@</span> &nbsp;Haiku &middot; check-in</p>
+    <p style="margin:0 0 .35rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.55;">The numbering here is interesting. The rooms print as 0, 1, 2 &mdash; not 1, 2, 3 &mdash; because the index is where a thing sits, not which one it is. Change the <span style="font-weight:600;">cout</span> to print <span style="font-weight:600;">i + 1</span> and run it. The display should change; <span style="font-weight:600;">rooms[i]</span> must not. Mixing up those two is the most common way an array program goes wrong with the compiler saying nothing at all.</p>
+    <p style="margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#1F6F5C;">@)---}--------</p>
+  </div>
+
+  <div style="border-left:2px solid #9A6700;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9A6700;">Caution &mdash; the common one</p>
+    <p style="margin:0;">Most students who break this program break it by writing <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">rooms.gold[i]</span> instead of <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">rooms[i].gold</span>. The old habit is hard to shake, because in the parallel-array version the array name really did come first. This one the compiler <em>will</em> catch, and the error reads <em>request for member 'gold' in 'rooms', which is of non-class type 'Room [3]'</em>. Translated: you asked a whole array for a field, and only one room has fields. When you see <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">non-class type</span>, check the order of your brackets and your dot.</p>
+  </div>
+
+  <div style="background-color:#F4F6F7;color:#3C4149;border:1px solid #DFE3E8;border-radius:4px;padding:1rem 1.1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Before you start the lab</p>
+    <ul style="margin:0;padding:0;list-style:none;">
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>It builds with <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">-Wall -Wextra</span> and prints no warnings.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>My last line reads <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">Reachable gold: 10</span>.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I set the Vault's <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">locked</span> to <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">false</span>, reran it, got 260, and set it back.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I added a fourth room and changed <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">ROOM_COUNT</span> to match, and it still works.</span>
+      </li>
+      <li style="display:flex;margin:0;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I can say out loud what <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">rooms[i].gold</span> means, in that order.</span>
+      </li>
+    </ul>
+  </div>
+
+  <p style="margin:0;">The lab takes this further: your own rooms, a <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">Hero</span> that gets passed to a function, and a first look at what changes when the struct grows behaviour of its own &mdash; <a href="#LINK-PENDING-m7-lab1" style="color:#0374B5;">M7 Lab: Rooms and Heroes</a> <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#9A6700;">[LINK PENDING]</span>.</p>
+
+</div>
