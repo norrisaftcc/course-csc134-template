@@ -1,0 +1,77 @@
+name: Compile gate
+
+# Mechanical quality bar #1 — "every C++ block builds under
+# g++ -std=c++17 -Wall -Wextra with zero warnings and zero errors."
+#
+# This runs on ubuntu-latest because that is what students use (Codespaces).
+# It is deliberately NOT run on macOS: Apple clang does not enable
+# -Wimplicit-fallthrough under -Wextra, so a macOS gate reports clean on code
+# that warns for every student. That is not hypothetical — it happened, and it
+# shipped a warning into a module certified Ready.
+# See _lore/findings/F-009-fallthrough-warning-claim-is-toolchain-dependent.md
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    # THE DIALS. Run this manually from the Actions tab to turn any of them.
+    inputs:
+      fail_on_warning:
+        description: 'Treat a warning as a failure (the zero-warning rule)'
+        type: boolean
+        default: true
+      search_paths:
+        description: 'Where to look for .cpp files'
+        type: string
+        default: '_contracts modules'
+      compiler:
+        description: 'Compiler binary to gate with'
+        type: string
+        default: 'g++'
+
+jobs:
+  compile:
+    name: g++ -std=c++17 -Wall -Wextra
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record the toolchain
+        # Printed on every run on purpose. When a result surprises someone the
+        # first question is always "which compiler, which version?" — so the
+        # answer is in the log before anyone has to ask.
+        run: |
+          g++ --version
+          lsb_release -d || true
+
+      - name: Self-test — prove the gate can still fail
+        # A gate that cannot fail is not a gate. This compiles a fixture that is
+        # GUARANTEED to warn and asserts the script exits non-zero.
+        #
+        # This step exists because the first version of this workflow silently
+        # did not enforce: on pull_request and push, `inputs` is undefined, and
+        # in GitHub expressions `null == false` is TRUE — so the old
+        # `inputs.fail_on_warning == false && '0' || '1'` evaluated to '0' and
+        # the gate reported the real M4 warning, then passed anyway.
+        # Never trust a green gate that has not proved it can go red.
+        run: |
+          set -e
+          if FAIL_ON_WARNING=1 SEARCH_PATHS=.github/scripts/selftest \
+               bash .github/scripts/compile-gate.sh; then
+            echo "::error::Gate self-test FAILED — the gate passed a file that must warn."
+            echo "The gate is not enforcing. Treat every green run as unverified."
+            exit 1
+          fi
+          echo "Self-test OK: the gate correctly fails on a warning."
+
+      - name: Run the compile gate
+        env:
+          CXX: ${{ inputs.compiler || 'g++' }}
+          # Default HARD to enforcing. Only an explicit manual dispatch that
+          # deliberately unticked the box can relax it — see the self-test above
+          # for why this is written the long way round.
+          FAIL_ON_WARNING: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_warning == false) && '0' || '1' }}
+          SEARCH_PATHS: ${{ inputs.search_paths || '_contracts modules' }}
+        run: bash .github/scripts/compile-gate.sh
