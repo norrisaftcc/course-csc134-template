@@ -114,10 +114,18 @@ grow — harvest wrong-answer rates after the first run and append.
 - **The one flaw:** `case 1` has no `break`, so after printing the red line,
   control **falls through** into `case 2` and prints the blue line too. This trap
   is named in the reading — it is not a surprise.
-- **Why Logic:** The program compiles and runs with no complaint (on our
-  toolchain it produced **no** warning at all), and it does precisely what the
+- **Why Logic:** The program **builds and runs**, and it does precisely what the
   code literally says — it just is not what the author *meant*. Code that builds,
-  runs, and quietly does the wrong thing is the definition of a Logic error.
+  runs, and does the wrong thing is the definition of a Logic error.
+- **Warning vs. error — the point that decides this item.** On GCC (Codespaces)
+  the compiler *does* emit `warning: this statement may fall through
+  [-Wimplicit-fallthrough=]`. That does **not** change the answer, and the
+  distinction is worth being precise about with students: a **warning does not
+  stop the build**. The compiler produced a working program and then ran it; the
+  wrong output is real. An *error* would have produced no program at all — that
+  is what separates Syntax and Static semantic from Logic. The item's stem is
+  careful for this reason: it says the program "compiles and runs with no error
+  message," which is true on every toolchain.
 - **Per-distractor feedback:**
   - **A (Syntax)** — Nothing broke the grammar; it compiles. Syntax errors stop
     the compile with a message like "expected `;`."
@@ -128,8 +136,13 @@ grow — harvest wrong-answer rates after the first run and append.
     normally. It just prints an extra line.
   - *Fair-warning note for the instructor:* fall-through is taught by name in the
     Learn reading, so this is a comprehension check, not a gotcha. If a student
-    picks A or B because "the compiler should have caught it," that is the exact
-    misconception to correct — the compiler did **not** catch it here.
+    picks A or B because "the compiler should have caught it," **do not tell them
+    the compiler was silent** — on GCC it warns, and a student who has compiled
+    this themselves will know you are wrong. Their instinct is half right, and the
+    correction is the useful half: the compiler *did* say something, and it still
+    was not an error. It warned, produced a program anyway, and that program
+    printed the wrong thing. Syntax and Static semantic errors stop the build and
+    leave you with nothing to run. This one left you with a program that lies.
 
 ## Item 6 — Which line must change?
 - **Type:** Which-line-changes · **MLO:** 4.1 + 4.3 · **Source:** `code/practice-gatekeeper.cpp` (outcome block)
@@ -196,7 +209,10 @@ grow — harvest wrong-answer rates after the first run and append.
 - Item 3 / C: else-if order assumed not to matter.
 - Item 4 / D: belief that a `switch` with no matching case prints nothing even
   when a `default` exists.
-- Item 5 / A,B: belief that the compiler always catches a missing `break`.
+- Item 5 / A,B: conflating a **warning** with an **error**. GCC does warn about
+  the missing `break`, so a student who compiled it saw the compiler "catch" it —
+  and concluded the build must have failed. It did not: a warning still produces
+  a runnable program, which is what makes the result Logic rather than Syntax.
 - Item 6 / C: confusing "the branch a value currently lands in" with "the branch
   that gates the target outcome."
 - Item 7 / C: treating `if / else if` as interchangeable with separate `if`s.
@@ -216,7 +232,7 @@ Item 1   (no input)                        → Not enough gold. Come back richer
 Item 1.5 (no input)                        → You cast a minor spell.
 Item 4   (no input)                         → You walk into a wall.
 Item 5  (no input)                         → Red potion: +10 health.
-                                             Blue potion: +10 mana.   (fall-through; no warning emitted)
+                                             Blue potion: +10 mana.   (fall-through)
 Item 2  gatekeeper 1,55                    → A Warrior steps up. / Borderline. Answer the riddle to pass.
 Item 3  gatekeeper 3,50,1                  → A Rogue steps up. / Clever hands will do. You slip inside.
 Item 6  gatekeeper 1,65 (setup check)      → A Warrior steps up. / Borderline. Answer the riddle to pass.
