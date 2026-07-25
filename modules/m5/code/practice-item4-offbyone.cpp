@@ -1,7 +1,7 @@
-// practice-item3-offbyone.cpp — M5 exit ticket, Item 3 (spot the off-by-one)
+// practice-item4-offbyone.cpp — M5 exit ticket, Item 4 (spot the off-by-one)
 // The author wants all 10 levels (Level 1 through Level 10). This prints 1..9.
 // One flaw: the condition should be level <= 10, not level < 10. (Logic error.)
-// Build: g++ -std=c++17 -Wall -Wextra -o practice-item3-offbyone practice-item3-offbyone.cpp
+// Build: g++ -std=c++17 -Wall -Wextra -o practice-item4-offbyone practice-item4-offbyone.cpp
 #include <iostream>
 using namespace std;
 

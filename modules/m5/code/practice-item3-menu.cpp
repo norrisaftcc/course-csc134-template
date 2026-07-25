@@ -1,8 +1,8 @@
-// practice-menu.cpp — M5 exit ticket, Item 4 (trace the do/while menu)
+// practice-item3-menu.cpp — M5 exit ticket, Item 3 (trace the do/while menu)
 // THE M4->M5 SEAM, shrunk for reading: a decision (which action to run) now
 // lives INSIDE a do/while loop that keeps bringing the player back to the door.
 // The loop did not replace the decision — it wrapped it.
-// Build: g++ -std=c++17 -Wall -Wextra -o practice-menu practice-menu.cpp
+// Build: g++ -std=c++17 -Wall -Wextra -o practice-item3-menu practice-item3-menu.cpp
 #include <iostream>
 using namespace std;
 
