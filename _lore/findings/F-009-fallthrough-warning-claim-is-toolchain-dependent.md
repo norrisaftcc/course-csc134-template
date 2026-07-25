@@ -150,13 +150,28 @@ warning the course's own zero-warning rule calls a failed build.
    branch, so they were never compiled under GCC here. M5 is **Built-not-Ready** and its cohort round
    is still ahead of it — re-gating it under GCC belongs in that round, before certification, not after.
 
-## Verification status
+## Verification status — CLOSED, confirmed on the student toolchain
 
-Confirmed locally on **GNU g++ 16.1.0** (Homebrew) and **Apple clang 21.0.0**. Still worth confirming
-on **Codespaces / Ubuntu**, which ships an older GCC (12–14) and is the environment students actually
-use. `-Wimplicit-fallthrough` has been in `-Wextra` since GCC 7 and `-Wdangling-else` far longer, so
-the result is expected to hold — but "expected to hold" is exactly the reasoning this finding exists to
-punish. Handoff procedure: `_lore/findings/F-009-verification-procedure.md`.
+Verified on three compilers, including the one students actually use.
+
+**Codespaces, `g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0`** — run by a human tester against
+`F-009-verification-procedure.md`, transcript pasted into #25:
+
+| File | Warned? | Warning |
+|---|---|---|
+| fall-through | **yes** | `[-Wimplicit-fallthrough=]` |
+| dangling `else` | **yes** | `[-Wdangling-else]` |
+| mis-ordered chain (unreachable branch) | **no** | — |
+| off-by-one at the boundary | **no** | — |
+
+Identical to the local GNU g++ 16.1.0 results, so there is **no GCC version quirk** — the behaviour
+holds from 13 through 16. Apple clang 21 differs only on fall-through, as documented above.
+
+Both defects are therefore confirmed in the environment students work in, and — the load-bearing part —
+**both proposed replacement demos are confirmed silent there too.** The recommended fix (option 2,
+the mis-ordered chain) is validated on the target toolchain rather than inferred from it.
+
+That closes the verification question. What remains open is the content fix itself, tracked in #25.
 
 ## The general lesson
 
