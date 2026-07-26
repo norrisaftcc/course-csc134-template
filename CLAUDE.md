@@ -20,6 +20,21 @@ that fails any is not done.
    `g++ -std=c++17 -Wall -Wextra` with **zero warnings and zero errors**. Not
    "compiles with a note" — zero. Actually run it; never claim a clean compile
    you did not run.
+   **On GCC, and CI is the authority** (ADR-014). On macOS `g++` is Apple clang,
+   which does *not* enable `-Wimplicit-fallthrough` under `-Wextra` — so a local
+   "clean" can be a warning for every student. That is not hypothetical: it
+   shipped a warning inside a module certified Ready (F-009). Run the gate the
+   students' compiler runs: `bash .github/scripts/compile-gate.sh`, or read the
+   CI result. **Never assert compiler _silence_ from a macOS run** — quoting
+   output is safe, promising there was none is not.
+   **Fenced blocks count as artifacts** (ADR-015). A ` ```cpp ` block in Markdown
+   is not source — it is a view of a gated `.cpp`, and it must say so:
+   `source=<path>` for a whole file, `excerpt=<path>` for part of one. Matching is
+   exact text, comments included. There is no skip. Write the `.cpp` first, then
+   quote it; `bash .github/scripts/markdown-gate.sh` checks the rest. Broken-on-
+   purpose code is an `excerpt=` of a file marked `// GATE: EXPECT-WARNING` or
+   `EXPECT-ERROR` — assertions, not mutes: a marked file that stops misbehaving
+   fails. See `.github/scripts/README.md` for how the two gates compose.
 2. **10th-grade readability** on all student-facing prose (code excluded).
    Complexity lives in the *problem*, never in the sentence describing it. Linx
    owns the readability pass.

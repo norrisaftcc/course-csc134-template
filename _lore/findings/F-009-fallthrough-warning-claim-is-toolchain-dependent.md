@@ -5,7 +5,15 @@ description: M4 tells students two deliberate-break demos "compile clean". Confi
 
 # F-009 — Two M4 "compiles clean" claims are false under the course's own flags
 
-**Date:** 2026-07-25 · **Status:** **Confirmed** — needs a content fix (#25) · **Branch:** `phase0/canvas-compositor`
+**Date:** 2026-07-25 · **Status:** **Confirmed** — content fix landed (#25, PR #29) · **Found on:** `phase0/canvas-compositor`
+
+> **Landed separately, on purpose.** This finding was written during the Canvas compositor
+> session by accident of timing — it is not compositor work, and it was holding up nothing of
+> its own while sitting in that PR's draft. Meanwhile 31 references across 14 files on `main`
+> cited it: `CLAUDE.md`, both gate scripts, the CI workflow, ADR-014, ADR-015, F-010, F-013,
+> the instructor FAQ, and `modules/m4/apply-tutorial.md`. Every one of those links dangled.
+> Split out and merged on its own so the record matches the citations. See [[F-008]] and
+> [[ADR-012]] for the compositor work it was found alongside.
 **Found by:** composing M4 Learn Reading 3, while testing a factual claim before emitting it
 **Affects:** `modules/m4/learn.md` (Trap 2), `modules/m4/apply-tutorial.md` (The Deliberate Break, Break B)
 **Severity:** **major** — M4 is certified **Ready**, and both claims are load-bearing for their beat's lesson
