@@ -1,0 +1,122 @@
+<!-- CSC 134 · compositor: M2 · learn · Canvas PAGE · build output, do not hand-edit in the RCE -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+  <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 02 &middot; Reading</p>
+  <p style="margin:0 0 1.4rem;font-size:1.1rem;">A flowchart is a drawing of a decision. From here to the capstone you will draw one before you write the code, so this page covers the four shapes, one worked example with no programming in it at all, and the trick that makes a flowchart something you can keep in your repository instead of on a napkin.</p>
+  <hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+  <h2 style="margin:0 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Why draw first</h2>
+
+  <p style="margin:0 0 1.2rem;">"Bring an umbrella if it looks like rain" is a perfectly good sentence and a useless instruction. Looks like rain to whom? What if it is dry now and pouring by five? A person fills those gaps without noticing. A computer cannot fill them at all, and neither can an AI &mdash; it will just guess confidently.</p>
+
+  <p style="margin:0 0 1.2rem;">Drawing the decision forces you to say what happens in <em>every</em> case, because an unfinished branch is visibly unfinished. An arrow that goes nowhere is obvious on paper. The same gap buried in thirty lines of code is not.</p>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Four shapes</h2>
+
+  <ul style="margin:0 0 1.2rem;padding-left:1.4rem;">
+    <li style="margin:0 0 .4rem;"><strong>Rounded box</strong> &mdash; where the process starts or stops.</li>
+    <li style="margin:0 0 .4rem;"><strong>Rectangle</strong> &mdash; do something. One action per box.</li>
+    <li style="margin:0 0 .4rem;"><strong>Diamond</strong> &mdash; ask a question with a yes-or-no answer. Two arrows leave it, labelled.</li>
+    <li style="margin:0;"><strong>Arrow</strong> &mdash; what happens next. Arrows carry the order; the boxes only carry the work.</li>
+  </ul>
+
+  <p style="margin:0 0 1.2rem;">That is the entire notation. The diamond is the one that matters this term, because a diamond is exactly what an <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">if</span> statement is going to be in two modules' time.</p>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">A flowchart with no code in it</h2>
+
+  <p style="margin:0 0 1rem;">Here is the umbrella problem, decided properly. Read the spine down the left; each question sends you sideways or sends you further down.</p>
+
+  <figure style="margin:0 0 1.4rem;">
+    <pre style="margin:0;padding:1rem 1.1rem;background-color:#F4F6F7;color:#16191D;border:1px solid #DFE3E8;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.8rem;line-height:1.45;overflow-x:auto;">┌────────────────────┐
+│ Check the weather  │
+└─────────┬──────────┘
+┌─────────┴──────────┐
+│ Raining now?       │
+└──┬──────────────┬──┘
+   │no         yes│
+   │       ┌──────┴───────┐
+   │       │ Take umbrella│
+   │       └──────────────┘
+┌──┴─────────────────┐
+│ Rain in forecast?  │
+└──┬──────────────┬──┘
+   │no         yes│
+   │       ┌──────┴───────┐
+   │       │ Take a jacket│
+   │       └──────────────┘
+┌──┴─────────────────┐
+│ Take nothing       │
+└────────────────────┘</pre>
+    <figcaption style="margin:.5rem 0 0;font-size:.85rem;color:#6B7280;">Figure 1. Deciding what to carry, as a chain of questions.</figcaption>
+  </figure>
+
+  <p style="margin:0 0 1.2rem;">In words: check the weather, then ask whether it is raining right now. If it is, take the umbrella and you are done. If it is not, ask whether rain is forecast. If it is, take a jacket and you are done. If it is not, take nothing. Three ways out, and every question has both of its answers accounted for. That last part is the whole discipline.</p>
+
+  <p style="margin:0 0 1.2rem;">Notice the shape: each <em>yes</em> hangs off to the right and ends there, while the <em>no</em> path continues straight down. That is not decoration. It is what a chain of decisions looks like when the strictest question comes first, and it is the shape your gatekeeper program will have in Module 4.</p>
+
+  <p style="margin:0 0 .8rem;">Now the same diagram, written as text:</p>
+
+  <pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">```mermaid
+flowchart TD
+    A([Check the weather]) --&gt; B{Raining now?}
+    B -- yes --&gt; C[Take umbrella]
+    B -- no --&gt; D{Rain in forecast?}
+    D -- yes --&gt; E[Take a jacket]
+    D -- no --&gt; F[Take nothing]
+```</pre>
+
+  <p style="margin:0 0 1.2rem;">Six lines of text, and they mean the same thing as the picture above. Round brackets make a rounded box, square brackets a rectangle, curly braces a diamond, and <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">--&gt;</span> is an arrow. The words after the dashes are the branch labels. This is called Mermaid, and it is the reason your flowcharts are going to live in your repository next to your code: put that block in a <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">.md</span> file, push it, and GitHub draws the picture for you.</p>
+
+  <p style="margin:0 0 1.4rem;">Which means <strong>a diagram is code</strong>. It gets committed, it shows up in a diff when you change it, and it can never be lost in a bag or left on a whiteboard. Every plan you hand in this term is a Mermaid block.</p>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .3rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#1F6F5C;"><span style="letter-spacing:normal;">--------{---(@</span> &nbsp;Haiku &middot; check-in</p>
+    <p style="margin:0 0 .35rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.55;">You may find it interesting to see whether GitHub draws what you actually meant. Put your own flowchart in a <span style="font-weight:600;">.md</span> file, push it, and look at it on the website. If the picture surprises you, your text was ambiguous somewhere &mdash; and being surprised by your own instructions is the entire reason this module exists. Do this before you trust any diagram you wrote.</p>
+    <p style="margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#1F6F5C;">@)---}--------</p>
+  </div>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Pseudocode: the same plan in sentences</h2>
+
+  <p style="margin:0 0 .8rem;">A flowchart is good at showing shape and bad at holding detail. Pseudocode is the opposite: plain sentences, indented to show what belongs inside what, with no attention paid to any real language's punctuation.</p>
+
+  <pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">check the weather
+
+if it is raining now
+    take the umbrella
+else if rain is in the forecast
+    take a jacket
+else
+    take nothing</pre>
+
+  <p style="margin:0 0 1.4rem;">No semicolons, no braces, nothing to compile. And yet the indentation is already doing the job that curly braces will do in C++, and <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">if</span> / <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">else if</span> / <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">else</span> are already in the right order. Use the flowchart to find the shape, then the pseudocode to pin down the detail, then write the code. Three passes, each one cheaper to fix than the next.</p>
+
+  <div style="background-color:#F4F6F7;color:#3C4149;border:1px solid #DFE3E8;border-radius:4px;padding:1rem 1.1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Before you move on</p>
+    <ul style="margin:0;padding:0;list-style:none;">
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I can name what each of the four shapes is for without looking.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I typed a Mermaid block into a <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">.md</span> file, pushed it, and saw GitHub draw it.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>Every diamond in my own flowchart has two labelled arrows leaving it &mdash; I checked each one.</span>
+      </li>
+      <li style="display:flex;margin:0;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I can point at one line of my pseudocode and say which box in my flowchart it came from.</span>
+      </li>
+    </ul>
+  </div>
+
+  <p style="margin:0 0 1.4rem;">Next you will read a working program and describe what it does in plain language, then draw its flowchart from the outside: <a href="#LINK-PENDING-m2-describe-lab" style="color:#0374B5;">Describe a Program</a> <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#9A6700;">[LINK PENDING]</span>. You are not writing C++ yet. You are reading it.</p>
+
+  <div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Instructor &middot; out of character</p>
+    <p style="margin:0;">People skip the drawing because it feels like the part that isn't real work. I skipped it for years. What changed my mind was counting how long I spent fixing programs whose logic I had never actually decided &mdash; the drawing takes four minutes and it is the cheapest debugging you will ever do. If you try it for two assignments and it genuinely doesn't help you, tell me and we'll talk about it. Just try it twice first.</p>
+  </div>
+
+</div>

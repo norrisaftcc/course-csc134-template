@@ -116,6 +116,10 @@ silent edit. See `_contracts/README.md`.
   in particular its issue-first / feature-branch student workflow is superseded
   by ADR-004 (below). This root file governs.
 - `_tracking/` — the machine-readable course manifest.
+- `_outputs/` — **generated artifacts, not ground truth** (ADR-012). Composed Canvas
+  HTML lands here, never in `modules/`. Never hand-edit a file in `_outputs/`: edit the
+  Markdown source and re-emit, or the change is lost on the next build — after surviving
+  just long enough to be believed. Committed so formatting churn is reviewable in a diff.
 - Module deliverables land in per-module folders as the skeleton pass defines
   them.
 
@@ -161,6 +165,7 @@ deliberately does not inline.
 | Assess (lab) | `lab-creator` |
 | Rubric | `rubric-converter` (builds on the four columns) |
 | Voice / philosophy on any content | `course-content-writer` |
+| Canvas page / assignment HTML | `csc134-canvas-compositor` (ADR-012; output to `_outputs/`, never `modules/`) |
 
 When in doubt: the spine decides *what*, the contracts fix the *shapes*, the
 skills carry the *how*, and this file holds the *invariants*.

@@ -1,0 +1,137 @@
+<!-- compositor: M4 · learn -->
+<!-- SOURCE: modules/m4/learn.md (Many exact matches: switch → Nested conditions and the whole gate) — build output, do not hand-edit. -->
+<!-- Part 2 of the M4 Learn series. -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+<p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 04 &middot; Reading 2 of 3</p>
+<p style="margin:0 0 1.4rem;font-size:1.1rem;">Reading 1 gave you one tool: a chain that checks ranges top to bottom. This page adds the other two — a cleaner way to match exact values, and a way to require two things at once.</p>
+<hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Many exact matches: switch</h2>
+
+<p style="margin:0 0 1.2rem;">A chain of else-ifs comparing the <em>same</em> variable against a list of <em>exact</em> values gets noisy fast. When you are matching one whole number against fixed choices — a menu, a class number — <strong>switch</strong> says it more cleanly. The gatekeeper's first question is exactly this shape.</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">// learn-gate-class.cpp — Stage B
+#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+    int characterClass = 0;   // 1 = Warrior, 2 = Mage, 3 = Rogue
+    cout &lt;&lt; "Your class? (1 = Warrior, 2 = Mage, 3 = Rogue): ";
+    cin &gt;&gt; characterClass;
+
+    switch (characterClass)
+    {
+        case 1:
+            cout &lt;&lt; "\"A Warrior. Strong arms, I hope.\"\n";
+            break;
+        case 2:
+            cout &lt;&lt; "\"A Mage. A sharp mind, I hope.\"\n";
+            break;
+        case 3:
+            cout &lt;&lt; "\"A Rogue. Hands where I can see them.\"\n";
+            break;
+        default:
+            cout &lt;&lt; "\"I do not know that class. Off you go.\"\n";
+    }
+
+    return 0;
+}</pre>
+
+<p style="margin:0 0 .6rem;">Compile it and type <strong>2</strong>. The prompt and the answer land on the same line, because your keystroke echoes where the cursor already is:</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">Your class? (1 = Warrior, 2 = Mage, 3 = Rogue): "A Mage. A sharp mind, I hope."</pre>
+
+<p style="margin:0 0 .6rem;">Now run it again and type something the switch has never heard of — <strong>9</strong>. It does not crash, and it does not silently do nothing:</p>
+
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">Your class? (1 = Warrior, 2 = Mage, 3 = Rogue): "I do not know that class. Off you go."</pre>
+
+<p style="margin:0 0 1.2rem;">Three parts to notice. <strong>case 1:</strong> is the value to match — with a colon, not a semicolon. <strong>break;</strong> stops the switch so it does not keep running into the next case. And <strong>default:</strong> is the catch-all when nothing matched — the gatekeeper's answer for a class she does not recognize.</p>
+
+<p style="margin:0 0 1.6rem;"><strong>Always give a switch a default.</strong> It is the safety net for input you did not plan for, and an unknown answer ending the program with a clear sentence is <em>correct behavior</em>, not a crash. Hold onto that <strong>break;</strong> — it comes back as Trap 2 in Reading 3.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Combining conditions: &amp;&amp;, ||, !</h2>
+
+<p style="margin:0 0 1rem;">Sometimes one comparison is not enough. A middling Rogue can still slip through <em>if she is strong enough</em> <strong>and</strong> <em>she brought a lockpick</em>. Two conditions, both required. That is what these three operators are for.</p>
+
+<div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;margin:0 0 1.2rem;font-size:.95rem;">
+    <tbody>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">&amp;&amp;</td>
+        <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;"><strong>AND</strong> &mdash; true only when <strong>both</strong> sides are true</td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">||</td>
+        <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;"><strong>OR</strong> &mdash; true when <strong>at least one</strong> side is true</td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">!</td>
+        <td style="padding:.5rem 0;"><strong>NOT</strong> &mdash; flips true to false</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">// Both must be true:
+if (strength &gt;= 40 &amp;&amp; hasLockpick)
+
+// At least one is enough:
+if (characterClass == 1 || characterClass == 2)
+
+// Flip it — true when NOT locked:
+if (!isLocked)</pre>
+
+<div style="border-left:2px solid #9A6700;padding-left:1rem;margin:0 0 1.6rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9A6700;">Caution</p>
+  <p style="margin:0;">You cannot write <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">if (strength &gt;= 40 &amp;&amp; &gt;= 70)</span>. Each side of &amp;&amp; must be a complete condition with its own variable: <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">if (strength &gt;= 40 &amp;&amp; strength &lt;= 70)</span>. Leaving out that second <strong>strength</strong> is a <strong>Static semantic</strong> error — the grammar is fine, the meaning is impossible — and the program will not compile until you fix it.</p>
+</div>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Nested conditions, and the whole gate</h2>
+
+<p style="margin:0 0 1.2rem;">"Nested" just means one decision lives <em>inside</em> another. Only a Rogue is even asked about a lockpick, so that question sits inside the check for who you are. Here is the full scene, putting the switch, the nesting, the compound condition, and the outcome chain together.</p>
+
+<p style="margin:0 0 1.2rem;"><strong>Predict first.</strong> The player is a <strong>Rogue</strong>, strength <strong>55</strong>, and answers <strong>1</strong> — yes, they have a lockpick. Which single line of outcome prints? Decide before you read past the code.</p>
+
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">// learn-gate-full.cpp — Stage C (abridged; full file in code/)
+    bool hasLockpick = false;
+    if (characterClass == 3)          // nested: only a Rogue is asked
+    {
+        int answer = 0;               // 1 = yes, anything else = no
+        cout &lt;&lt; "Do you carry a lockpick? (1 = yes, 0 = no): ";
+        cin &gt;&gt; answer;
+        hasLockpick = (answer == 1);
+    }
+
+    if (strength &gt;= 70)
+    {
+        cout &lt;&lt; "The gate swings wide. Go through.\n";
+    }
+    else if (strength &gt;= 40 &amp;&amp; hasLockpick)   // compound: BOTH must be true
+    {
+        cout &lt;&lt; "Not strong, but those clever hands might do.\n";
+    }
+    else if (strength &gt;= 40)
+    {
+        cout &lt;&lt; "Borderline. Answer my riddle and the gate is yours.\n";
+    }
+    else
+    {
+        cout &lt;&lt; "Too weak, and no trick to make up for it. Turned away.\n";
+    }</pre>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Have your answer? Read on.</p>
+  <p style="margin:0 0 .5rem;">It prints: <strong>Not strong, but those clever hands might do.</strong></p>
+  <p style="margin:0;">Walk it. 55 is not 70 or more, so the first branch is skipped. Then 55 is 40 or more <strong>and</strong> the lockpick is true — so the whole compound is true and this branch wins. The chain stops there; the plain 40-or-more branch below never gets a look. Change that answer to <strong>0</strong> and the lockpick half fails, so the compound fails, and the <em>next</em> branch — the riddle — runs instead. Same strength, different ending, because of one condition. That is the whole point of M4.</p>
+</div>
+
+<p style="margin:0 0 1.4rem;">Notice the order, because it is the trap hiding in plain sight: the lockpick branch sits <strong>above</strong> the plain 40-or-more branch. Flip those two and a Rogue with a lockpick would match the plain branch first and never reach the shortcut. A branch that can never run is a <strong>Logic</strong> error, not a style nit. The complete runnable program is <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">modules/m4/code/learn-gate-full.cpp</span>.</p>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Next</p>
+  <p style="margin:0;">Reading 3 names the three classic decision traps out loud — before they bite. <a href="#LINK-PENDING-m4-learn-3" style="color:#0374B5;">Continue to Reading 3</a> <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#9A6700;">[LINK PENDING]</span></p>
+</div>
+
+</div>

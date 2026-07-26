@@ -1,0 +1,127 @@
+<!-- CSC 134 · M1 · Canvas PAGE · build output, do not hand-edit in the RCE -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+  <p style="margin:0 0 .35rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 01 &middot; Reading</p>
+  <h2 style="margin:0 0 .6rem;font-size:1.65rem;line-height:1.2;color:#16191D;">Talk to Computers (and Your Team)</h2>
+  <p style="margin:0 0 1.4rem;font-size:1.1rem;">You will not write any C++ this week. First you need a way to write things down that a computer, a teammate, and an AI can all read without arguing about it. That format is plain text. This page gets you set up to use it.</p>
+  <hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+  <p style="margin:0 0 1.2rem;">Every file you turn in this term is a plain text file. Your programs are plain text. Your notes are plain text. Your flowcharts, later on, are plain text that gets drawn into a picture. This is not a rule I made up to be difficult. It is the reason two people can work on the same program at the same time and see exactly what changed.</p>
+
+  <h3 style="margin:1.8rem 0 .6rem;font-size:1.15rem;line-height:1.3;color:#16191D;">Why not Word?</h3>
+
+  <p style="margin:0 0 1.2rem;">A Word document is not text. It is a zip file full of formatting instructions with your words buried inside. A compiler opening it sees garbage. So this term you use VS Code, which is an editor for text and nothing else. It looks plainer than Word because it is doing less, on purpose.</p>
+
+  <div style="border-left:2px solid #9A6700;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9A6700;">Caution</p>
+    <p style="margin:0;">Do not draft code in Word or Google Docs and paste it over. Both of them silently change straight quotes (<span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">"</span>) into curly quotes (<span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">&ldquo;</span>), and a compiler will not accept a curly quote. This is one of the most common ways a first program fails for a reason that has nothing to do with programming.</p>
+  </div>
+
+  <h3 style="margin:1.8rem 0 .6rem;font-size:1.15rem;line-height:1.3;color:#16191D;">The markup ladder</h3>
+
+  <p style="margin:0 0 1rem;">Plain text on its own has no headings, no bold, no links. People fixed that three times, each fix a step up from the last:</p>
+
+  <ol style="margin:0 0 1.2rem;padding-left:1.4rem;">
+    <li style="margin:0 0 .5rem;"><strong>.txt</strong> &mdash; just characters. Universal, and completely unstructured.</li>
+    <li style="margin:0 0 .5rem;"><strong>.md</strong> &mdash; Markdown. A few punctuation marks stand for structure. A <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">#</span> is a heading; a <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">-</span> is a bullet. Still readable if nothing renders it.</li>
+    <li style="margin:0;"><strong>.html</strong> &mdash; every piece of structure spelled out in tags. Total control, much more typing, unpleasant to read raw.</li>
+  </ol>
+
+  <p style="margin:0 0 1.2rem;">Markdown is the middle rung, and the middle rung is where the work happens. It is structured enough to be useful and plain enough that you can read it with no tools at all.</p>
+
+  <div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Note</p>
+    <p style="margin:0;">Markdown was a small niche format for about a decade. Then chat-based AI tools arrived, and every one of them reads and writes Markdown by default, because it carries structure in characters a language model already handles well. Learning it is no longer just a submission requirement. It is how you talk to those tools.</p>
+  </div>
+
+  <p style="margin:0 0 .8rem;">Here is a whole Markdown file. That is all there is to it:</p>
+
+  <pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;"># CSC 134 &mdash; Alex Rivera
+
+My repository for C++ Programming.
+
+## What is in here
+
+- `module-00/` &mdash; setup and first program
+- `module-01/` &mdash; this README, and the sandwich
+
+I am using **Codespaces**, not a local install.</pre>
+
+  <p style="margin:0 0 1.2rem;">Four kinds of structure in nine lines: two headings, a list, bold text, and code formatting on the folder names. You already know enough Markdown to write your own.</p>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#1F6F5C;">Source document</p>
+    <p style="margin:0;"><a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" style="color:#0374B5;">GitHub's basic writing and formatting syntax</a> &mdash; the reference we use all term. Keep it open in a tab while you write your README; do not memorize it.</p>
+  </div>
+
+  <h3 style="margin:1.8rem 0 .6rem;font-size:1.15rem;line-height:1.3;color:#16191D;">How your work gets to me</h3>
+
+  <p style="margin:0 0 1rem;">You do not email me files and I do not download attachments. Your repository on GitHub is the submission. Four moves, in this order, every time you sit down to work:</p>
+
+  <p style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.78rem;color:#6B7280;margin:0 0 1rem;">Participants: You &middot; Your computer &middot; GitHub</p>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 .9rem;">
+    <p style="margin:0 0 .2rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.74rem;color:#1F6F5C;">01 &nbsp;GitHub &rarr; Your computer</p>
+    <p style="margin:0;"><strong>Pull.</strong> Bring down anything that changed since last time &mdash; new starter files from me, or your own work from a different machine. Do this <em>before</em> you edit anything.</p>
+  </div>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 .9rem;">
+    <p style="margin:0 0 .2rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.74rem;color:#1F6F5C;">02 &nbsp;You &rarr; Your computer</p>
+    <p style="margin:0;"><strong>Edit and save.</strong> Normal work. Nothing has been recorded yet; saving a file is not a submission.</p>
+  </div>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 .9rem;">
+    <p style="margin:0 0 .2rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.74rem;color:#1F6F5C;">03 &nbsp;You &rarr; Your computer</p>
+    <p style="margin:0;"><strong>Commit.</strong> Take a snapshot and write one line saying what changed. <em>Add sandwich steps 1&ndash;6</em> is a commit message. <em>stuff</em> is not.</p>
+  </div>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .2rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.74rem;color:#1F6F5C;">04 &nbsp;Your computer &rarr; GitHub</p>
+    <p style="margin:0;"><strong>Push.</strong> Send your commits up. Now it exists somewhere other than your laptop, and now I can see it.</p>
+  </div>
+
+  <p style="margin:0 0 .8rem;">Skipping step 01 is what causes the first error most people hit. If you edit on GitHub's website and then push from your computer, the two disagree and GitHub refuses the push:</p>
+
+  <pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;"> ! [rejected]        main -&gt; main (fetch first)
+error: failed to push some refs
+hint: Updates were rejected because the remote
+hint: contains work that you do not have locally.</pre>
+
+  <p style="margin:0 0 1.4rem;">Nothing is broken and nothing is lost. It is telling you to pull first, then push again. You will see this message several times this term, and after the second time it stops being alarming.</p>
+
+  <div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Instructor &middot; out of character</p>
+    <p style="margin:0;">Setup week is the week people quietly decide they are not cut out for this. Fighting an account, a permission, or a piece of software is not a measure of whether you can program &mdash; it is a measure of how many undocumented steps someone left out. If you lose more than half an hour to setup, stop and message me or come to office hours. I would much rather unstick you in five minutes than have you spend the weekend on it.</p>
+  </div>
+
+  <h3 style="margin:1.8rem 0 .6rem;font-size:1.15rem;line-height:1.3;color:#16191D;">Before you move on</h3>
+
+  <div style="background-color:#F4F6F7;color:#3C4149;border:1px solid #DFE3E8;border-radius:4px;padding:1rem 1.1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Setup checklist</p>
+    <ul style="margin:0;padding:0;list-style:none;">
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I have a GitHub account, and I have sent my username in.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I can open my course repository and see a list of files in it.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I know which setup I am using this term &mdash; Codespaces in a browser, or VS Code installed on my own machine.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>My <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">README.md</span> has my name, at least one heading, and at least one list.</span>
+      </li>
+      <li style="display:flex;margin:0;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I have pushed at least one commit, and I can see my own words on the GitHub website in a browser.</span>
+      </li>
+    </ul>
+  </div>
+
+  <p style="margin:0;">When all five are ticked, go do the <a href="#LINK-PENDING-m1-robot-sandwich" style="color:#0374B5;">Robot Sandwich</a> <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#9A6700;">[LINK PENDING]</span>. It is the first thing you hand in, and there is still no code in it.</p>
+
+</div>

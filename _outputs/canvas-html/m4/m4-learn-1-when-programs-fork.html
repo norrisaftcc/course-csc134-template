@@ -1,0 +1,164 @@
+<!-- compositor: M4 · learn -->
+<!-- SOURCE: modules/m4/learn.md (Why This Matters → A decision, drawn) — build output, do not hand-edit. -->
+<!-- Part 1 of the M4 Learn series. The reading exceeds the tier-one breakout budget as one page; see _lore/findings/F-008. -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+<p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 04 &middot; Reading 1 of 3</p>
+<p style="margin:0 0 1.4rem;font-size:1.1rem;">Every program you have written so far runs the same way no matter what the user types. This is where that changes — where the diamonds you have been drawing since M2 become code that actually forks.</p>
+<hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+<p style="margin:0 0 1.4rem;">By the end of this page you will be able to <strong>trace</strong> which branch of an if / else if / else chain runs for a given input, <strong>build</strong> a condition out of comparison operators, and <strong>read</strong> a decision flowchart against the code that came from it.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Why this matters</h2>
+
+<p style="margin:0 0 1.2rem;">In M3, every program was one straight path from the top of main to the bottom. Read some input, do some math, print the result. Useful, but a little dumb — the program never <em>chose</em> anything.</p>
+
+<p style="margin:0 0 1.2rem;">This is also where the course starts talking about <strong>filters</strong>: conditionally processing input, letting some values through and turning others away. That idea runs all the way up to your capstone, and you will meet it again in every language you touch in a four-year program. The keywords change; the fork does not.</p>
+
+<p style="margin:0 0 1.6rem;">Our running scene is a dungeon gatekeeper. She stands at a door, sizes you up, and decides whether you get through — a filter with a story wrapped around it. The scene reskins cleanly: a nightclub bouncer checking IDs, a loan officer reading an application, an airport gate agent. The decisions stay exactly the same. If you swap the story and the logic breaks, the story was welded on too tight. It should peel off like a sticker.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">One fork: if / else</h2>
+
+<p style="margin:0 0 .6rem;">The simplest decision does one thing when a condition is true and another when it is false.</p>
+
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">if (strength &gt;= 70)
+{
+    cout &lt;&lt; "The gate swings wide.\n";
+}
+else
+{
+    cout &lt;&lt; "Turned away.\n";
+}</pre>
+
+<p style="margin:0 0 1.6rem;">The thing in the parentheses is a <strong>condition</strong> — an expression that is either true or false. If it is true, the first block runs. Otherwise the else block runs. Exactly one of them runs, never both.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">The gatekeeper measures you: if / else if / else</h2>
+
+<p style="margin:0 0 1.2rem;">Two outcomes are rarely enough. The gatekeeper has three answers ready — pass, maybe, and no — depending on how strong you are. You chain the checks with else if.</p>
+
+<p style="margin:0 0 1.2rem;"><strong>Predict first.</strong> Read this complete program. If the player types <strong>55</strong>, what prints? Decide your answer before you read past the program — the whole skill this module builds is being able to say what a branch will do <em>before</em> you run it.</p>
+
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">// learn-gate-strength.cpp — Stage A
+#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+    int strength = 0;                 // a whole number, 0 to 100
+    cout &lt;&lt; "Your strength score (0-100): ";
+    cin &gt;&gt; strength;
+
+    if (strength &gt;= 70)
+    {
+        cout &lt;&lt; "The gate swings wide. Go through.\n";
+    }
+    else if (strength &gt;= 40)
+    {
+        cout &lt;&lt; "Borderline. Answer my riddle and the gate is yours.\n";
+    }
+    else
+    {
+        cout &lt;&lt; "Too weak. Turned away.\n";
+    }
+
+    return 0;
+}</pre>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Have your answer? Read on.</p>
+  <p style="margin:0 0 .5rem;">Typing 55 prints: <strong>Borderline. Answer my riddle and the gate is yours.</strong></p>
+  <p style="margin:0;">Here is the part people miss. 55 is greater than or equal to 40 — but it is <em>also</em> checked against 70 <strong>first</strong>, and that check was false. So we fell through to the second test. A chain is checked <strong>top to bottom, and it stops at the first true branch</strong>. Put the 40 check first instead, and a score of 70 would match it before the 70 check ever got a look. That branch would become unreachable — a <strong>Logic</strong> error: the program did what you said, not what you meant.</p>
+</div>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Comparison operators</h2>
+
+<p style="margin:0 0 1rem;">The condition is built from comparisons. These six are your whole toolkit in M4.</p>
+
+<div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;margin:0 0 1.2rem;font-size:.95rem;">
+    <tbody>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">&gt;</td>
+        <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">greater than &mdash; <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">gold &gt; 50</span></td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">&lt;</td>
+        <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">less than &mdash; <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">health &lt; 20</span></td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">&gt;=</td>
+        <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">greater than or equal &mdash; <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">strength &gt;= 70</span></td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">&lt;=</td>
+        <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">less than or equal &mdash; <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">enemies &lt;= 3</span></td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">==</td>
+        <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;"><strong>equal to</strong> &mdash; two equals signs &mdash; <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">characterClass == 3</span></td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem .7rem .5rem 0;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">!=</td>
+        <td style="padding:.5rem 0;">not equal to &mdash; <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">answer != 0</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="border-left:2px solid #9A6700;padding-left:1rem;margin:0 0 1.6rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9A6700;">Caution</p>
+  <p style="margin:0;">Most students who lose an afternoon in this module lose it to a single equals sign. One equals <strong>assigns</strong>; two equals <strong>compare</strong>. Inside an if, you almost always want two. Memory hook: <em>one equals gives, two equals asks.</em></p>
+</div>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">A decision, drawn</h2>
+
+<p style="margin:0 0 1rem;">Here is that same strength chain as a flowchart — the diamonds you have been drawing since M2, now backing real code. Read it top to bottom and match each fork to an else if in the program above.</p>
+
+<div style="background-color:#F4F6F7;color:#16191D;border:1px solid #DFE3E8;border-radius:6px;padding:1rem 1.1rem;margin:0 0 1.2rem;overflow-x:auto;">
+<pre style="margin:0;background-color:#F4F6F7;color:#16191D;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82rem;line-height:1.35;">      ┌──────────────┐
+      │ Read         │
+      │ strength     │
+      └──────┬───────┘
+      ┌──────┴───────┐
+      │ strength     │
+      │ &gt;= 70 ?      │
+      └──┬────────┬──┘
+     yes │        │ no
+  ┌──────┴─────┐  │
+  │ Gate opens │  │
+  └────────────┘  │
+       ┌──────────┴───┐
+       │ strength     │
+       │ &gt;= 40 ?      │
+       └──┬────────┬──┘
+      yes │        │ no
+  ┌───────┴────┐   │
+  │ Riddle     │   │
+  └────────────┘   │
+           ┌───────┴──────┐
+           │ Turned away  │
+           └──────────────┘</pre>
+</div>
+
+<p style="margin:0 0 1.2rem;">In words, because a picture made of line characters is not much use to a screen reader and not much use on a phone either: the program reads a strength score. If it is 70 or more, the gate opens and the visit ends. Otherwise it asks a second question — is the score 40 or more? If yes, the player gets a riddle and a half-open gate. If no, they are turned away. Each fork has exactly two exits, and every path ends.</p>
+
+<p style="margin:0 0 1rem;">That diagram is not a picture someone drew for you — it is <em>written</em>, in a notation called Mermaid, and it renders on GitHub. This is the source that produced the shape above, and it is the notation you will write yourself in the Apply tutorial and be graded on in the lab:</p>
+
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">flowchart TD
+    A([Read strength]) --&gt; B{strength &gt;= 70?}
+    B -- yes --&gt; C[Gate swings wide]
+    B -- no --&gt; D{strength &gt;= 40?}
+    D -- yes --&gt; E[Borderline: a riddle]
+    D -- no --&gt; F[Too weak: turned away]
+    C --&gt; G([Visit ends])
+    E --&gt; G
+    F --&gt; G</pre>
+
+<p style="margin:0 0 1.4rem;">A diamond is a decision, a rounded box is a start or an end, and an arrow labelled yes or no is a branch. Notice that the drawing and the code say the same thing twice, in two notations — and that one of those notations is plain text you can type. In <strong>Apply</strong> you will draw one of these <em>before</em> typing any code. In <strong>Assess</strong> you are graded on whether your flowchart and your code tell the same story.</p>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Next</p>
+  <p style="margin:0;">Reading 2 covers <strong>switch</strong> for exact matches and the logical operators that combine conditions. Reading 3 names the three classic traps out loud, before they bite. <a href="#LINK-PENDING-m4-learn-2" style="color:#0374B5;">Continue to Reading 2</a> <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#9A6700;">[LINK PENDING]</span></p>
+</div>
+
+</div>
