@@ -5,6 +5,12 @@ reason: **to look at.** These fragments let a human eyeball whether the skill pr
 pages — spacing, device rhythm, whether a character diagram reads at 375px — which is a
 judgment no gate script makes.
 
+> **Keeping them was a decision, not an oversight** (F-008-1, ruled 2026-07-26). Deleting was
+> considered — they contradict a frozen contract, and `_outputs/canvas-html/m4/` now holds four
+> canon-correct pages. They stay because those four are all M4 Learn and Assess, while these are
+> the only worked examples of the Practice exit-ticket shape and the **Apply stage-group** device
+> — the beat the compositor cannot yet derive at all (F-008-4, #33).
+
 They are **not** CSC-134 course content and must never be pasted into a CSC-134 Canvas course.
 
 ## Why not

@@ -1,13 +1,31 @@
 ---
 name: F-008-canvas-compositor-import
-description: Canvas compositor skill imported, validated and installed; M4 Learn + Assess composed end to end. Records seven seam findings, three needing a ruling.
+description: Canvas compositor skill imported, validated and installed; M4 Learn + Assess composed end to end. Seven seam findings, all now ruled; Haiku alone stays pended to ADR-013.
 ---
 
 # F-008 — Canvas compositor import, validation, and the M4 end-to-end run
 
-**Date:** 2026-07-25 · **Status:** Recorded · **Branch:** `phase0/canvas-compositor`
+**Date:** 2026-07-25 · **Rulings closed:** 2026-07-26 · **Status:** Closed · **Branch:** `phase0/canvas-compositor`
 **Relates to:** [[ADR-012-canvas-compositor-enters-alpha-scope]] · **Pends:** ADR-013 (Haiku persona)
 **Closes:** #18 · **Partially answers:** #19
+
+## Rulings (2026-07-26)
+
+Three seam findings were left open for a human call. All three are now settled, and the
+principle behind all three is the same: **the compositor derives, it does not author.** Every
+place that rule pinched, the answer was to keep the rule and move the work elsewhere — not to
+soften it.
+
+| | Ruling | Effect on this PR |
+|---|---|---|
+| **F-008-4** Apply has no student-facing source | **Out of compositor scope.** M4 Apply is not composed, and the missing student handout is filed as module-tree work | none — ships Learn + Assess |
+| **F-008-6** Learn does not fit one page | **Multi-page series; the budget does not bend** (ruled 2026-07-25, confirmed) | already built, 3 readings |
+| **F-008-1** Exemplars contradict a frozen contract | **Quarantine stands.** Kept as visual reference, mechanically barred from output | none — already enforced |
+
+**F-008-3 (Haiku) is not a blocker.** The persona is frozen in `SKILL.md` under a STATUS banner
+and `gate.py` fails any emitted page containing a check-in. That is a *shipping* state, not a
+pending one: the compositor works with Haiku frozen, and ADR-013 can rule later without
+reopening this PR. Issue #23 keeps the question.
 
 The skill arrived by hand-off rather than by import PR (the etiquette path #18 was written for), staged
 in `_storming/_tools/` on this branch and installed from there. Everything below was verified before
@@ -52,6 +70,29 @@ gatekeeper dialogue; no opening beat. Good prose, clean compile, different progr
 Kept for visual inspection — a human eyeballing device rhythm is a judgment no gate makes — but labelled
 non-canon in `references/README.md` and never usable as CSC-134 output.
 
+**Ruling taken (2026-07-26): the quarantine stands. Do not delete them.**
+
+Deleting was the tempting simplification — the repo would stop carrying C++ that contradicts a frozen
+contract, and we now have four canon-correct pages of our own. It is the wrong call because of *which*
+pages these are. Our four are all M4, all Learn and Assess. The exemplars cover M1, M2 Learn, M2
+Practice, M4 Apply and M7 Apply — they are the only worked examples of the Practice exit-ticket shape
+and of the **Apply stage-group** device, which is exactly the beat just ruled out of scope above. Burning
+the only reference for the beat we cannot yet compose would cost more than the divergence does.
+
+The quarantine is not documentation alone; it is mechanically enforced, and that is why keeping them is
+safe. Verified 2026-07-26:
+
+| Command | Exit | Meaning |
+|---|---|---|
+| `gate.py references` | **1** — 13 failures across 5 fragments | strict mode refuses them; they cannot pass as output |
+| `gate.py references --reference` | **0** | usable for their one stated purpose, looking at |
+| `gate.py _outputs/canvas-html` | **0** | canon pages clear the strict bar |
+
+The failure mode worth guarding against was an exemplar being copied into `_outputs/` and shipped. It
+cannot survive there: strict mode requires the provenance header and the derived-dial these predate, and
+fails the Haiku check-ins four of them carry. The guard already existed; this ruling adds no machinery,
+it records that the machinery was checked.
+
 ### F-008-2 — The manifest is short a fragment *(closed: filled with canon content)*
 
 `PLACEHOLDERS.md` lists six fragments; five arrived. Missing is `m04-assignment-dungeon-gatekeeper.html`,
@@ -73,7 +114,7 @@ ADR-013 also carries an authorship task the compositor cannot do: students are n
 accounts, but the course means to suggest Haiku is the better use of a free account's token budget. That
 is M1 Learn prose, and the existing naming passage ends one sentence short of it.
 
-### F-008-4 — The Apply beat has no student-facing source *(open: needs a ruling)*
+### F-008-4 — The Apply beat has no student-facing source *(closed: out of compositor scope)*
 
 `modules/m4/apply-tutorial.md` is an **instructor script** — per-stage timings, "Ask the room", "where
 students typically stall". Composing it into a student Canvas page would require rewriting prose, which
@@ -82,8 +123,27 @@ breaks #18's *derived, not duplicated* criterion outright. So M4 Apply was **not
 This is a gap in the module tree, not a defect in the skill, and it explains the drift in F-008-1: the
 parallel session had to author an Apply page fresh, and fresh authoring is how it left the contract behind.
 
-**Ruling needed:** does the Apply beat get a student-facing companion document that the compositor can
-derive from, or does the Canvas Apply page get authored directly and accept that it is authored?
+**Ruling taken (2026-07-26): neither — M4 Apply is out of compositor scope, and the missing student
+handout is filed as module-tree work (#33).**
+
+Both framed options were rejected, for the same reason. Authoring a student companion doc is a
+*module build* — it needs the `apply-tutorial-generator` skill at its EIGHTY/FULL setting, Linx's
+readability pass, and both gates. Authoring the Canvas page directly costs more: it spends the one
+invariant that makes this PR trustworthy. The acceptance evidence for the compositor is mechanical —
+C++ extracted back *out of* the emitted HTML is byte-identical to the gated `.cpp`, and the Mermaid is
+byte-identical to `learn.md`. That proof only exists because nothing was authored. Accept one authored
+page and "derived, not duplicated" becomes a preference, and the next reviewer has no way to tell which
+pages carry the guarantee.
+
+So the compositor ships composing **Learn and Assess**, which is what it can honestly derive.
+
+**What this exposed, and it is worth more than the ruling.** `modules/m4/` contains no student-facing
+Apply artifact at all — only `apply-tutorial.md`, which is an instructor script. M4 is on the Make
+gradient at **type-in 100%** (CLAUDE.md bar #8), so students are meant to type a program in; today the
+only place that program exists in student-readable form is the instructor's screen. That gap was
+invisible until something tried to derive from it. **This is the compositor earning its keep before it
+has shipped a single Apply page:** a derive-only tool cannot paper over a missing source, so it reports
+one. Filed as #33 against the module tree, not against this skill.
 
 ### F-008-5 — PRIMM predict/reveal has no device on Canvas *(resolved; pattern set)*
 
