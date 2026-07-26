@@ -146,7 +146,7 @@ everywhere.
 A gate that cannot fail is not a gate, so both prove they still bite, on every run:
 
 ```bash
-# the markdown gate: 8 fixtures, one per behaviour
+# the markdown gate: 10 fixtures, one per behaviour
 bash .github/scripts/selftest/markdown/run.sh
 
 # the compile gate: a fixture that must warn (GCC only — clang reports it clean)

@@ -52,6 +52,10 @@ Matching is exact text with exactly two rules:
   2. a line whose stripped form begins `// ...` is an ELISION -- it matches zero or
      more source lines.
 
+Before either rule, the block is read the way a Markdown renderer reads it: a fence
+indented inside a list item has that indentation stripped, because CommonMark strips
+it before display. Comparing anything else would diff text no student ever sees.
+
 ---------------------------------------------------------------------------
 THE DIALS -- override any of these as environment variables.
 ---------------------------------------------------------------------------
@@ -97,6 +101,7 @@ def fenced_cpp_blocks(path):
     """
     lines = path.read_text(encoding="utf-8", errors="replace").split("\n")
     opener = None
+    indent = ""
     info = ""
     start = 0
     buf = []
@@ -105,6 +110,7 @@ def fenced_cpp_blocks(path):
         if opener is None:
             if m:
                 opener = m.group(2)
+                indent = m.group(1)
                 info = m.group(3).strip()
                 start = i + 1
                 buf = []
@@ -118,10 +124,31 @@ def fenced_cpp_blocks(path):
             if closing:
                 first = info.split()[0].lower() if info else ""
                 if first in ("cpp", "c++", "cc", "cxx"):
-                    yield start, info, buf
+                    yield start, info, [dedent_to_fence(b, indent) for b in buf]
                 opener = None
             else:
                 buf.append(line)
+
+
+def dedent_to_fence(line, indent):
+    """Strip the opening fence's own indentation from a body line.
+
+    A fenced block nested inside a list item is indented, and CommonMark removes
+    that indentation before rendering — the reader sees unindented code. Without
+    this the gate compares text nobody has ever seen against the .cpp and reports
+    drift the author cannot fix: de-indenting to satisfy the gate would break the
+    list nesting and change the rendered page.
+
+    Not hypothetical. `modules/m4/assess-lab.md:199` is exactly this shape, six
+    spaces deep inside a Badge checklist item, and it is one of the 23 blocks
+    awaiting migration (#30).
+
+    Only the fence's OWN indent comes off, never more. Indentation *inside* the
+    listing is code structure and stays in the comparison.
+    """
+    if indent and line.startswith(indent):
+        return line[len(indent):]
+    return line
 
 
 def parse_attrs(info):

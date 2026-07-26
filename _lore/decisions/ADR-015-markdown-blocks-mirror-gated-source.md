@@ -111,6 +111,17 @@ Two rules, deliberately no more:
 2. A line whose stripped form begins `// ...` is an **elision**: it matches zero or more source
    lines.
 
+Before either rule, the block is read **the way a Markdown renderer reads it**: a fence nested
+inside a list item has the fence's own indentation stripped, because CommonMark strips it before
+display. This is not a third matching rule; it is the gate agreeing with the renderer about what
+the block's text *is*. Without it the gate diffs text no student ever sees, and the drift is
+unfixable — de-indenting to satisfy the gate would break the list nesting and change the page.
+`assess-lab.md:199` is exactly this shape, six spaces deep inside a Badge checklist item, and it
+is one of the 23 blocks awaiting migration. Only the fence's own indent comes off; indentation
+*inside* the listing is code structure and stays in the comparison. Both directions are fixtured
+(`indented/`, `indented-drift/`) because a whitespace normalisation is precisely how a matcher
+quietly stops matching.
+
 **Comments are in scope.** Exempting them would exempt exactly what broke: a comment claiming a
 program "compiles clean" is a claim about compiler behaviour, and F-009 was four of those.
 
@@ -128,6 +139,12 @@ visible in the rendered page, so a reader can see that something was left out. I
 loose: a block that is mostly elision technically matches a great deal. We accept that; the
 alternative is that tail fragments cannot be expressed at all, and an inexpressible convention
 gets abandoned.
+
+The same looseness applies to very short excerpts — `excerpt=` of a single line like `return 0;`
+matches almost any file, and so proves almost nothing. **Accepted, not fixed.** A minimum-content
+rule would have to pick a threshold with nothing principled behind it, and the failure mode it
+guards against is an author who is trying to defeat the gate rather than one who slipped. The
+convention's job is catching the listing that drifted, not the one that lied.
 
 **Annotation markers live in the source file.** `apply-tutorial.md`'s staged builds tag added
 lines `// NEW`. Rather than teach the matcher to ignore them, the stage `.cpp` **carries the
@@ -164,10 +181,17 @@ A sustained red decays into background noise, so the red is built to describe it
 ### 7. The convention is proved on fixtures, not on M4
 
 Because M4 stays unmigrated this PR, the hard cases are exercised by
-`.github/scripts/selftest/markdown/` — **eight fixtures**, one per behaviour: exact `source=`,
+`.github/scripts/selftest/markdown/` — **ten fixtures**, one per behaviour: exact `source=`,
 `excerpt=`, an elided `source=`, drift, an excerpt that was never in the source, a nonexistent
-source, a source outside the gated trees, an un-annotated block, an invented `gate=` verb, and a
-block that is nothing but an elision. `run.sh` asserts each passes or fails as it should.
+source, a source outside the gated trees, an un-annotated block, an invented `gate=` verb, a
+block that is nothing but an elision, a fence nested in a list item, and that same nesting with a
+drifted line. `run.sh` asserts each passes or fails as it should.
+
+The last two were added after review, and they are the argument for this section rather than an
+addendum to it: the nesting case was a real defect that the other eight could not see, found by
+probing the gate instead of trusting it. Its fix is a whitespace normalisation, so it arrived
+with a must-fail twin — a normalisation that is not paired with a drift fixture is a mute waiting
+to be discovered.
 
 This matters more here than for the compile gate. M4 ships unmigrated, so on day one the
 convention gets **no exercise from real material at all** — these fixtures are the only thing

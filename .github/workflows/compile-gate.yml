@@ -130,7 +130,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Self-test — prove the markdown gate passes and fails correctly
-        # Eight fixtures, one per way this gate is supposed to behave. It matters
+        # Ten fixtures, one per way this gate is supposed to behave. It matters
         # more here than for the compile gate: M4 ships UNMIGRATED, so on day one
         # the convention gets no exercise at all from real material. These
         # fixtures are the only thing standing between "the convention works" and

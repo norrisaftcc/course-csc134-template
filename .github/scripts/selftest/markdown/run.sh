@@ -54,6 +54,8 @@ expect must-fail unannotated      "a bare cpp block fails — there is no silent
 expect must-fail gate-verb        "an invented gate= verb is rejected, not tolerated"
 expect must-fail ungated          "source= outside the compile gate's trees fails"
 expect must-fail elision-only     "a block that is only an elision matches nothing"
+expect must-pass indented         "a fence nested in a list item matches — CommonMark strips that indent"
+expect must-fail indented-drift   "dedenting a nested fence does not make the gate blind to drift"
 
 echo
 if [ "$fails" -gt 0 ]; then
