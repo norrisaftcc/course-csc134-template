@@ -76,11 +76,32 @@ for f in "${FILES[@]}"; do
   expect_warn=0
   grep -q 'GATE: EXPECT-WARNING' "$f" && expect_warn=1
 
+  # Its sibling, for artifacts that must not compile at all — a syntax-error
+  # illustration whose whole job is to show what the compiler refuses. Same
+  # assertion shape: a file marked EXPECT-ERROR that BUILDS fails, because the
+  # example has stopped being an example. Added with ADR-015 so a broken fenced
+  # block in Markdown can be an `excerpt=` of a real file rather than needing a
+  # second, weaker opt-out over in the Markdown gate.
+  expect_err=0
+  grep -q 'GATE: EXPECT-ERROR' "$f" && expect_err=1
+
   out="$("$CXX" -std="$CXX_STD" $WARN_FLAGS "$f" -o "$WORK/$(basename "${f%.cpp}")" 2>&1)"
   rc=$?
   label="$f"
 
-  if [ $rc -ne 0 ]; then
+  if [ "$expect_err" = "1" ]; then
+    if [ $rc -ne 0 ]; then
+      printf '  %sexpect%s %s  %s(marked EXPECT-ERROR)%s\n' "$DIM" "$OFF" "$label" "$DIM" "$OFF"
+      expected=$((expected+1))
+      echo "$out" | grep -E 'error:' | sed 's/^/           /'
+    else
+      printf '  %sBUILT %s %s\n' "$RED" "$OFF" "$label"
+      printf '         marked GATE: EXPECT-ERROR but compiled successfully.\n'
+      printf '         The artifact no longer demonstrates the error it exists for.\n'
+      silent_list+=("$f")
+    fi
+
+  elif [ $rc -ne 0 ]; then
     printf '  %sERROR%s  %s\n' "$RED" "$OFF" "$label"
     err_list+=("$f"); errored=$((errored+1))
     echo "$out" | sed 's/^/           /'
@@ -114,8 +135,11 @@ done
 total="${#FILES[@]}"
 echo
 summary="$total file(s): $clean clean, $warned warned, $errored errored"
-[ "$expected" -gt 0 ] && summary="$summary, $expected expected-warning"
-[ "${#silent_list[@]}" -gt 0 ] && summary="$summary, ${#silent_list[@]} wrongly silent"
+# "expected" and "wrongly quiet" cover both markers — EXPECT-WARNING and
+# EXPECT-ERROR. Naming only the warning case here would misreport an error
+# fixture, which is a small lie in the one line most people actually read.
+[ "$expected" -gt 0 ] && summary="$summary, $expected expected (marked)"
+[ "${#silent_list[@]}" -gt 0 ] && summary="$summary, ${#silent_list[@]} wrongly quiet"
 echo "${BOLD}${summary}${OFF}"
 
 if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
@@ -150,7 +174,8 @@ if [ "$errored" -gt 0 ]; then
   exit 1
 fi
 if [ "${#silent_list[@]}" -gt 0 ]; then
-  echo "${RED}GATE FAILED${OFF} — a file marked EXPECT-WARNING compiled clean."
+  echo "${RED}GATE FAILED${OFF} — a file marked EXPECT-WARNING or EXPECT-ERROR stopped"
+  echo "demonstrating what it is marked for."
   echo "Either the compiler changed its mind, or someone 'fixed' a file that is"
   echo "broken on purpose. Check what the artifact is supposed to demonstrate"
   echo "before removing the marker."
@@ -166,11 +191,22 @@ fi
 echo "${GREEN}GATE PASSED${OFF}"
 
 # ---------------------------------------------------------------------------
-# KNOWN LIMITATION, recorded rather than hidden.
+# THE OTHER HALF OF BAR #1 — see markdown-gate.sh.
 #
-# This gates complete .cpp files. Mechanical bar #1 says "every C++ block in
-# every artifact", which includes fenced blocks inside Markdown. Many of those
-# are deliberate fragments that cannot compile standalone, so extracting them
-# needs a wrapping convention that does not exist yet. Until it does, a warning
-# can hide in a Markdown listing that no .cpp file mirrors.
+# This gate compiles complete .cpp files. Bar #1 says "every C++ block in every
+# artifact", which includes fenced blocks inside Markdown — and that was this
+# script's recorded known limitation until ADR-015.
+#
+# It is now closed, but NOT by teaching this script to extract and compile
+# Markdown. Three quarters of the fenced blocks in the course are deliberate
+# fragments that cannot compile standalone, and inventing wrappers for them would
+# mean gating code no student ever sees.
+#
+# markdown-gate.sh takes the other route: it compiles nothing, and instead proves
+# every fenced listing is a faithful view of a .cpp file *this* gate builds. The
+# two compose — provenance there, compiler behaviour here. Which is also why the
+# EXPECT-WARNING / EXPECT-ERROR markers live in this file: they are how a
+# deliberately-broken listing gets a home whose behaviour is actually asserted.
+#
+#     bash .github/scripts/markdown-gate.sh
 # ---------------------------------------------------------------------------

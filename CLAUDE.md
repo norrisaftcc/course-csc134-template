@@ -27,6 +27,14 @@ that fails any is not done.
    students' compiler runs: `bash .github/scripts/compile-gate.sh`, or read the
    CI result. **Never assert compiler _silence_ from a macOS run** — quoting
    output is safe, promising there was none is not.
+   **Fenced blocks count as artifacts** (ADR-015). A ` ```cpp ` block in Markdown
+   is not source — it is a view of a gated `.cpp`, and it must say so:
+   `source=<path>` for a whole file, `excerpt=<path>` for part of one. Matching is
+   exact text, comments included. There is no skip. Write the `.cpp` first, then
+   quote it; `bash .github/scripts/markdown-gate.sh` checks the rest. Broken-on-
+   purpose code is an `excerpt=` of a file marked `// GATE: EXPECT-WARNING` or
+   `EXPECT-ERROR` — assertions, not mutes: a marked file that stops misbehaving
+   fails. See `.github/scripts/README.md` for how the two gates compose.
 2. **10th-grade readability** on all student-facing prose (code excluded).
    Complexity lives in the *problem*, never in the sentence describing it. Linx
    owns the readability pass.
