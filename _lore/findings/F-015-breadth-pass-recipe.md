@@ -134,6 +134,24 @@ and still does not amortise.
 
 ---
 
+## Authoring rules learned the hard way
+
+**The instructor note goes *after* the whole list, never between items.** Every
+breadth-pass Learn beat ends with a `> **📋 Instructor note — not yet authored.**`
+blockquote, because `First pass` means the beats it routes to do not exist yet. On M2
+that blockquote was placed between list items 2 and 3 — **which silently terminates the
+numbered list.** Item 3 then starts a *new* list and renders as "1". It shipped to
+`main` that way and was caught on the M1 review, not by any gate.
+
+Nothing checks this. The markdown gate reads provenance, not rendering, and there is no
+Markdown linter in CI. **Put the note below the last item, and eyeball the rendered list
+in the PR's Files-changed view** — the same manual check Mermaid needs (bar #5).
+
+**Say "do not yet exist," not "do not."** *"This reading exists, the exit ticket and
+Apply tutorial do not"* is grammatical by ellipsis and still reads as an unfinished
+sentence. On a warning whose whole job is to stop someone handing students a file that
+is not there, ambiguity is the one thing it cannot afford.
+
 ## Open items carried forward
 
 - **Mermaid render is unverified by any script.** Bar #5 requires the diagram to

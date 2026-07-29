@@ -215,6 +215,7 @@ Any of these is right: the indentation collapses, so the structure is unreadable
 3. **Then the Robot Sandwich**, which is where the precision idea gets tested for real.
 
 > **📋 Instructor note — not yet authored.** M1 is at **First pass**: this reading
-> exists, the exit ticket, Apply tutorial, and Robot Sandwich do not (ADR-016).
-> Steps 1–3 describe where this beat hands off, not files you can open today. Do
-> not route students here expecting the rest of the module to be waiting for them.
+> exists; the exit ticket, the Apply tutorial, and the Robot Sandwich **do not yet
+> exist** (ADR-016). Steps 1–3 describe where this beat hands off, not files you can
+> open today. Do not route students here expecting the rest of the module to be
+> waiting for them.
