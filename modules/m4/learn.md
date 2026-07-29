@@ -53,8 +53,9 @@ Two outcomes are rarely enough. The gatekeeper has three answers ready — pass,
 
 **Predict first.** Read this complete program. If the player types `55`, what prints? Write your guess down before you scroll.
 
-```cpp
-// learn-gate-strength.cpp — Stage A
+**Stage A** — `code/learn-gate-strength.cpp`
+
+```cpp excerpt=modules/m4/code/learn-gate-strength.cpp
 #include <iostream>
 using namespace std;
 
@@ -126,8 +127,9 @@ Notice the shape: each diamond has exactly two exits, and every path lands at th
 
 A chain of `else if`s comparing the *same* variable against a list of *exact* values gets noisy. When you are matching one whole number against fixed choices — a menu, a class number — `switch` says it more cleanly. The gatekeeper's first question is exactly this shape.
 
-```cpp
-// learn-gate-class.cpp — Stage B
+**Stage B** — `code/learn-gate-class.cpp`
+
+```cpp excerpt=modules/m4/code/learn-gate-class.cpp
 #include <iostream>
 using namespace std;
 
