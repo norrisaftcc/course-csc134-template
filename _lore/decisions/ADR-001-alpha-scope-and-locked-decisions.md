@@ -12,6 +12,10 @@ Claude Code ultracode session, the alpha's shape and the fleet's operating rules
 1. **Alpha = skeleton + exemplar pair.** All nine modules scaffolded; M4 and M5 built to
    full LPAA depth, with the M4→M5 seam demonstrated. (Rejected: full horizontal build at
    C-tier polish — review checkpoint before bulk spend won.)
+   - **Superseded by [[ADR-016-breadth-first-pass]] (2026-07-29):** the review checkpoint this
+     decision protected has been met — M4 is certified Ready (F-006). Every module now gets a
+     Learn beat at status `First pass` before further depth work. The exemplar pair stands; it
+     is no longer the whole alpha. Decisions 2–6 below are untouched.
 2. **Graduate-and-teach pipeline.** An agent takes module N as a student, then builds
    module N+1. Dependency chain becomes the mechanism. Students are always fresh spawns;
    graduates are contaminated as testers.

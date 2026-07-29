@@ -4,9 +4,32 @@
 #
 # Updated to reflect actual content in /assignments/ folder
 # and reconciled with existing high-quality materials
+#
+# ############################################################################
+# ###  STALE — DO NOT READ THIS FILE FOR "WHAT IS DONE".                   ###
+# ###                                                                      ###
+# ###  The current build status lives in `modules/MODULES.md`.             ###
+# ###  This manifest predates the spine and is wrong in four ways          ###
+# ###  (measured 2026-07-29, see `_lore/findings/F-014-breadth-pass-       ###
+# ###  state-audit.md` §4):                                                ###
+# ###                                                                      ###
+# ###    1. Legacy padded M00-M08 numbering, not the spine's M0-M8.        ###
+# ###    2. M04 Decision Structures is listed `planned`. M4 is built,      ###
+# ###       cohort-tested, and Ready (F-006).                              ###
+# ###    3. M06 (Arrays/Strings) and M07 (File I/O) are listed live.       ###
+# ###       ADR-011 descoped STL/std::string-as-a-topic and File I/O.      ###
+# ###    4. The rollup describes the frozen `assignments/` tree, not       ###
+# ###       `modules/` — and ADR-008 made `modules/` canonical.            ###
+# ###                                                                      ###
+# ###  The rebuild is deferred on purpose (`_tracking/skeleton-plan.md`    ###
+# ###  line 108) until the breadth pass completes — see ADR-016 and        ###
+# ###  `_tracking/breadth-pass-ledger.md` §6.                              ###
+# ############################################################################
 
 manifest_version: "0.2"
 last_updated: "2026-01-01T00:00:00Z"
+stale: true
+superseded_by: "modules/MODULES.md"
 
 # ============================================================================
 # COURSE METADATA
