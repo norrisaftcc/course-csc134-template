@@ -138,10 +138,12 @@ jobs:
         run: bash .github/scripts/selftest/markdown/run.sh
 
       - name: Run the markdown block gate
-        # EXPECTED RED until M4's 23 blocks are migrated (ADR-015 §6). The failure
-        # text says "unmigrated, not defective" and prints a per-file countdown,
-        # because a red that does not explain itself is indistinguishable from a
-        # broken repo — and that is how a gate becomes background noise.
+        # GREEN as of the issue #30 migration: all 45 blocks in modules/m4 and
+        # modules/m5 are gated (23 + 22). It shipped ENFORCING while red (ADR-015
+        # §6) — the failure text said "unmigrated, not defective" and printed a
+        # per-file countdown, because a red that does not explain itself is
+        # indistinguishable from a broken repo. That countdown has reached zero;
+        # a fenced block added without source=/excerpt= turns it red again.
         env:
           FAIL_ON_UNANNOTATED: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_unannotated == false) && '0' || '1' }}
           SEARCH_PATHS: ${{ inputs.search_paths || '_contracts modules' }}
