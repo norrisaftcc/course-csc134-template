@@ -66,10 +66,10 @@ before someone schedules the rest of #30 off F-013's numbers.**
 block — `// learn-gate-strength.cpp — Stage A` — where the file carries a fuller three-line
 header. The cheap fix is to drop the line, but the Stage A/B label is load-bearing: CLAUDE.md
 bar #9 makes staged builds a requirement, and the label is how a reader sees the stages. So
-the label was **lifted into the prose above the fence** instead, as `**Stage A** —
-`code/learn-gate-strength.cpp``. The information survives, the listing becomes a clean
-excerpt, and the page arguably reads better — the label is now visible before the code
-rather than buried in its first line.
+the label was **lifted into the prose above the fence** instead — a bold *Stage A* followed
+by the filename in a code span, on its own line directly above the listing. The information
+survives, the listing becomes a clean excerpt, and the page arguably reads better: the label
+is now visible before the code rather than buried in its first line.
 
 **On the de-indented fragment.** Item 7's chain was shown flush-left; in
 `practice-item7-status.cpp` it lives inside `main` with four spaces. Re-indenting the

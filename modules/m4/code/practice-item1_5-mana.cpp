@@ -1,4 +1,4 @@
-// practice-item1_5-mana.cpp — M4 Practice exit ticket, Item 1.5 (predict-output)
+// practice-item1_5-mana.cpp — M4 Practice exit ticket, Item 1.5 (trace-the-branch)
 // Single-file, main-only (pre-M6 convention). No functions, no prototypes.
 // Build: g++ -std=c++17 -Wall -Wextra -o practice-item1_5-mana practice-item1_5-mana.cpp
 //

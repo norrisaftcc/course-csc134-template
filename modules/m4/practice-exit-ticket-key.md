@@ -217,7 +217,7 @@ grow — harvest wrong-answer rates after the first run and append.
   that gates the target outcome."
 - Item 7 / C: treating `if / else if` as interchangeable with separate `if`s.
 
-## Compile & run log (2026-07-24)
+## Compile & run log (2026-07-24, updated 2026-07-29)
 ```
 g++ -std=c++17 -Wall -Wextra  → zero warnings on:
   practice-item1-vault.cpp, practice-item1_5-mana.cpp,
