@@ -18,6 +18,8 @@ Build the **alpha** of the CSC-134 course refresh:
 
 The alpha exists so humans can review a *calibration exemplar pair* before the remaining modules are built at depth.
 
+- **Amended by [[ADR-016]] (2026-07-29):** the exemplar pair has served that purpose — M4 is certified Ready (F-006). A **breadth pass** now runs ahead of any further depth work: every module M0–M8 gets an authored **Learn beat** at a new status tier, **`First pass`** (not `Built`, not `Ready`), so humans can open *any* module and review a real artifact rather than a scaffold. The exemplar pair is unchanged and remains the calibration reference. See `_tracking/breadth-pass-ledger.md` for the work list.
+
 ## 2. Inputs
 
 | Input | Path | Role |
@@ -113,6 +115,7 @@ Parallel, after Phase 2 merges:
 - Phase 0 is sequential where it's contracts, parallel where it's scaffolds. Don't parallelize rulings.
 - Cohort personas run as a **parallel fan-out with worktree isolation** (they compile and mutate files). Rounds are barriers by nature (findings must be consolidated before the fix pass).
 - The promotion cycles are **serial by design** — do not "optimize" M4 and M5 into parallel builds; the graduate seeding is the point.
+  - **Scoped by [[ADR-016]] (2026-07-29):** this rule governs **depth builds**. The breadth pass authors Learn beats *without* graduate seeding, which is exactly why its output is certified `First pass` and never `Ready`. The seeding rule is suspended for that pass and resumes unchanged for depth work.
 - Loop-until-dry needs a cap: max 4 cohort rounds per module before escalating to humans (a module that can't dry in 4 has a spec problem, not a polish problem).
 - Log every bounded choice (`log()` what was skipped/capped). Silent truncation reads as coverage.
 - Budget note: cohort rounds dominate cost. Cheap students, fresh spawns, tight persona prompts.
