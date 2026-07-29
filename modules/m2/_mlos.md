@@ -1,9 +1,15 @@
 # M2 — Module Learning Objectives (skeleton)
 
-> **SKELETON.** These are MLO *slots* feeding the course CLOs, not authored,
-> polished objectives. Deep-build fills in verbs/conditions/criteria against
-> `reading-generator` / `exit-ticket-generator` / `apply-tutorial-generator` /
-> `lab-creator` output. Do not treat this list as final phrasing.
+> **PARTLY INSTANTIATED.** These are MLO *slots* feeding the course CLOs.
+> Deep-build fills in verbs/conditions/criteria against `reading-generator` /
+> `exit-ticket-generator` / `apply-tutorial-generator` / `lab-creator` output.
+>
+> **`learn.md` now states finished objective sentences for M2.1, M2.2, M2.3,
+> M2.5, and M2.6** — where that file and this one differ in phrasing, the Learn
+> beat is the authored version. **M2.4** (user stories) and **M2.7**
+> (Perspective Flip) are still `[TBD]` slots: the Learn beat does not carry
+> them, and they belong to beats not yet authored. Do not read the `[TBD]`
+> markers below as covering all seven.
 
 ## MLO slots
 
