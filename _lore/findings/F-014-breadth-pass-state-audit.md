@@ -103,6 +103,46 @@ Its rebuild was deferred on purpose (`_tracking/skeleton-plan.md:108`, downstrea
 being wrong. **Mitigation applied now: a staleness banner naming `modules/MODULES.md` as the real
 index.** The rebuild stays deferred until the breadth pass completes.
 
+## 5. A Ready module was telling readers it had not been authored
+
+Found while checking what a reviewer actually sees on opening a module.
+
+`modules/m4/_assess-spec.STUB.md` — inside M4, **certified Ready** (F-006), sitting
+next to a shipped `assess-lab.md` — still opened with:
+
+> **NOT YET AUTHORED — STUB**
+> …no acceptance criteria here are complete… **do not hand this stub to students.**
+
+Its body was worse than the banner: the tier ladder was captioned *"not yet filled
+with this lab's real requirements,"* the four-column table *"unfilled placeholders,
+not this lab's real rubric text,"* and the no-hidden-criteria promise was written in
+the future tense — *"applies once this stub is instantiated."* M5 carried the same
+text, identically.
+
+**Nothing in the file was false when it was written.** It went stale the moment the
+lab landed, and nothing was watching. The module's `_overview.md` *was* updated at
+deep-build; the stub beside it was not. So M4 shipped with two files disagreeing
+about whether M4 existed, and the wrong one was the one making a direct instruction
+to the reader.
+
+This is the same failure class as F-009 and F-013 — **a claim that stopped being
+checked**. F-009 was a compiler claim that no longer held; F-013 was a listing no
+longer matching its source; this is a status banner no longer matching its module.
+It survived a deep build, a cohort round, and a Ready certification, because every
+one of those looked at the lab and none looked at the file next to it.
+
+**Ruled and applied:** a `_assess-spec.STUB.md` whose lab is authored becomes the
+**build record** — kept for the acceptance criteria and contract the lab was written
+against, never handed to a student, and losing to `assess-lab.md` in any
+disagreement. The empty rubric cells stay empty rather than being back-filled, so
+the file cannot drift into a second competing rubric. Banners retargeted on M4 and
+M5; the convention is now stated in `modules/MODULES.md` so every module that
+reaches Built inherits it.
+
+The `.STUB` filename is kept deliberately — renaming across nine modules would
+break links for a cosmetic win, and the banner is the authority on status, not the
+name. Recorded here so the mismatch reads as a decision rather than an oversight.
+
 ## Disposition
 
 | Item | Disposition |
@@ -112,3 +152,5 @@ index.** The rebuild stays deferred until the breadth pass completes.
 | M5's unverified compile claim | **Closed, verified** — `compile` job green on GCC in CI; all 20 M5 sources clean |
 | 23 → 45 unmigrated blocks | Predicted, then confirmed in CI. Recorded against #30; scope grows, nothing regresses. Born-compliant rule keeps it from growing further |
 | Stale manifest | Banner now; rebuild after the breadth pass |
+| M4/M5 stubs claiming "NOT YET AUTHORED" | **Fixed** — retargeted as build records; convention stated in `modules/MODULES.md` so it is inherited, not re-discovered |
+| `MODULES.md` titles drifting from the spine | **Fixed** — M0, M1, M2, M3, M8 restored to spine titles; nicknames live in each `_overview.md` |

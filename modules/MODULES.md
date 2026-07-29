@@ -9,6 +9,7 @@ material, never scaffold targets.
 | Status | Means |
 |---|---|
 | **Skeleton** | Structure-only pass: `_overview.md`, `_mlos.md`, `_assets.md`, `_assess-spec.STUB.md`. No student-facing content authored. |
+| **First pass** | One real, gate-green, student-facing artifact — the **Learn beat** (`learn.md` + gated `code/`). Authored in the breadth pass **without graduate seeding**, so humans can open any module and review something real. Not all four beats; not cohort-tested. See [[ADR-016]]. |
 | **Built** | All four LPAA beats authored and through the compile-warden gate (every C++ block clean under `g++ -std=c++17 -Wall -Wextra`, Mermaid renders, rubric lineage verified). |
 | **Ready** | Built, *plus* taken end to end by a synthetic student cohort, with every finding filed and closed. |
 
@@ -19,27 +20,45 @@ failures have been fixed.
 
 ## Current state
 
-| Module | Topic | Status | Beats present | Evidence |
+Titles are the spine's, verbatim (`_storming/CSC-134-course-spine.md`). Where a
+module has a working nickname — M0's Mail Run, M1's Robot Sandwich — it is named
+in the module's own `_overview.md`, not substituted for the title here.
+
+| Module | Title | Status | Beats present | Evidence |
 |---|---|---|---|---|
-| **M0** | Orientation / Mail Run | Skeleton | — | — |
-| **M1** | Robot Sandwich | Skeleton | — | — |
-| **M2** | First Programs | Skeleton | — | — |
-| **M3** | Arithmetic & I/O | Skeleton | — | — |
+| **M0** | Welcome to Programming | Skeleton | — | — |
+| **M1** | Talk to Computers (and Your Team) | Skeleton | — | — |
+| **M2** | How to Solve Problems | Skeleton | — | — |
+| **M3** | Program Basics | Skeleton | — | — |
 | **M4** | Decisions | **Ready** | Learn · Practice (+key) · Apply · Assess | F-004 (build), F-005 (cohort round 1), F-006 (fixes + certification) |
 | **M5** | Loops | **Built** | Learn · Practice (+key) · Apply · Assess | F-007 (build + gate). Cohort round not yet run. |
 | **M6** | Functions | Skeleton | — | — |
 | **M7** | Structured Data & Objects | Skeleton | — | — |
-| **M8** | Capstone | Skeleton | — | — |
+| **M8** | Capstone Miniproject | Skeleton | — | — |
 
-**Next cohort target:** M5. It is Built but not Ready — a synthetic cohort has
-not taken it yet, so its findings ledger is a build record, not a field record.
-Treat M5 content as unproven against real student failure until that round runs.
+**Next: the breadth pass** ([[ADR-016]]). Seven modules have no student-facing
+content at all, so a human review meeting can only ever discuss M4 and M5. Each
+of M0–M3 and M6–M8 gets a **Learn beat** at status `First pass`, one PR per
+module, before further depth work. Work list: `_tracking/breadth-pass-ledger.md`.
+
+**Deferred behind it, not dropped:** the **M5 cohort round** (#21). M5 is Built
+but not Ready — no synthetic cohort has taken it, so F-007 is a build record, not
+a field record. **Treat M5 content as unproven against real student failure until
+that round runs.**
 
 ---
 
 ## Per-module file shape
 
-A Built module carries these, beyond the four skeleton files:
+A **First pass** module carries one artifact beyond the four skeleton files:
+
+```
+modules/mN/
+  learn.md                      Learn beat — the reading
+  code/learn-*.cpp              Every C++ source that beat quotes
+```
+
+A **Built** module carries these, beyond the four skeleton files:
 
 ```
 modules/mN/
@@ -50,6 +69,13 @@ modules/mN/
   assess-lab.md                 Assess beat — the graded lab, with rubric
   code/                         Every C++ source the beats reference
 ```
+
+**`_assess-spec.STUB.md` stops being a stub once its lab is authored.** In a Built
+or Ready module it is the **build record** — the acceptance criteria and contract
+the lab was written against, kept for the reasoning. It is never handed to a
+student, and if it disagrees with `assess-lab.md`, the lab wins. Retarget its
+banner when the lab lands; leaving "NOT YET AUTHORED" on a shipped module tells
+every reader the opposite of the truth (F-014 §5).
 
 `code/` holds **sources only**. Compiled binaries are extensionless on
 macOS/Linux, which no `*.ext` rule catches, so `.gitignore` excludes everything
