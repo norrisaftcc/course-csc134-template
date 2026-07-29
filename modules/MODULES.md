@@ -27,7 +27,7 @@ in the module's own `_overview.md`, not substituted for the title here.
 | Module | Title | Status | Beats present | Evidence |
 |---|---|---|---|---|
 | **M0** | Welcome to Programming | Skeleton | — | — |
-| **M1** | Talk to Computers (and Your Team) | Skeleton | — | — |
+| **M1** | Talk to Computers (and Your Team) | **First pass** | Learn | F-015 (breadth pass). Pre-C++ — no `code/`, no compile-gate surface. No cohort round. |
 | **M2** | How to Solve Problems | **First pass** | Learn | F-015 (breadth-pass pilot). Both gates green; no cohort round. |
 | **M3** | Program Basics | Skeleton | — | — |
 | **M4** | Decisions | **Ready** | Learn · Practice (+key) · Apply · Assess | F-004 (build), F-005 (cohort round 1), F-006 (fixes + certification) |
