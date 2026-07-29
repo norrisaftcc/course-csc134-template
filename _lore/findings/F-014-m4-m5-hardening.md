@@ -56,6 +56,20 @@ Three details worth the wall:
 Gate state after migration, course-wide: **compile 53 files (46 clean + 7 marked EXPECT-WARNING),
 markdown 45/45 matched.**
 
+### 1b. M4 Canvas re-emitted to track the migrated source
+
+The migration edited M4's Learn source, so the four composed pages in
+`_outputs/canvas-html/m4/` had drifted (ADR-012: the composed copy goes stale, and it is the one
+that lies). Re-emitted the affected code blocks against the current Markdown: three self-naming
+Stage headers (`// learn-gate-strength.cpp — Stage A`, `… class … Stage B`, `… full … Stage C`)
+dropped so the `<pre>` matches the `excerpt=` slice byte-for-byte — the `.cpp` keeps its header, the
+listing omits it (ADR-015 line 131) — and one bare `...` normalised to `// ...`. Nothing was
+authored: the Stage-C fragment cue it carried already lives in the trailing prose ("The complete
+runnable program is `modules/m4/code/learn-gate-full.cpp`"), and the `<h2>`/prose carry the concept
+the headers named. Verified two ways: all four blocks now diff-clean against source, and the
+compositor's own `gate.py` reports **0 failures across 4 fragments**. Apply/Practice remain
+un-composed per F-008's rulings — unchanged.
+
 ## 2. The M4→M5 seam and EIGHTY-mode split are verified
 
 The seam is the spine's load-bearing claim for these two modules: *M5 is the M4 gatekeeper grown a
