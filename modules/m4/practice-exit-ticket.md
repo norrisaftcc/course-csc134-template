@@ -28,7 +28,7 @@ checking, not the theme.
 
 What does this program print?
 
-```cpp
+```cpp excerpt=modules/m4/code/practice-item1-vault.cpp
 #include <iostream>
 using namespace std;
 
@@ -57,7 +57,7 @@ int main()
 Item 1 had one `if` and one `else`. This one puts a **second check** in the
 middle — an `else if` — before deciding. What does it print?
 
-```cpp
+```cpp excerpt=modules/m4/code/practice-item1_5-mana.cpp
 #include <iostream>
 using namespace std;
 
@@ -97,7 +97,7 @@ Read this once. The next few items ask different questions about it. It reads a
 character class, then a strength score, and for a Rogue it also asks about a
 lockpick. Then it decides.
 
-```cpp
+```cpp excerpt=modules/m4/code/practice-gatekeeper.cpp
 #include <iostream>
 using namespace std;
 
@@ -214,7 +214,7 @@ graded — the last question is what counts):
 
 What does this program print?
 
-```cpp
+```cpp excerpt=modules/m4/code/practice-item4-doors.cpp
 #include <iostream>
 using namespace std;
 
@@ -251,7 +251,7 @@ This program **compiles and runs** with no error message. The author wanted it
 to print **only** the red-potion line when `potion` is `1`. Instead it prints
 both potion lines.
 
-```cpp
+```cpp excerpt=modules/m4/code/practice-item5-fallthrough.cpp
 #include <iostream>
 using namespace std;
 
@@ -334,13 +334,13 @@ change.)
 
 This code chooses exactly one status to print, based on `hp`:
 
-```cpp
-if (hp >= 50)
-    cout << "Healthy\n";
-else if (hp >= 20)
-    cout << "Wounded\n";
-else
-    cout << "Critical\n";
+```cpp excerpt=modules/m4/code/practice-item7-status.cpp
+    if (hp >= 50)
+        cout << "Healthy\n";
+    else if (hp >= 20)
+        cout << "Wounded\n";
+    else
+        cout << "Critical\n";
 ```
 
 **Which flowchart matches this code?**
