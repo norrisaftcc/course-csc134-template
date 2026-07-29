@@ -49,7 +49,7 @@ Languages at All"*, plus 5 gated sources in `modules/m2/code/`.
 | Flesch–Kincaid grade | **6.0** (bar: ≤ 10) |
 | Gated `.cpp` authored | 5 — 3 clean, 2 marked `EXPECT-ERROR` |
 | Fenced `cpp` blocks | 5, **all born-compliant, all matched on the first gate run** |
-| Non-gated fences | 4 (`html`, `javascript`, `python`, `asm`, `bash`) — not C++, correctly outside the gate |
+| Non-gated fences | 5 (`html`, `javascript`, `python`, `asm`, `bash`) — not C++, correctly outside the gate |
 | Mermaid diagrams | 2 (the program's straight-line flowchart; the edit→compile→run→verify loop) |
 | Compile gate | 37 files tree-wide: 34 clean, 0 warned, 0 errored, 3 expected |
 | Markdown gate | 50 blocks: 5 matched, **0 failed, 45 unmigrated** — unmigrated **unchanged** |

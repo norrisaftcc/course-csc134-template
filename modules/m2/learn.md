@@ -79,7 +79,7 @@ Notice the trade. Python said it in one line; C++ took seven. But C++ is being e
 
 C++ sits deliberately in the middle. That is why this course uses it: high enough to get things done, low enough that you can still see the machinery.
 
-> **💡 Pro Tip**: `#include <iostream>` and `using namespace std;` will be at the top of nearly every program you write this term. You do not need to fully understand them today. You need to know they are load-bearing — delete either one and the program stops building.
+> **💡 Pro Tip**: `#include <iostream>` and `using namespace std;` will be at the top of nearly every program you write this term. You do not need to fully understand them today, but you should know what each one is doing. Delete the `#include` and the program stops building — nothing else tells C++ what `cout` is. Delete the `using` line and it also stops building, *unless* you go back and write `std::cout` instead of `cout` everywhere. This course keeps that line on purpose, so you are not typing `std::` on every line while you are still working out what the lines do.
 
 ### Predict first
 
@@ -135,15 +135,18 @@ One box per statement, one arrow each, no forks. A **straight line** — because
 
 Python and JavaScript are usually **interpreted**: another program reads your source and does what it says, line by line, as it goes. C++ is **compiled**: a program called the compiler reads your entire source file *once*, ahead of time, and produces a second file — a real one, on disk — that the machine can run on its own.
 
-Here is the command this course uses. You will type it a lot:
+Here is the command this course uses. You will type it a lot. Run it **from the folder your `.cpp` file is in** — in this repo that program lives in `modules/m2/code/`, so `cd` there first:
 
 ```bash
 g++ -std=c++17 -Wall -Wextra -o door learn-door.cpp
+./door
 ```
 
-Read it right to left and it is almost English. Take `learn-door.cpp`, and `-o` (output) a program called `door`. The `-Wall -Wextra` flags mean *warn me about everything*, and `-std=c++17` picks which version of the language to use.
+Read the first line right to left and it is almost English. Take `learn-door.cpp`, and `-o` (output) a program called `door`. The `-Wall -Wextra` flags mean *warn me about everything*, and `-std=c++17` picks which version of the language to use. The second line, `./door`, is how you actually run the thing you just built — the `./` means *the one right here in this folder*.
 
-**Now the part students are surprised by.** After that command, your folder has two files, not one:
+If the compile worked, it prints nothing at all. **Silence is success.** The compiler only speaks up when something is wrong, which takes some getting used to.
+
+**Now the part students are surprised by.** After that command, that folder has two files, not one:
 
 | File | What it is | Can you read it? |
 |---|---|---|
@@ -288,6 +291,11 @@ For explaining an error message, yes — it is genuinely good at that, and this 
 
 ## Next Steps
 
-1. **Take the M2 exit ticket** (`practice-exit-ticket.md`). It is completion-gated — finish it to move on. Nothing on it is a trick.
+1. **Take the M2 exit ticket.** It is completion-gated — finish it to move on. Nothing on it is a trick.
 2. **Bring this reading to class** for the Apply tutorial, where you will type a program in, compile it, and then break it on purpose to watch the compiler complain. Naming what you broke, in the four words, is the point of the exercise.
+
+> **📋 Instructor note — not yet authored.** M2 is at **First pass**: this reading
+> exists, the exit ticket and Apply tutorial do not (ADR-016). Steps 1 and 2 describe
+> where this beat hands off, not files you can open today. Do not route students here
+> expecting the rest of the module to be waiting for them.
 3. **Optional:** the `thinkcpp` predict-the-output checkpoints are more reps at the skill from the *Predict first* section above. The skill is worth the reps.
