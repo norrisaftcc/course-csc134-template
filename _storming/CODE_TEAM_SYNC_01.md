@@ -4,6 +4,12 @@
 UNCLASSIFIED // FLEET USE // 2026-07-24
 ```
 
+> ⚠️ **SUPERSEDED — historical record, do not act on this file.** Written by hand 2026-07-24;
+> its ADR numbers were reassigned (002/003/004 here are now 005/006/007), its three "still open"
+> rulings were closed by ADR-002, and it predates ADR-008–ADR-015 and both CI gates. The current
+> picture is regenerated every run into `_storming/CODE_TEAM_SYNC.md` by the charter in
+> `_storming/VERIFIER_BRIEF.md` (ADR-016). Kept as the record of why we stopped hand-writing it.
+
 > **BLUF:** The plan (`_storming/ULTRACODE_ALPHA_PLAN.md`) stands. Since handoff: four ADRs
 > are on the wall, the M1/M2 asset picture improved a lot (csc_dash crosswalk, 3 parts), two
 > vocabulary rulings landed (Mail Run; exit ticket = checkpoint only), a late policy exists
