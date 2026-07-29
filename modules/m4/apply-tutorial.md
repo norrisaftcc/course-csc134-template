@@ -146,7 +146,7 @@ add any decisions.
 
 Have students type this exactly:
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-gatekeeper-stage1.cpp
 #include <iostream>
 using namespace std;
 
@@ -191,7 +191,7 @@ list of exact values (1, 2, 3).
 
 Add the marked lines:
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-gatekeeper-stage2.cpp
 #include <iostream>
 using namespace std;
 
@@ -275,7 +275,7 @@ that's true, then skips the rest.
 
 Add the marked lines below the `switch`'s closing brace:
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-gatekeeper-stage3.cpp
     // ... Stage 2 switch ends with its closing brace above ...
 
     // ===== STAGE 3: she measures your strength (if / else-if / else) =====   // NEW
@@ -364,7 +364,7 @@ see — and the contrast is the real lesson.
 Find your strength check `if (strength >= 70)`. Change the `>=` to a single
 `=` — one character — so the line reads:
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-break-a.cpp
     if (strength = 70)     // one character changed on purpose
 ```
 
@@ -391,7 +391,7 @@ single run, replace your **whole strength `if / else if / else` block** with
 this nested, brace-free version (delete all of it, paste this in its place). The
 indentation says one thing; watch C++ do another:
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-break-b.cpp
     // TEMPORARY — braces removed on purpose
     if (strength >= 40)
         if (strength >= 70)
@@ -437,7 +437,7 @@ and that the warnings are gone.
 Find `case 1:` in your `switch`. Delete or comment out the `break;` right below
 its `cout` line. Leave everything else alone.
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-break-c.cpp
         case 1:
             cout << "\"A Warrior. Strong arms, I hope.\"\n";
             // break;   <-- deliberately removed
@@ -497,7 +497,7 @@ Then we add a new branch to the ladder that uses `&&`.
 Insert the lockpick block right after `cin >> strength;`, and add the new
 `else if` branch into the ladder (marked lines):
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-gatekeeper-stage4.cpp
     // ===== STAGE 3: she measures your strength (if / else-if / else) =====
     int strength = 0;         // a whole number, 0 to 100
     cout << "Your strength score (0-100): ";
@@ -604,7 +604,7 @@ Every break you have done so far, the compiler saw coming. This one it cannot.
 order of the first two bars — move the `>= 40` branch **above** the `>= 70`
 branch. Change nothing else. No text, no conditions, just the order:
 
-```cpp
+``` cpp excerpt=modules/m4/code/apply-deliberate-break.cpp
     // TEMPORARY — branches swapped on purpose
     if (strength >= 40)
     {

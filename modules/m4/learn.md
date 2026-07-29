@@ -34,7 +34,7 @@ This is also where the course starts talking about **filters**: conditionally pr
 
 The simplest decision does one thing when a condition is true and another when it is false.
 
-```cpp
+``` cpp excerpt=modules/m4/code/learn-firstfork.cpp
 if (strength >= 70)
 {
     cout << "The gate swings wide.\n";
@@ -53,8 +53,7 @@ Two outcomes are rarely enough. The gatekeeper has three answers ready — pass,
 
 **Predict first.** Read this complete program. If the player types `55`, what prints? Write your guess down before you scroll.
 
-```cpp
-// learn-gate-strength.cpp — Stage A
+``` cpp excerpt=modules/m4/code/learn-gate-strength.cpp
 #include <iostream>
 using namespace std;
 
@@ -126,8 +125,7 @@ Notice the shape: each diamond has exactly two exits, and every path lands at th
 
 A chain of `else if`s comparing the *same* variable against a list of *exact* values gets noisy. When you are matching one whole number against fixed choices — a menu, a class number — `switch` says it more cleanly. The gatekeeper's first question is exactly this shape.
 
-```cpp
-// learn-gate-class.cpp — Stage B
+``` cpp excerpt=modules/m4/code/learn-gate-class.cpp
 #include <iostream>
 using namespace std;
 
@@ -180,13 +178,13 @@ Sometimes one comparison is not enough. A middling Rogue can still slip through 
 | `\|\|` | OR | **at least one** side is true |
 | `!` | NOT | flips true to false |
 
-```cpp
+``` cpp excerpt=modules/m4/code/learn-combine-ops.cpp
 // Both must be true:
 if (strength >= 40 && hasLockpick)
-
+// ...
 // At least one is enough:
 if (characterClass == 1 || characterClass == 2)
-
+// ...
 // Flip it — true when NOT locked:
 if (!isLocked)
 ```
@@ -199,8 +197,7 @@ if (!isLocked)
 
 **Predict first.** The player is a **Rogue** (class `3`), strength `55`, and answers `1` (yes, has a lockpick). Which single line of outcome prints? Guess before you scroll.
 
-```cpp
-// learn-gate-full.cpp — Stage C (abridged; full file in code/)
+``` cpp excerpt=modules/m4/code/learn-gate-full.cpp
     bool hasLockpick = false;
     if (characterClass == 3)          // nested: only a Rogue is asked
     {
@@ -248,7 +245,7 @@ These three are the classic decision bugs. This course doesn't spring traps on y
 
 One equals sign **assigns**. Two equals signs **compare**. Inside an `if`, you almost always want two.
 
-```cpp
+``` cpp excerpt=modules/m4/code/learn-trap1-assign.cpp
 if (strength = 70)   // BUG: this ASSIGNS 70 to strength, then the if is "true"
 ```
 
@@ -258,7 +255,7 @@ That line sets `strength` to `70` and then treats the result as true — so the 
 
 Every `case` needs its own `break;`. Forget it, and the program keeps running straight into the *next* case.
 
-```cpp
+``` cpp excerpt=modules/m4/code/learn-trap2-fallthrough.cpp
 switch (characterClass)
 {
     case 1:
@@ -267,7 +264,7 @@ switch (characterClass)
     case 2:
         cout << "\"A Mage.\"\n";
         break;
-    ...
+    // ...
 }
 ```
 
@@ -298,7 +295,7 @@ The catch is that it **still produces a program**. A warning is not an error, so
 
 Without braces, an `else` pairs with the **nearest** `if` — not the one your indentation seems to point at.
 
-```cpp
+``` cpp excerpt=modules/m4/code/learn-trap3-dangling.cpp
 if (strength >= 40)
     if (hasLockpick)
         cout << "Clever hands.\n";

@@ -196,7 +196,7 @@ Earn the Badge by turning in all three of these:
       under a heading "Reverse Recovery," draw the Mermaid flowchart for this
       code snippet — read the code, recover the diagram:
 
-      ```cpp
+      ``` cpp excerpt=modules/m4/code/assess-temp-ladder.cpp
       int temp = 0;
       cin >> temp;
       if (temp >= 100)
