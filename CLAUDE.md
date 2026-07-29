@@ -169,3 +169,10 @@ deliberately does not inline.
 
 When in doubt: the spine decides *what*, the contracts fix the *shapes*, the
 skills carry the *how*, and this file holds the *invariants*.
+
+## Copilot CI triage guardrail
+
+When investigating a failed GitHub Actions run from a `Fix with Copilot` link,
+keep tool output small: call `actions_list` with narrow filters (`per_page`,
+`branch`, `event`, `status`) and then jump to `actions_get` for the exact run
+ID plus `get_job_logs` for the failed job. Avoid unfiltered run listings.
