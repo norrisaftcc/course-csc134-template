@@ -19,7 +19,7 @@ work list and the ranked backlog behind it.
 |---|---|---|---|---|---|---|
 | — | **M4** | Decisions | type-in 100% | **Ready** | ✅ | Calibration reference. `learn.md` + 3 gated `learn-*.cpp` + composed Canvas pages |
 | 1 | **M5** | Loops | SPLIT (FULL→EIGHTY) | **Built** *(in PR #20)* | ✅ | Unblock and merge — see §2 |
-| 2 | **M2** | How to Solve Problems | type-in 100% | Skeleton | ☐ | **Pilot.** See §3 |
+| 2 | **M2** | How to Solve Problems | type-in 100% | **First pass** | ✅ | **Pilot — done.** 1,806 words, FK 6.0, 5 gated sources, both gates green. F-015 |
 | 3 | **M1** | Talk to Computers (and Your Team) | pre-gradient | Skeleton | ☐ | Wave A — largely pre-C++ |
 | 4 | **M0** | Welcome to Programming | pre-gradient | Skeleton | ☐ | Wave A — largely pre-C++ |
 | 5 | **M3** | Program Basics | type-in 100% | Skeleton | ☐ | Wave B — **recreate-with-salvage** (ADR-010) |
