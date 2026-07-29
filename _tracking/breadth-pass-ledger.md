@@ -37,11 +37,12 @@ CI, and no growth in the markdown gate's violation count from new material.
 M5 is complete and its two review items are closed. It has been held open only by #21, the cohort
 round, which ADR-016 defers.
 
-- [ ] Merge `origin/main` into `module/m5-deep` (expect touches in `.gitignore`, `modules/MODULES.md`)
-- [ ] Let CI run **for the first time** — PR #20's base predates the compile gate (F-014 §2)
-- [ ] `compile` job green on GCC, or fix what it reports
-- [ ] `markdown` job goes 23 → **45** unmigrated. Pre-existing debt arriving, not a regression (F-014 §3)
-- [ ] Report to the user; **they merge** (ADR-004: human review at every PR)
+- [x] Merge `origin/main` into `module/m5-deep` — clean, no conflicts (`07d2408`)
+- [x] Let CI run **for the first time** — PR #20's base predated the compile gate (F-014 §2)
+- [x] `compile` job **green on GCC**: 32 files, 31 clean, 1 expected (marked). All 20 M5 sources clean
+- [x] `markdown` job went 23 → **45** unmigrated, exactly as predicted. Pre-existing debt arriving,
+      not a regression (F-014 §3)
+- [x] Reported on PR #20; **awaiting human merge** (ADR-004: human review at every PR)
 - [ ] Fix on the way through: `MODULES.md` rows for M2 and M3 read "First Programs" and
       "Arithmetic & I/O"; the spine titles are **"How to Solve Problems"** and **"Program Basics"**
 - [ ] Add the `First pass` row to `MODULES.md`'s status-vocabulary table

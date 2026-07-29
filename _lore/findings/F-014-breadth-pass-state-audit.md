@@ -51,6 +51,15 @@ which is the same category of unknown ADR-014 was written to close.
 Merging `main` into `module/m5-deep` makes CI run for the first time and settles it. That is the
 first action ADR-016 schedules.
 
+**Settled, same day.** `main` merged in as `07d2408`; CI ran against M5 for the first time.
+`g++ -std=c++17 -Wall -Wextra` on ubuntu-latest reported **32 files: 31 clean, 0 warned,
+0 errored, 1 expected (marked)** — the one expected being M4's `practice-item5-fallthrough.cpp`
+asserting its `EXPECT-WARNING` marker. **All 20 `modules/m5/code/*.cpp` are clean.**
+
+The macOS result was right. It is now also *evidence* — which is the whole distinction ADR-014
+draws, and the reason this was worth checking rather than assuming. A claim that turns out true
+was still unverified while it was unverified.
+
 ## 3. Gate counts, measured (not estimated)
 
 Run on this branch, GCC on Linux, 2026-07-29:
@@ -68,6 +77,11 @@ The 23 break down as `apply-tutorial.md` 8, `learn.md` 8, `practice-exit-ticket.
 `assess-lab.md` 1; the exit-ticket key has none). Recorded here in advance so the jump reads as
 pre-existing debt arriving, **not as a regression introduced by the merge**. #30's scope grows
 from 23 to 45; nothing about it becomes newly wrong.
+
+**Confirmed in CI after the merge**, file for file: `GATE FAILED — 45 block(s) are UNMIGRATED,
+not defective.` The prediction is recorded above the result on purpose. A number written down
+*before* the run is a check on the model of the system; the same number written down after is
+only a transcript.
 
 This is also the measurement behind ADR-016's born-compliant rule. Seven more Learn beats authored
 the old way would put the count past 100 and turn a tracked debt into an unpayable one.
@@ -94,7 +108,7 @@ index.** The rebuild stays deferred until the breadth pass completes.
 | Item | Disposition |
 |---|---|
 | 1/9 coverage | Addressed by [[ADR-016-breadth-first-pass]] — a Learn beat in every module |
-| M5 stranded in #20 | Unblock: merge `main` in, let CI run, hand to humans for merge (ADR-004) |
-| M5's unverified compile claim | Open until the `compile` job reports green on GCC in CI |
-| 23 → 45 unmigrated blocks | Recorded against #30; scope grows, nothing regresses. Born-compliant rule keeps it from growing further |
+| M5 stranded in #20 | **Done** — `main` merged in as `07d2408`, CI run, handed back for human merge (ADR-004) |
+| M5's unverified compile claim | **Closed, verified** — `compile` job green on GCC in CI; all 20 M5 sources clean |
+| 23 → 45 unmigrated blocks | Predicted, then confirmed in CI. Recorded against #30; scope grows, nothing regresses. Born-compliant rule keeps it from growing further |
 | Stale manifest | Banner now; rebuild after the breadth pass |
