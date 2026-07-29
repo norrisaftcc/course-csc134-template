@@ -66,8 +66,7 @@ A `while` loop checks its condition **before** every pass. "While this is true, 
 
 **Predict first.** Read this complete program. The monster starts at 30 HP and you hit for 10. What prints? Write your guess down before you scroll.
 
-```cpp
-// learn-combat-while.cpp
+``` cpp excerpt=modules/m5/code/learn-combat-while.cpp
 #include <iostream>
 using namespace std;
 
@@ -122,8 +121,7 @@ A `do-while` flips the order: it runs the body **once**, *then* checks whether t
 
 And here's the moment M5 has been building toward. Watch the M4 gatekeeper decision drop straight into a loop as **one menu action**:
 
-```cpp
-// learn-menu-dowhile.cpp
+``` cpp excerpt=modules/m5/code/learn-menu-dowhile.cpp
 #include <iostream>
 using namespace std;
 
@@ -199,8 +197,7 @@ One honest gap: this menu *trusts* you to type a number. Type a letter and it mi
 
 When you know the count up front — "do this exactly N times" — the `for` loop puts all three moving parts on one line: where to **start**, how long to **keep going**, and how to **advance**. Remember the turtle's four sides? That's a count. Here it is in C++:
 
-```cpp
-// learn-square.cpp
+``` cpp excerpt=modules/m5/code/learn-square.cpp
 #include <iostream>
 using namespace std;
 
@@ -231,8 +228,7 @@ The header `for (int side = 1; side <= 4; side++)` reads as three parts split by
 
 Now the real one — the **Level Up Stats** table you'll type in class. Each level, three stats grow at different rates, and the table prints neatly with `setw(n)` (from `<iomanip>`), which sets a column to `n` characters wide:
 
-```cpp
-// learn-levelup-for.cpp
+``` cpp excerpt=modules/m5/code/learn-levelup-for.cpp
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -294,8 +290,7 @@ Back to that honest gap in the menu. What happens when `cin >> choice` expects a
 
 The fix is a pattern worth memorizing *by understanding*, not by copy-paste. This is the exact validation loop from the course's frozen menu program — the piece you'll finish in the Apply tutorial:
 
-```cpp
-// learn-validate.cpp
+``` cpp excerpt=modules/m5/code/learn-validate.cpp
 #include <iostream>
 #include <limits>
 using namespace std;
@@ -367,7 +362,7 @@ For *explaining* a loop you're stuck on, sure — that's a fair use of the AI la
 
 **1. Predict the output.** How many times does the body run?
 
-```cpp
+``` cpp excerpt=modules/m5/code/learn-room-for.cpp
 for (int i = 0; i < 4; i++)
 {
     cout << "Room " << i << "\n";

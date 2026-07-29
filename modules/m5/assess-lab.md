@@ -335,7 +335,7 @@ warn you about this — only counting will catch it.
 
 **Your validation accepts everything.** Almost always this:
 
-```cpp
+``` cpp excerpt=modules/m5/code/assess-validate-wrong.cpp
 while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG — silently does nothing
 ```
 
