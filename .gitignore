@@ -37,6 +37,18 @@
 *.out
 *.app
 
+# Module code folders hold sources only. Compiling a single-file program on
+# macOS/Linux produces an EXTENSIONLESS binary, which no *.ext rule can catch —
+# so ignore everything in these folders and allow the source types back in.
+modules/*/code/*
+!modules/*/code/*.cpp
+!modules/*/code/*.h
+!modules/*/code/*.md
+
 # debug information files
 *.dwo
 .DS_Store
+
+# Python cache from the gate scripts
+__pycache__/
+*.pyc
