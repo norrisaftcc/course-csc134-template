@@ -1,0 +1,220 @@
+<!-- compositor: M4 · assess -->
+<!-- SOURCE: modules/m4/assess-lab.md — build output, do not hand-edit. Edit the Markdown and re-emit. -->
+<!-- Canvas ASSIGNMENT description. Paste the wrapper div below into the Canvas HTML editor. -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+<p style="margin:0 0 1.2rem;font-size:1.15rem;color:#16191D;">Write a program that puts someone in the player's way, checks two things about them, and then picks exactly one ending out of several — based on what the user typed.</p>
+
+<p style="margin:0 0 1.4rem;">In the Apply tutorial you typed in the Gatekeeper: a scene where a character looks you over, asks a question or two, and then <em>decides</em> what happens to you. Now you write your own. Same input, same ending, every time. Different input, different ending. That is what decisions do — they make the program fork.</p>
+
+<p style="margin:0 0 1.4rem;">The Gatekeeper is one skin, and you do not have to keep it. A nightclub bouncer checking your ID and the guest list. An airport gate agent checking your ticket class and your bag weight. A loan officer checking your account type and your credit score. Pick whatever scene you like — the decisions underneath are the same, and the decisions are what you are graded on.</p>
+
+<div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.6rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#1F6F5C;">Source document</p>
+  <p style="margin:0;"><a href="#LINK-PENDING-m4-apply-gatekeeper" style="color:#0374B5;">M4 Apply — the Gatekeeper tutorial</a> <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#9A6700;">[LINK PENDING]</span> &mdash; the worked example this lab asks you to rebuild in your own scene. Keep it open beside you.</p>
+</div>
+
+<hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">The specification</h2>
+
+<p style="margin:0 0 1rem;">This is the contract. Read it with the theme words removed and it still tells you exactly what to build.</p>
+
+<h3 style="margin:1.4rem 0 .5rem;font-size:1.05rem;line-height:1.35;color:#16191D;">Inputs, typed by the user, in this order</h3>
+
+<ol style="margin:0 0 1.4rem;padding-left:1.4rem;">
+  <li style="margin:0 0 .5rem;">A <strong>category</strong> — a whole number <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">1</span>, <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">2</span>, or <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">3</span> that picks <em>who</em> or <em>what kind</em>. Warrior/Mage/Rogue, or Merchant/Pilgrim/Smuggler, or Standard/Business/First — your call.</li>
+  <li style="margin:0 0 .5rem;">A <strong>score</strong> — a whole number from 0 to 100 that the program compares against thresholds.</li>
+  <li style="margin:0;"><em>Higher tiers only.</em> One more small input — a yes/no answer (<span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">1</span> or <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">0</span>) that only some categories are asked for.</li>
+</ol>
+
+<h3 style="margin:1.4rem 0 .5rem;font-size:1.05rem;line-height:1.35;color:#16191D;">Processing</h3>
+
+<ol style="margin:0 0 1.4rem;padding-left:1.4rem;">
+  <li style="margin:0 0 .5rem;">A <strong>switch</strong> on the category prints a category-specific line. A category number the switch does not recognize lands in the <strong>default</strong> case, which prints a "you don't belong here" line and ends the program cleanly. That default is a <em>designed</em> ending, not a crash.</li>
+  <li style="margin:0;">An <strong>if / else if / else chain with at least three branches</strong> compares the score against thresholds and picks the outcome. Order the branches from the highest bar down to the lowest, so each else-if only runs when the ones above it were false. The threshold <em>values</em> are yours to choose — they need not match the example numbers used here. The only rule is highest bar first.</li>
+</ol>
+
+<h3 style="margin:1.4rem 0 .5rem;font-size:1.05rem;line-height:1.35;color:#16191D;">Outputs</h3>
+
+<p style="margin:0 0 1.4rem;">The category line, then the outcome line or lines. Every run ends with exactly one outcome. No run falls off the end having printed nothing.</p>
+
+<p style="margin:0 0 .6rem;">Here is a C-tier run in the Gatekeeper skin, where the score clears the top bar:</p>
+
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">A gatekeeper blocks the door. She looks you over.
+Your class? (1 = Warrior, 2 = Mage, 3 = Rogue): 1
+"A Warrior. Strong arms, I hope."
+Your strength score (0-100): 85
+The gate swings wide. "Strong enough. Go through."
+The visit ends.</pre>
+
+<p style="margin:0 0 .6rem;">And here is the same program taking the designed exit, because 7 is not a category it knows. Notice it ends deliberately, with a sentence, rather than falling over:</p>
+
+<pre style="margin:0 0 1.6rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">A gatekeeper blocks the door. She looks you over.
+Your class? (1 = Warrior, 2 = Mage, 3 = Rogue): 7
+"I do not know that class. Off you go."
+The gate stays shut.</pre>
+
+<p style="margin:0 0 1.4rem;">The spec above is the whole target. The scene words are yours to change; the switch, the three-branch chain, and the graceful default are not.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">How far you take it</h2>
+
+<p style="margin:0 0 1rem;">Two separate things are scored: <strong>which tier you attempt</strong>, and <strong>how the attempt scores</strong> across four columns. Tiers nest — B includes all of C, A includes all of B. You earn the highest tier at which all four columns pass.</p>
+
+<p style="margin:0 0 1.2rem;">You can stop at C with a complete, working, submittable program. <strong>C is the objective met, not partial credit.</strong></p>
+
+<div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;margin:0 0 1.4rem;font-size:.95rem;">
+    <tbody>
+      <tr>
+        <td style="padding:.6rem .7rem .6rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;"><strong>C</strong><br><span style="color:#6B7280;font-size:.85rem;">core</span></td>
+        <td style="padding:.6rem 0;border-bottom:1px solid #DFE3E8;">A Mermaid flowchart drawn first, then a program using a switch (3+ cases plus a graceful default) on the category and an if / else if / else chain (3+ branches) on the score, with every branch reachable, matching the flowchart, compiling clean.</td>
+      </tr>
+      <tr>
+        <td style="padding:.6rem .7rem .6rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;"><strong>B</strong><br><span style="color:#6B7280;font-size:.85rem;">depth</span></td>
+        <td style="padding:.6rem 0;border-bottom:1px solid #DFE3E8;">Everything in C, plus one compound condition (&amp;&amp;, ||, !) that changes an outcome, and one <strong>single-pass</strong> out-of-range input check that rejects and ends cleanly. No loop.</td>
+      </tr>
+      <tr>
+        <td style="padding:.6rem .7rem .6rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;"><strong>A</strong><br><span style="color:#6B7280;font-size:.85rem;">synthesis</span></td>
+        <td style="padding:.6rem 0;border-bottom:1px solid #DFE3E8;">Everything in B, plus a branching tree with four or more distinct outcome messages (distinct means different printed text), each printing for a different combination of category and score, and at least one genuinely nested condition — an if <em>inside</em> a branch, not just another else-if.</td>
+      </tr>
+      <tr>
+        <td style="padding:.6rem .7rem .6rem 0;vertical-align:top;"><strong>Badge</strong><br><span style="color:#6B7280;font-size:.85rem;">above &amp; beyond</span></td>
+        <td style="padding:.6rem 0;">A recovered flowchart for the snippet below (code &rarr; flowchart, the reverse direction), a complete prompts.md if AI was used, and a 3-5 sentence reflection. Badge is documentation, never more code, and never rescues a failed column.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 style="margin:1.4rem 0 .5rem;font-size:1.05rem;line-height:1.35;color:#16191D;">C tier — the core scene</h3>
+
+<ol style="margin:0 0 1.4rem;padding-left:1.4rem;">
+  <li style="margin:0 0 .45rem;">A <strong>flowchart</strong> in m4lab-plan.md, drawn as a Mermaid diagram, matching your finished code.</li>
+  <li style="margin:0 0 .45rem;">A <strong>switch</strong> on the category input with at least three cases plus a <strong>default</strong> that ends the program gracefully.</li>
+  <li style="margin:0 0 .45rem;">An <strong>if / else if / else chain with at least three branches</strong> on the score — a high case, a middle case, a low case.</li>
+  <li style="margin:0 0 .45rem;">Every branch is reachable, and every run prints exactly one outcome.</li>
+  <li style="margin:0;">Compiles clean under the course build command — <strong>zero warnings</strong>.</li>
+</ol>
+
+<h3 style="margin:1.4rem 0 .5rem;font-size:1.05rem;line-height:1.35;color:#16191D;">B tier — depth</h3>
+
+<ol start="6" style="margin:0 0 1.4rem;padding-left:1.4rem;">
+  <li style="margin:0 0 .45rem;">One <strong>compound condition</strong> using &amp;&amp;, ||, or ! that actually changes an outcome. For example, a middle-score result that only happens when the score is in range <em>and</em> a yes/no answer was yes.</li>
+  <li style="margin:0;">One <strong>single-pass input check</strong> that rejects an out-of-range score with a clear message and ends cleanly. <strong>This is one check, not a loop.</strong> Looping until the input is valid is an M5 move — do not use a loop here. A single if that rejects and stops is exactly right.</li>
+</ol>
+
+<h3 style="margin:1.4rem 0 .5rem;font-size:1.05rem;line-height:1.35;color:#16191D;">A tier — synthesis</h3>
+
+<ol start="8" style="margin:0 0 1.4rem;padding-left:1.4rem;">
+  <li style="margin:0 0 .45rem;">A real branching tree with <strong>four or more distinct outcome messages</strong>, each printing for a different combination of category and score. Distinct means different printed text — four separate messages, not the same line reached four ways.</li>
+  <li style="margin:0;">At least one <strong>genuinely nested</strong> condition — an if inside another branch's body, not just another link in the else-if chain.</li>
+</ol>
+
+<h3 style="margin:1.4rem 0 .5rem;font-size:1.05rem;line-height:1.35;color:#16191D;">Badge — documentation, not more code</h3>
+
+<ol start="10" style="margin:0 0 1rem;padding-left:1.4rem;">
+  <li style="margin:0 0 .45rem;">A <strong>recovered flowchart</strong>. In m4lab-plan.md, under a heading "Reverse Recovery," draw the Mermaid flowchart for the snippet below — read the code, recover the diagram.</li>
+  <li style="margin:0 0 .45rem;"><strong>prompts.md</strong> — if you used AI at all, list every prompt you sent and one sentence each on what you changed or rejected about the answer.</li>
+  <li style="margin:0;">A <strong>short reflection</strong>, 3-5 sentences, naming where you used &amp;&amp; versus || (or why you used neither) and what would break if you swapped one for the other.</li>
+</ol>
+
+<p style="margin:0 0 .6rem;">The snippet to recover a flowchart from:</p>
+
+<pre style="margin:0 0 1.6rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">int temp = 0;
+cin &gt;&gt; temp;
+if (temp &gt;= 100)
+    cout &lt;&lt; "Boiling.\n";
+else if (temp &lt;= 0)
+    cout &lt;&lt; "Freezing.\n";
+else
+    cout &lt;&lt; "Liquid.\n";</pre>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">How it is scored</h2>
+
+<p style="margin:0 0 1.2rem;">No hidden criteria — what is on this page is the whole rubric. You choose a tier; you are scored on the four columns below.</p>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.2rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Correctness &middot; 8</p>
+  <p style="margin:0;">Every branch prints the ending your flowchart says it should, for the inputs listed under Testing. The default ends cleanly on an unknown category, and the boundary values — 70 against 69, say — land in the right branch. At B, the compound condition changes the outcome it claims to, and the out-of-range check rejects rather than running a normal branch. Any remaining defect is logic-level and named in m4lab-plan.md.</p>
+</div>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.2rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Completeness &middot; 6</p>
+  <p style="margin:0;">Everything the attempted tier lists is present, and the flowchart and the code tell the same story.</p>
+</div>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.2rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Format &middot; 3</p>
+  <p style="margin:0;">Compiles clean with zero warnings. Everything in main — no functions, no prototypes, no loops. Variables named for what they hold. Every branch body braced. The Mermaid diagram renders on GitHub.</p>
+</div>
+
+<div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Submission &middot; 3</p>
+  <p style="margin:0;">m4lab.cpp and m4lab-plan.md in the correct folder, committed and pushed directly to your repo — no branches. prompts.md present if you used AI. If it is not visible on github.com, it is not submitted.</p>
+</div>
+
+<div style="border-left:2px solid #9A6700;padding-left:1rem;margin:0 0 1.6rem;">
+  <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9A6700;">Caution</p>
+  <p style="margin:0;">Most students who lose points on this lab lose them to a <strong>warning</strong>, not a broken program. One warning means Format is not met, at any tier — so an A-tier feature set that builds with a warning does not score as A. Fix the warning and the whole thing counts. This is a fix-and-resubmit conversation, not a penalty one.</p>
+</div>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Building it</h2>
+
+<p style="margin:0 0 1.2rem;">There is <strong>no starter file</strong>. You type the whole thing in yourself, from the spec, the same way you typed in the Gatekeeper — that is the point of this stage. Build it up in small pieces and compile often. Do not write the whole program and compile once at the end.</p>
+
+<p style="margin:0 0 .6rem;">A good build order: print the opening line and compile. Add the category read and the switch with its default, then try a bad category and confirm the default ends it. Add the score read and the three-branch chain, running each branch. Then, if you are going further, add the compound condition and the single-pass check (B), and the nested condition and extra outcome messages (A).</p>
+
+<p style="margin:0 0 .6rem;">Create your file, then build and run with the course-standard command:</p>
+
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">g++ -std=c++17 -Wall -Wextra -o m4lab m4lab.cpp
+./m4lab</pre>
+
+<p style="margin:0 0 1.6rem;">Single-file rules for this module: everything lives inside main. <strong>No functions, no prototypes</strong> — those arrive in M6. No loops — those arrive in M5. This lab is if / else if / else, switch, and logical operators only.</p>
+
+<h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Before you submit</h2>
+
+<div style="background-color:#F4F6F7;color:#3C4149;border:1px solid #DFE3E8;border-radius:4px;padding:1rem 1.1rem;margin:0 0 1.4rem;">
+  <p style="margin:0 0 .7rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Pre-flight</p>
+  <ul style="margin:0;padding:0;list-style:none;">
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>I ran <strong>git pull</strong> before starting this checklist.</span>
+    </li>
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>My build printed <strong>zero warnings</strong>, not just zero errors. I read the output rather than assuming.</span>
+    </li>
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>I ran each valid category (1, 2, 3) and at least one the switch does not define (0, 4, or 9), and the undefined one ended cleanly.</span>
+    </li>
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>I tested my exact threshold numbers and the value just below each one. Off-by-one at a boundary is the most common Logic error here.</span>
+    </li>
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>I tested a score of <strong>0</strong> and it reached a real ending, not an out-of-range rejection.</span>
+    </li>
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>Every branch body has braces around it, and every case has a break.</span>
+    </li>
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>My flowchart in m4lab-plan.md matches the code I actually wrote, and it renders on github.com.</span>
+    </li>
+    <li style="display:flex;margin:0 0 .55rem;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>Both files are in the m4/ folder, committed and pushed.</span>
+    </li>
+    <li style="display:flex;margin:0;">
+      <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+      <span>I opened my repo on github.com and saw both files there. If I cannot see them, neither can my instructor.</span>
+    </li>
+  </ul>
+</div>
+
+<p style="margin:0 0 1.4rem;">Going for the Badge? Add prompts.md to the same commit, with every AI prompt you used and what you changed about the answers.</p>
+
+</div>

@@ -281,7 +281,17 @@ switch (characterClass)
 "A Mage."
 ```
 
-Both. With no `break` after `case 1`, control "falls through" into `case 2` and runs it too. Here's the scary part: on our compiler this produces **no warning at all** — it compiles clean and just does the wrong thing quietly. That's why fall-through is the most dangerous of the three. There's no red text to save you; only your own testing will. **Fix:** put a `break;` at the end of every case.
+Both. With no `break` after `case 1`, control "falls through" into `case 2` and runs it too.
+
+The good news: our build flags catch this one. You'll see
+
+```
+warning: this statement may fall through [-Wimplicit-fallthrough=]
+```
+
+followed by a `note: here` pointing at the `case 2:` line — the compiler showing you both where control falls *from* and where it falls *to*. Under our zero-warning rule that's a failed build, which is exactly what you want: it stops before the wrong output ever reaches you.
+
+The catch is that it **still produces a program**. A warning is not an error, so the build "succeeded" enough to run, and it will happily print both lines if you let it. That's what makes fall-through a **Logic** error rather than a Syntax one: the grammar was fine, the program ran, it just did what you said instead of what you meant. **Fix:** put a `break;` at the end of every case.
 </details>
 
 ### Trap 3: the dangling `else`

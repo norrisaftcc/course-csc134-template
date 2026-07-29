@@ -1,0 +1,180 @@
+<!-- CSC 134 · compositor: M4 · apply · Canvas PAGE · build output, do not hand-edit in the RCE -->
+<div style="max-width:52rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Lato,Helvetica,Arial,sans-serif;color:#3C4149;font-size:1rem;line-height:1.65;">
+
+  <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1F6F5C;">Module 04 &middot; Apply</p>
+  <p style="margin:0 0 1.4rem;font-size:1.1rem;">We build the gatekeeper together, in three stages. Every stage compiles and runs before we add the next one, so when something breaks you know it broke in the last five lines you typed. Type it yourself &mdash; do not paste.</p>
+  <hr style="border:0;border-top:1px solid #DFE3E8;margin:0 0 1.6rem;">
+
+  <div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Note</p>
+    <p style="margin:0;">Two kinds of computer text on this page. A <strong>gray bar</strong> means this is exactly what your machine printed &mdash; the compiler, or your own program running. A <strong>green bar with a rose</strong> is Haiku, an AI assistant. Haiku is usually right and never authoritative &mdash; the rose means the checking is yours to do.</p>
+  </div>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Stage 1 &mdash; who's there?</h2>
+
+  <p style="margin:0 0 .8rem;">One question, one answer, and a <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">switch</span> that says something different depending on what came back. Start a file called <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">gatekeeper.cpp</span> and type this:</p>
+
+  <pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+    int playerClass = 0;
+
+    cout &lt;&lt; "1 = Warrior, 2 = Mage, 3 = Rogue" &lt;&lt; endl;
+    cout &lt;&lt; "What are you? ";
+    cin &gt;&gt; playerClass;
+
+    switch (playerClass)
+    {
+        case 1:
+            cout &lt;&lt; "A Warrior. She looks at your arms." &lt;&lt; endl;
+            break;
+        case 2:
+            cout &lt;&lt; "A Mage. She checks your hands for ink." &lt;&lt; endl;
+            break;
+        case 3:
+            cout &lt;&lt; "A Rogue. She counts her keys." &lt;&lt; endl;
+            break;
+        default:
+            cout &lt;&lt; "She has no idea what you are." &lt;&lt; endl;
+    }
+
+    return 0;
+}</pre>
+
+  <p style="margin:0 0 .8rem;">Build it with <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">g++ -std=c++17 -Wall -Wextra gatekeeper.cpp -o gatekeeper</span> and run it. Answer <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">2</span>. You should see exactly this, and nothing else:</p>
+
+  <pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">1 = Warrior, 2 = Mage, 3 = Rogue
+What are you? 2
+A Mage. She checks your hands for ink.</pre>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .3rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#1F6F5C;"><span style="letter-spacing:normal;">--------{---(@</span> &nbsp;Haiku &middot; check-in</p>
+    <p style="margin:0 0 .35rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.55;">There's something interesting about what happens when the player doesn't type a number. Run it again and type <span style="font-weight:600;">warrior</span> instead of 1. You should get the "no idea what you are" line: playerClass never changed from 0, nothing crashed, and no warning appeared. Do this now, while the program is short enough to see all at once. Watch for it again in stage 2 &mdash; once cin has failed it stays failed, so the strength question won't wait for you either. It flies past and the program ends.</p>
+    <p style="margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#1F6F5C;">@)---}--------</p>
+  </div>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">What a warning looks like</h2>
+
+  <p style="margin:0 0 .8rem;">Before we go on: delete the <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">break;</span> after <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">case 1</span> on purpose and rebuild. You will meet this message for real at some point this term, so meet it now while you know exactly what caused it:</p>
+
+  <pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">gatekeeper.cpp: In function 'int main()':
+gatekeeper.cpp:15:61: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   15 |             cout &lt;&lt; "A Warrior. She looks at your arms." &lt;&lt; endl;
+      |                                                             ^~~~
+gatekeeper.cpp:16:9: note: here
+   16 |         case 2:
+      |         ^~~~</pre>
+
+  <p style="margin:0 0 1.4rem;">Read it as a sentence: <em>line 15 may fall through, and here is where it falls to.</em> Without the <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">break</span>, a Warrior gets the Mage line too, because a <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">switch</span> keeps running downward until something stops it. Put the <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">break</span> back. Notice that the compiler found this one for you &mdash; that is what <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">-Wextra</span> is buying you, and it is why zero warnings is the standard here.</p>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Stage 2 &mdash; the decision</h2>
+
+  <p style="margin:0 0 .8rem;">Now the part that matters. Add a second variable, a second question, and a three-way chain. Everything below goes after the closing brace of the <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">switch</span>, and <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">int strength = 0;</span> goes up top next to <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">playerClass</span>:</p>
+
+  <pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">    cout &lt;&lt; "Strength (0 to 100)? ";
+    cin &gt;&gt; strength;
+
+    if (strength &gt;= 70)
+    {
+        cout &lt;&lt; "The gate swings open. Go on through." &lt;&lt; endl;
+    }
+    else if (strength &gt;= 40)
+    {
+        cout &lt;&lt; "She blocks the way. Answer me this first..." &lt;&lt; endl;
+    }
+    else
+    {
+        cout &lt;&lt; "She turns you around. Come back stronger." &lt;&lt; endl;
+    }</pre>
+
+  <p style="margin:0 0 .8rem;">Rebuild, run, answer <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">3</span> and then <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">85</span>:</p>
+
+  <pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">1 = Warrior, 2 = Mage, 3 = Rogue
+What are you? 3
+A Rogue. She counts her keys.
+Strength (0 to 100)? 85
+The gate swings open. Go on through.</pre>
+
+  <p style="margin:0 0 1.2rem;">The chain runs top to bottom and stops at the first condition that's true. That is the whole mechanism, and it is also the whole trap.</p>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .3rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#1F6F5C;"><span style="letter-spacing:normal;">--------{---(@</span> &nbsp;Haiku &middot; check-in</p>
+    <p style="margin:0 0 .35rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.55;">You may find the relationship between those two conditions interesting. Swap them so <span style="font-weight:600;">&gt;= 40</span> is tested first, rebuild, and run it with 85. You should get the riddle instead of the open gate, and the compiler will say nothing at all &mdash; 85 really is greater than 40, so nothing is wrong except the order. Then put it back the way it was.</p>
+    <p style="margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#1F6F5C;">@)---}--------</p>
+  </div>
+
+  <h2 style="margin:1.8rem 0 .6rem;font-size:1.2rem;line-height:1.3;color:#16191D;">Stage 3 &mdash; test the edges</h2>
+
+  <p style="margin:0 0 1rem;">No new code. This stage is the one people skip, and it is the one that finds the bug. Run your program once for each row and check the outcome against what it should be:</p>
+
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;margin:0 0 1.2rem;font-size:.95rem;">
+      <tbody>
+        <tr>
+          <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">100</td>
+          <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">gate opens</td>
+        </tr>
+        <tr>
+          <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">70</td>
+          <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">gate opens &mdash; 70 counts, because the test is <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">&gt;=</span></td>
+        </tr>
+        <tr>
+          <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">69</td>
+          <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">riddle</td>
+        </tr>
+        <tr>
+          <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">40</td>
+          <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">riddle</td>
+        </tr>
+        <tr>
+          <td style="padding:.5rem .7rem .5rem 0;border-bottom:1px solid #DFE3E8;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">39</td>
+          <td style="padding:.5rem 0;border-bottom:1px solid #DFE3E8;">turned away</td>
+        </tr>
+        <tr>
+          <td style="padding:.5rem .7rem .5rem 0;vertical-align:top;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;">0</td>
+          <td style="padding:.5rem 0;">turned away</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin:0 0 1.4rem;">Six runs, about a minute. The pairs are the point: 70 and 69, 40 and 39. A program that gets 100 and 0 right can still be wrong at the exact number where the rule changes, and that is where an off-by-one hides. Testing the boundary is a habit, not a step &mdash; you will do this for every condition you write from here to the capstone.</p>
+
+  <div style="border-left:2px solid #1F6F5C;padding-left:1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .3rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#1F6F5C;"><span style="letter-spacing:normal;">--------{---(@</span> &nbsp;Haiku &middot; check-in</p>
+    <p style="margin:0 0 .35rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;line-height:1.55;">Interesting question: does your flowchart still describe this program? Open the plan file beside the code and trace one path with your finger &mdash; strength 55, all the way to the printed line. If the program has a path the flowchart doesn't, the flowchart is the one that's out of date. Fix it now; it's a two-minute edit today.</p>
+    <p style="margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#1F6F5C;">@)---}--------</p>
+  </div>
+
+  <div style="background-color:#F4F6F7;color:#3C4149;border:1px solid #DFE3E8;border-radius:4px;padding:1rem 1.1rem;margin:0 0 1.4rem;">
+    <p style="margin:0 0 .5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Before you start the lab</p>
+    <ul style="margin:0;padding:0;list-style:none;">
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>My version builds with <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">-Wall -Wextra</span> and prints no warnings.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I ran all six rows of the table and got the outcome listed for each one.</span>
+      </li>
+      <li style="display:flex;margin:0 0 .55rem;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I typed a word at the strength question at least once, so I've seen that failure myself.</span>
+      </li>
+      <li style="display:flex;margin:0;">
+        <span style="flex:0 0 auto;display:inline-block;width:.85em;height:.85em;border:1.5px solid #6B7280;border-radius:2px;margin:.3em .6em 0 0;"></span>
+        <span>I can say out loud why the <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">&gt;= 70</span> test has to come before the <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;">&gt;= 40</span> test.</span>
+      </li>
+    </ul>
+  </div>
+
+  <p style="margin:0 0 1.4rem;">The lab asks for your own version of this, with your own flowchart and your own scenario: <a href="#LINK-PENDING-m4-gatekeeper-lab" style="color:#0374B5;">The Dungeon Gatekeeper</a> <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;color:#9A6700;">[LINK PENDING]</span>. The program we just built is not the submission &mdash; it's the thing you now know how to build.</p>
+
+  <div style="border-left:2px solid #DFE3E8;padding-left:1rem;margin:0;">
+    <p style="margin:0 0 .25rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;">Instructor &middot; out of character</p>
+    <p style="margin:0;">If your program doesn't match the output on this page and you can't see why, bring me the file and the error text &mdash; do not retype it from scratch hoping it comes out different. Nine times out of ten it's one character, and finding that character is a skill I can hand you in about four minutes.</p>
+  </div>
+
+</div>

@@ -1,0 +1,151 @@
+name: Compile gate
+
+# Mechanical quality bar #1 — "every C++ block in every artifact builds under
+# g++ -std=c++17 -Wall -Wextra with zero warnings and zero errors."
+#
+# TWO JOBS, ON PURPOSE (ADR-015 §6).
+#
+#   g++ …            compiles the .cpp files. Compiler behaviour.
+#   markdown blocks  proves every fenced listing is a faithful view of one of
+#                    those .cpp files. Provenance. Compiles nothing.
+#
+# They are separate jobs rather than steps so the two signals stay independently
+# readable. The markdown job is EXPECTED RED on main until M4's blocks are
+# migrated; folding it into the compile job would drag a working compiler signal
+# down with it and train everyone to ignore both.
+#
+# This runs on ubuntu-latest because that is what students use (Codespaces).
+# It is deliberately NOT run on macOS: Apple clang does not enable
+# -Wimplicit-fallthrough under -Wextra, so a macOS gate reports clean on code
+# that warns for every student. That is not hypothetical — it happened, and it
+# shipped a warning into a module certified Ready.
+# See _lore/findings/F-009-fallthrough-warning-claim-is-toolchain-dependent.md
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    # THE DIALS. Run this manually from the Actions tab to turn any of them.
+    inputs:
+      fail_on_warning:
+        description: 'Treat a warning as a failure (the zero-warning rule)'
+        type: boolean
+        default: true
+      search_paths:
+        description: 'Where to look for .cpp files (and .md files to check)'
+        type: string
+        default: '_contracts modules'
+      compiler:
+        description: 'Compiler binary to gate with'
+        type: string
+        default: 'g++'
+      fail_on_unannotated:
+        description: 'Markdown gate — treat an un-annotated cpp block as a failure'
+        type: boolean
+        default: true
+
+jobs:
+  compile:
+    name: g++ -std=c++17 -Wall -Wextra
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record the toolchain
+        # Printed on every run on purpose. When a result surprises someone the
+        # first question is always "which compiler, which version?" — so the
+        # answer is in the log before anyone has to ask.
+        run: |
+          g++ --version
+          lsb_release -d || true
+
+      - name: Self-test — prove the gate can still fail
+        # A gate that cannot fail is not a gate. This compiles a fixture that is
+        # GUARANTEED to warn and asserts the script exits non-zero.
+        #
+        # This step exists because the first version of this workflow silently
+        # did not enforce: on pull_request and push, `inputs` is undefined, and
+        # in GitHub expressions `null == false` is TRUE — so the old
+        # `inputs.fail_on_warning == false && '0' || '1'` evaluated to '0' and
+        # the gate reported the real M4 warning, then passed anyway.
+        # Never trust a green gate that has not proved it can go red.
+        #
+        # SEARCH_PATHS names the FILE, not the directory. ADR-015 added sibling
+        # fixtures under selftest/, and a directory glob sweeps them in — leaving
+        # this step red for reasons having nothing to do with must-warn.cpp, which
+        # is precisely how a self-test quietly stops testing the thing it names.
+        run: |
+          set -e
+          if FAIL_ON_WARNING=1 SEARCH_PATHS=.github/scripts/selftest/must-warn.cpp \
+               bash .github/scripts/compile-gate.sh; then
+            echo "::error::Gate self-test FAILED — the gate passed a file that must warn."
+            echo "The gate is not enforcing. Treat every green run as unverified."
+            exit 1
+          fi
+          echo "Self-test OK: the gate correctly fails on a warning."
+
+      - name: Self-test — EXPECT-ERROR is honoured
+        # A file marked `// GATE: EXPECT-ERROR` that genuinely fails to compile is
+        # a deliberate teaching artifact, not a defect. The gate must tolerate it.
+        run: |
+          set -e
+          if ! SEARCH_PATHS=.github/scripts/selftest/markers/expect-error-ok \
+                 bash .github/scripts/compile-gate.sh; then
+            echo "::error::Gate self-test FAILED — a correctly-marked EXPECT-ERROR file was failed."
+            echo "Deliberately-broken teaching artifacts have no home. Fix the marker handling."
+            exit 1
+          fi
+          echo "Self-test OK: EXPECT-ERROR is honoured."
+
+      - name: Self-test — EXPECT-ERROR is an assertion, not a mute
+        # The case that matters: marked broken-on-purpose, and quietly building.
+        # Success and "never checked" are the same colour, so this must go red.
+        run: |
+          set -e
+          if SEARCH_PATHS=.github/scripts/selftest/markers/expect-error-violated \
+               bash .github/scripts/compile-gate.sh; then
+            echo "::error::Gate self-test FAILED — a file marked EXPECT-ERROR compiled, and passed."
+            echo "The marker is behaving as a mute. It is supposed to be an assertion."
+            exit 1
+          fi
+          echo "Self-test OK: a marked file that stops demonstrating its error fails."
+
+      - name: Run the compile gate
+        env:
+          CXX: ${{ inputs.compiler || 'g++' }}
+          # Default HARD to enforcing. Only an explicit manual dispatch that
+          # deliberately unticked the box can relax it — see the self-test above
+          # for why this is written the long way round.
+          FAIL_ON_WARNING: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_warning == false) && '0' || '1' }}
+          SEARCH_PATHS: ${{ inputs.search_paths || '_contracts modules' }}
+        run: bash .github/scripts/compile-gate.sh
+
+  markdown:
+    name: markdown blocks (provenance)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Self-test — prove the markdown gate passes and fails correctly
+        # Ten fixtures, one per way this gate is supposed to behave. It matters
+        # more here than for the compile gate: M4 ships UNMIGRATED, so on day one
+        # the convention gets no exercise at all from real material. These
+        # fixtures are the only thing standing between "the convention works" and
+        # "the convention has never been run against its hard cases."
+        run: bash .github/scripts/selftest/markdown/run.sh
+
+      - name: Run the markdown block gate
+        # EXPECTED RED until M4's 23 blocks are migrated (ADR-015 §6). The failure
+        # text says "unmigrated, not defective" and prints a per-file countdown,
+        # because a red that does not explain itself is indistinguishable from a
+        # broken repo — and that is how a gate becomes background noise.
+        env:
+          FAIL_ON_UNANNOTATED: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_unannotated == false) && '0' || '1' }}
+          SEARCH_PATHS: ${{ inputs.search_paths || '_contracts modules' }}
+          # Hard-coded rather than a repo variable: a red that points at nothing
+          # because someone forgot to set a variable is worse than no pointer.
+          MIGRATION_ISSUE: 'https://github.com/norrisaftcc/course-csc134-template/issues/30'
+        run: bash .github/scripts/markdown-gate.sh

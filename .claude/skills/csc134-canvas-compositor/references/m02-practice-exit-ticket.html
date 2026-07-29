@@ -1,0 +1,65 @@
+<!-- CSC 134 · compositor: M2 · practice · Canvas QUIZ · build output, do not hand-edit in the RCE
+
+     Five fragments. Each goes in a DIFFERENT Canvas field, so none of them share a wrapper
+     and none of them may assume one. Copy them one at a time.
+
+     Answer key and rationale: m02-practice-ANSWERS.md — instructor only, do not paste.
+-->
+
+
+<!-- ═══ FRAGMENT 1 of 5 · QUIZ DESCRIPTION ═══════════════════════════════════════ -->
+
+<p>Four things can go wrong with a program, and we use the same four words for them all term. Each question below shows you one. Pick the word that fits.</p>
+
+<ul>
+  <li><strong>Syntax</strong> &mdash; you broke the grammar. The compiler cannot even read it.</li>
+  <li><strong>Static semantic</strong> &mdash; the grammar is fine, the meaning is impossible. The compiler reads it, understands it, and refuses.</li>
+  <li><strong>Runtime</strong> &mdash; it built and started, then fell over while running.</li>
+  <li><strong>Logic</strong> &mdash; it built, ran, finished, and gave the wrong answer. Nothing complained.</li>
+</ul>
+
+<p>There is a fast way to sort them: <em>did it build?</em> If no, was the compiler confused by the words or by the meaning? If yes, <em>did it finish?</em> If it finished, was the answer right?</p>
+
+
+<!-- ═══ FRAGMENT 2 of 5 · QUESTION 1 ═════════════════════════════════════════════ -->
+
+<p>You build a program and it does not produce an executable. This is the whole message:</p>
+
+<pre style="margin:0 0 1rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">scores.cpp: In function 'int main()':
+scores.cpp:7:5: error: expected ',' or ';' before 'cout'
+    7 |     cout &lt;&lt; score &lt;&lt; endl;
+      |     ^~~~</pre>
+
+<p>Which of the four is it?</p>
+
+
+<!-- ═══ FRAGMENT 3 of 5 · QUESTION 2 ═════════════════════════════════════════════ -->
+
+<p>A different program, also refusing to build:</p>
+
+<pre style="margin:0 0 1rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">scores.cpp: In function 'int main()':
+scores.cpp:6:17: error: invalid conversion from 'const char*' to 'int' [-fpermissive]
+    6 |     int score = "eighty-eight";
+      |                 ^~~~~~~~~~~~~~</pre>
+
+<p>Which of the four is it?</p>
+
+
+<!-- ═══ FRAGMENT 4 of 5 · QUESTION 3 ═════════════════════════════════════════════ -->
+
+<p>This one builds with no errors and no warnings. Here is someone running it:</p>
+
+<pre style="margin:0 0 1rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">Total points? 100
+How many players? 0
+Floating point exception</pre>
+
+<p>Which of the four is it?</p>
+
+
+<!-- ═══ FRAGMENT 5 of 5 · QUESTION 4 ═════════════════════════════════════════════ -->
+
+<p>This one builds with no errors and no warnings, runs all the way to the end, and exits normally. The program is supposed to average two numbers. This is the line that does the work:</p>
+
+<pre style="margin:0 0 1rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">int average = first + second / 2;</pre>
+
+<p>With <strong>first</strong> set to 10 and <strong>second</strong> set to 20, it prints <strong>Average: 20</strong>. The correct answer is 15. Which of the four is it?</p>
