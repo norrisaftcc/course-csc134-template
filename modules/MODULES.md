@@ -32,7 +32,7 @@ in the module's own `_overview.md`, not substituted for the title here.
 | **M3** | Program Basics | **First pass** | Learn | F-015 (breadth pass). First breadth module with C++ — 5 gated sources. No cohort round. |
 | **M4** | Decisions | **Ready** | Learn · Practice (+key) · Apply · Assess | F-004 (build), F-005 (cohort round 1), F-006 (fixes + certification) |
 | **M5** | Loops | **Built** | Learn · Practice (+key) · Apply · Assess | F-007 (build + gate). Cohort round not yet run. |
-| **M6** | Functions | Skeleton | — | — |
+| **M6** | Functions | **First pass** | Learn | F-015 (breadth pass). First module using the full single-file form. No cohort round. |
 | **M7** | Structured Data & Objects | Skeleton | — | — |
 | **M8** | Capstone Miniproject | Skeleton | — | — |
 

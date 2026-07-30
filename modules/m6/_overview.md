@@ -16,6 +16,18 @@ named, reusable, testable units. Code is *revised*, not just written.
 
 ## LPAA beat map
 
+> **FIRST PASS.** The **Learn** beat is authored: `learn.md`, with its gated
+> sources in `code/`. Practice, Apply, and Assess are **not** — they are still the
+> one-line spine pointers below, and `_assess-spec.STUB.md` is still a stub.
+>
+> First pass means one real artifact per module so humans can review any module,
+> not a finished module ([[ADR-016]]). Authored **without graduate seeding** and
+> **no cohort has taken it** — reviewable, not proven.
+>
+> **M6 is the first module using the full single-file form** — prototypes at top,
+> `main` in the middle, definitions at the bottom. Its four gated sources all model
+> that shape; the Learn beat is where the change is introduced.
+
 | Beat | One-liner (from spine) |
 |---|---|
 | **Learn** | *Chapter 3 / Module 02* reading. *(Authored as "Chapter 3," delivered here, after loops — see sequencing note below.)* |
@@ -72,9 +84,11 @@ M3's `assignments/m1`/`m2` situation.
 
 ## Contracts touched
 
-None edited. This is a structure-only skeleton pass — no Learn/Practice/
-Apply/Assess content authored, no edits to `_contracts/`, `_storming/`,
-`_tracking/`, or `assignments/`. **Read-only reference note:** `_contracts/
+None edited. The **Learn** beat is now authored (see the FIRST PASS banner above)
+and it **reads** `_contracts/m5_menu.cpp` without modifying it — the validation
+loop it lifts into `readChoice` comes from that frozen file, which is exactly the
+use its header invites. No edits to `_contracts/`, `_storming/`, or `assignments/`.
+Practice, Apply, and Assess remain unauthored. **Read-only reference note:** `_contracts/
 m5_menu.cpp`'s own header comment states "M6 refactors it into functions" —
 this frozen file is the strong candidate canonical input for M6's Assess-beat
 refactor lab (see `_assess-spec.STUB.md`) and `_contracts/rubric-template.md`
