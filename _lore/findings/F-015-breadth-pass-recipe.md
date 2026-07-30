@@ -279,6 +279,33 @@ Nothing checks this. The markdown gate reads provenance, not rendering, and ther
 Markdown linter in CI. **Put the note below the last item, and eyeball the rendered list
 in the PR's Files-changed view** — the same manual check Mermaid needs (bar #5).
 
+**Capture interactive output from a real terminal, not from a pipe.** The rule
+"never hand-write output, capture it" is necessary and **not sufficient**. M3's
+transcripts *were* captured — from `echo "4" | ./prog`. With stdin not a terminal
+**nothing is echoed**, so the captured text showed the prompt running straight into
+the program's answer: `How many torches? You asked for 4 torches.` A student typing
+at a real terminal sees their own keystrokes on the prompt line, and the answer on
+the next one.
+
+Every transcript in the reading was wrong the same way, and a sentence had been
+written *explaining* the wrong behaviour — *"the prompt and the answer are on the
+same line"* — which would have taught a false mental model of console I/O. Caught by
+review on #40, not by any gate.
+
+The fix is to run under a **pty**, and to **wait for the prompt before sending
+input** — writing it immediately produces a second artifact, with the echo appearing
+*above* the prompt rather than after it:
+
+```python
+pid, fd = pty.fork()
+if pid == 0: os.execv(prog, [prog])
+while b"? " not in out: out += os.read(fd, 1024)   # wait for the prompt
+os.write(fd, b"4\n")                                # then "type"
+```
+
+**Applies to every module from M3 on** — any beat showing a `cin` program run. M0–M2
+are unaffected; they have no interactive input to transcribe.
+
 **Say "do not yet exist," not "do not."** *"This reading exists, the exit ticket and
 Apply tutorial do not"* is grammatical by ellipsis and still reads as an unfinished
 sentence. On a warning whose whole job is to stop someone handing students a file that

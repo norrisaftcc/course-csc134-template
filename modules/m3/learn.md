@@ -122,17 +122,18 @@ A program that only knows what you typed into it is a very expensive way to writ
     cout << merchantName << ": That is " << total << " gold.\n";   // OUTPUT
 ```
 
-**Program Output** (the user typed `4`):
+**A real run** (what you type is shown in place — here, `4`):
 
 ```
-Bram: How many torches do you want? Bram: That is 10 gold.
+Bram: How many torches do you want? 4
+Bram: That is 10 gold.
 ```
 
 Three things worth naming:
 
 **`cin >>` points the other way from `cout <<`.** The arrows show which way the data moves — out to the screen, in from the keyboard. If you ever type them backwards, that is what the compiler will complain about.
 
-**The prompt and the answer are on the same line.** There is no `\n` at the end of the prompt, so the cursor stays put — which is what you want when someone is about to type. It looks odd in a transcript and correct in real life.
+**The prompt has no `\n` on the end, and that is deliberate.** The cursor stays on the prompt line, so what you type appears right after the question — `How many torches do you want? 4` — instead of on a lonely line below it. Press Enter and the cursor moves down, which is where the answer prints.
 
 **Those three comments are the M0 frame, in code.** Input, process, output. Every program you write this term has this shape somewhere inside it.
 
@@ -182,14 +183,16 @@ Here is the one M2 warned you about and could not show you, because it needs `ci
 Run it and type `4`, and everything is fine:
 
 ```
-How many torches? You asked for 4 torches.
+How many torches? 4
+You asked for 4 torches.
 That comes to 10 gold.
 ```
 
 Now run it again and type **`lots`**:
 
 ```
-How many torches? You asked for 0 torches.
+How many torches? lots
+You asked for 0 torches.
 That comes to 0 gold.
 ```
 
