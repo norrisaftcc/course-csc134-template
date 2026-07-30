@@ -264,6 +264,98 @@ Assess content authored."* Nothing in the M0, M1 or M2 diffs would have found it
 **Grep each module for every status claim before assuming the previous module's
 diff transfers**; three modules have now had three different hiding places.
 
+### M6 — Functions
+
+**Artifact:** `modules/m6/learn.md` — *"Functions: The Same Program, Findable"*,
+plus **4 gated sources** in `modules/m6/code/`.
+
+| Measure | Value | vs. M3 |
+|---|---|---|
+| Total words | 2,074 | 2,187 |
+| Prose words | 1,624 | 804 |
+| Flesch–Kincaid grade | **6.7** | 7.0 |
+| Gated `.cpp` authored | **4** — 3 clean, 1 `EXPECT-ERROR` | 5 |
+| Fenced `cpp` blocks | 5, **all born-compliant, all matched first run** | 5 |
+| Markdown gate, scoped | `5 matched, 0 failed, 0 unmigrated` | same |
+| Tree-wide unmigrated | **37 — unchanged** | unchanged |
+
+**Every source models the full single-file form.** M6 is where the convention
+completes — prototypes at top, `main` in the middle, definitions at the bottom —
+so all four `.cpp` demonstrate it, including the deliberately-broken one. A
+pre-M6-shaped file in this module would teach against the module.
+
+**Five blocks from four files: `excerpt=` slices the same source twice.**
+`learn-read-choice.cpp` is quoted in two places — the extracted function, and the
+single line in `main` that calls it. Both matched. That is the first use of two
+disjoint excerpts from one source, and it is the natural shape for a refactor
+narrative: *here is the thing lifted out, and here is what `main` looks like now.*
+
+**The frozen contract earned its framing.** `_contracts/m5_menu.cpp`'s header says
+*"M6 refactors it into functions"*, and it was read, never modified. The reading
+lifts its validation loop into `readChoice(int low, int high)` — behaviour
+identical, parameters added so a second menu can reuse it. Building against the
+frozen contract rather than `modules/m5/code/` also means the M5 cohort round (#21)
+cannot invalidate this material.
+
+**The pty rule from M3 was applied first time, and paid.** One run captures three
+behaviours — a word rejected, an out-of-range number rejected, a good answer
+accepted — which is a better teaching transcript than three separate runs and was
+free once the harness existed:
+
+```
+Choose (1-3): door
+That is not a door. Choose 1-3: 9
+That is not a door. Choose 1-3: 2
+You chose 2.
+```
+
+**The grep-every-status-claim rule paid immediately.** M6 carried the *same* hiding
+place M3 did — a *"structure-only skeleton pass — no Learn/Practice/Apply/Assess
+content authored"* line inside **"Contracts touched"**, far from the beat map.
+Four modules, and the rule caught this one before it shipped rather than after.
+**That is the first time a recorded lesson prevented a defect instead of explaining
+one.**
+
+**Review round — extraction reveals what was caller-specific.** `readChoice`'s header
+claimed *"any other prompt can reuse it"* while the function hard-coded M5's retry
+line, *"That is not a door."* Reusable in structure, not in wording — and the reading
+repeated the reusability claim, so the artifact undercut its own lesson.
+
+Fixed by genericising the message, and **the fix became the better lesson**: pulling
+code out reveals which parts of it were secretly about the caller. The loop was
+reusable all along; the sentence was not. The reading now says so — *if you extract a
+function and cannot name it without saying "for the menu", some of the caller is still
+stuck to it.* Recommended wherever a breadth-pass module demonstrates a refactor.
+
+**An excerpt that shows `main` should start at the includes.** Three M6 listings began
+at the prototypes, omitting `#include`/`using`. Each displayed `int main()` and a
+`return 0;`, so they **read as complete programs while not being buildable** — and one
+of them claimed "exactly one flaw" while, as excerpted, a student typing it would have
+hit several. The `reading-generator` skill already requires complete programs; the rule
+in practice is: **if the block shows `main`, it starts at the includes.** A fragment
+that is obviously a fragment (starting mid-function, like M3's integer division) does
+not need them.
+
+**A known fragility, deliberately not fixed: captured diagnostics carry `file:line:col`.**
+`learn-break-scope.cpp:27:36:` is accurate today and verified, but nothing checks it —
+the markdown gate reads `cpp` fences, not output blocks, so if the source gains a line
+the reading goes silently wrong. This was raised in review with a suggestion to strip
+the prefix.
+
+**Kept, with reasons.** M2's reading explicitly teaches students to read that prefix —
+*"it gives the line, the column, a caret pointing at the exact spot"* — so removing it
+would delete a lesson to buy durability. M2 and M4 already show diagnostics this way,
+so stripping it in M6 alone would also be inconsistent. **The real gap is that no gate
+covers output blocks or compiler messages at all**, which is the same blind spot as
+Mermaid rendering and Markdown list rendering. Three gaps now share one shape: the
+gates verify provenance and compilation, and nothing verifies *what a page shows*.
+
+**Prose ratio, third data point.** M0 1,782 / M1 973 / M3 804 / M6 1,624 prose words.
+The pattern holds and is about subject, not module position: reference-shaped
+material (Markdown syntax, type tables) goes to tables; argument-shaped material
+(why functions, what a refactor is) goes to prose. **Stop treating the prose count
+as a quality signal** — it measures what the subject is made of.
+
 ---
 
 ## Authoring rules learned the hard way

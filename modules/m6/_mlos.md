@@ -1,6 +1,15 @@
 # M6 — Module Learning Objectives (skeleton)
 
-**Status:** skeleton slots only — not authored objectives. Derived from
+**Status: PARTLY INSTANTIATED.** `learn.md` now states finished objective sentences
+for **MLO 6.1** (define and call functions with prototypes, parameters and return
+values, in the full single-file form) and **MLO 6.2** (distinguish pass-by-value
+from pass-by-reference). It covers the *explaining* half of **MLO 6.3** — what a
+refactor is, and that behaviour must not change — and demonstrates one, lifting the
+M5 validation loop into `readChoice`. The *doing* half of 6.3 belongs to the Assess
+refactor lab, which is not authored. Where this file and `learn.md` differ in
+phrasing, the Learn beat is the authored version.
+
+The rest below is the original slot record. Derived from
 `_storming/CSC-134-course-spine.md` ("## M6 — Functions") and
 `_storming/CSC-134-learning-objectives.md` ("### M6 — Functions"). Deep-build
 fills in beat-level detail; this file records the MLO shape and its CLO/CCL
