@@ -132,6 +132,80 @@ met real material; it holds.
 run, and no captured output to verify. Boundary research was still the expensive part,
 and still does not amortise.
 
+### M0 — Welcome to Programming
+
+**Artifact:** `modules/m0/learn.md` — *"Welcome to Programming: Three Questions
+Before the First Line of Code"*. No `modules/m0/code/`, same as M1.
+
+| Measure | Value | vs. M1 |
+|---|---|---|
+| Total words | 2,009 | 2,140 |
+| Prose words | 1,782 | 973 |
+| Flesch–Kincaid grade | **6.3** | 6.3 |
+| Gated `.cpp` authored | **0** | 0 |
+| Fenced `cpp` blocks | **0** | 0 |
+| Mermaid diagrams | 1 (people/processes/technology) | 1 |
+| Markdown gate, scoped | `0 blocks … GATE PASSED` | same |
+
+**Prose ratio is not a property of "pre-C++" — it is a property of the subject.**
+M1 ran 973 prose words because Markdown syntax is a *reference* and belongs in
+tables. M0 ran 1,782 in a shorter document, because its subject is an argument and
+arguments are prose. The M1 entry's lesson stands but was stated too broadly: the
+thing to match is what the material is, not what the module lacks.
+
+**The spine said "short" twice.** Both the M0 spine section and `_overview.md`
+qualify the Learn one-liner with *(short)*. At 2,009 words this is the shortest
+breadth-pass reading so far and deliberately so — the instruction was followed
+rather than noted.
+
+## Two things M0 tested that M1 could not
+
+**1. The scoped compile gate cannot pass on a pre-C++ module — it exits 2.**
+
+```
+$ SEARCH_PATHS=modules/m0 bash .github/scripts/compile-gate.sh
+No .cpp files found under: modules/m0
+Nothing to gate. This is a configuration problem, not a pass.
+```
+
+`compile-gate.sh` treats an empty file list as a **misconfiguration**, which is
+right for the case it was written for and wrong for a module that legitimately has
+no C++. **This contradicts the literal wording of ADR-016 §8 and ledger §5**
+("both must exit 0, pasted into the PR body"). Neither can be satisfied for M0 or
+M1, and M1 quietly worked around it by pasting the tree-wide compile result instead.
+
+**Recorded rather than silently patched.** The workaround is correct — tree-wide
+compile plus scoped markdown — but the documents say something that cannot be done.
+Options: reword ADR-016 §8 and ledger §5 to say tree-wide-compile for pre-C++
+modules, or teach `compile-gate.sh` a "legitimately empty" case. That is a ruling,
+not a builder's call, and no ADR number has been taken for it.
+
+**2. M0 carries a `SKELETON ONLY` banner M1 never had**, inside its top
+"Canonical home" blockquote — a second, separate place claiming nothing is
+authored. M1's overview had no such line, so nothing in the M1 precedent would have
+caught it, and it is exactly the F-014 §5 failure: a status claim that goes stale
+because nobody knew to look. Both banners are now updated. **Check every
+`_overview.md` for more than one status claim before assuming the M1 diff transfers.**
+
+## An open question M0 surfaced, deliberately not resolved
+
+**The M0 MLO numbering disagrees with itself across two files.**
+`modules/m0/_mlos.md` lists four slots; `_storming/CSC-134-learning-objectives.md`
+lists three. The AI-collaboration objective is `MLO-0.4` in one and `MLO 0.3` in the
+other — so a citation of "MLO 0.3" is ambiguous. The module file's `MLO-0.1` also
+drops the **systems clause** ("people, processes, and technology") that both the
+spine and the objectives doc require.
+
+`learn.md` cites the module's own file and teaches the fuller, spine-true 0.1. The
+reconciliation decides which document is authoritative for MLO numbering
+**course-wide**, so it is a spine-owner call. Recorded in `modules/m0/_mlos.md`'s
+banner as an open question. **No ADR number taken** — numbering is contested and
+CLAUDE.md forbids grabbing one.
+
+**Cost.** Cheapest module yet in mechanics, most expensive in reading: the spine's
+big idea is three questions, and answering only "what is a program" would have
+shipped a third of the module while looking complete.
+
 ---
 
 ## Authoring rules learned the hard way
