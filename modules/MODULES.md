@@ -9,7 +9,7 @@ material, never scaffold targets.
 | Status | Means |
 |---|---|
 | **Skeleton** | Structure-only pass: `_overview.md`, `_mlos.md`, `_assets.md`, `_assess-spec.STUB.md`. No student-facing content authored. |
-| **First pass** | One real, gate-green, student-facing artifact — the **Learn beat** (`learn.md` + gated `code/`). Authored in the breadth pass **without graduate seeding**, so humans can open any module and review something real. Not all four beats; not cohort-tested. See [[ADR-016]]. |
+| **First pass** | One real, gate-green, student-facing artifact — the **Learn beat**. That means `learn.md`, plus gated sources in `code/` **for modules that have C++ to gate**. M0 and M1 are pre-C++ and correctly have **no `code/` directory at all**; for them, gate-green means the markdown gate passes at zero blocks. Authored in the breadth pass **without graduate seeding**, so humans can open any module and review something real. Not all four beats; not cohort-tested. See [[ADR-016]]. |
 | **Built** | All four LPAA beats authored and through the compile-warden gate (every C++ block clean under `g++ -std=c++17 -Wall -Wextra`, Mermaid renders, rubric lineage verified). |
 | **Ready** | Built, *plus* taken end to end by a synthetic student cohort, with every finding filed and closed. |
 
@@ -27,7 +27,7 @@ in the module's own `_overview.md`, not substituted for the title here.
 | Module | Title | Status | Beats present | Evidence |
 |---|---|---|---|---|
 | **M0** | Welcome to Programming | Skeleton | — | — |
-| **M1** | Talk to Computers (and Your Team) | Skeleton | — | — |
+| **M1** | Talk to Computers (and Your Team) | **First pass** | Learn | F-015 (breadth pass). Pre-C++ — no `code/`, no compile-gate surface. No cohort round. |
 | **M2** | How to Solve Problems | **First pass** | Learn | F-015 (breadth-pass pilot). Both gates green; no cohort round. |
 | **M3** | Program Basics | Skeleton | — | — |
 | **M4** | Decisions | **Ready** | Learn · Practice (+key) · Apply · Assess | F-004 (build), F-005 (cohort round 1), F-006 (fixes + certification) |

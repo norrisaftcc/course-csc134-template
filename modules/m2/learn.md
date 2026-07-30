@@ -293,9 +293,9 @@ For explaining an error message, yes — it is genuinely good at that, and this 
 
 1. **Take the M2 exit ticket.** It is completion-gated — finish it to move on. Nothing on it is a trick.
 2. **Bring this reading to class** for the Apply tutorial, where you will type a program in, compile it, and then break it on purpose to watch the compiler complain. Naming what you broke, in the four words, is the point of the exercise.
+3. **Optional:** the `thinkcpp` predict-the-output checkpoints are more reps at the skill from the *Predict first* section above. The skill is worth the reps.
 
 > **📋 Instructor note — not yet authored.** M2 is at **First pass**: this reading
-> exists, the exit ticket and Apply tutorial do not (ADR-016). Steps 1 and 2 describe
-> where this beat hands off, not files you can open today. Do not route students here
-> expecting the rest of the module to be waiting for them.
-3. **Optional:** the `thinkcpp` predict-the-output checkpoints are more reps at the skill from the *Predict first* section above. The skill is worth the reps.
+> exists; the exit ticket and the Apply tutorial **do not yet exist** (ADR-016).
+> Steps 1 and 2 describe where this beat hands off, not files you can open today. Do
+> not route students here expecting the rest of the module to be waiting for them.

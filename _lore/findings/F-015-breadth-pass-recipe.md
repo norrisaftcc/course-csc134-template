@@ -89,7 +89,68 @@ half (option 1) is untouched, and the Apply-beat half is unwritten.
 — 5 short programs, none over 20 lines. The expensive part was the boundary
 research, and that cost is per-module and does not amortise.
 
+### M1 — Talk to Computers (and Your Team)
+
+**Artifact:** `modules/m1/learn.md` — *"Talk to Computers (and Your Team): Why Plain
+Text Wins"*. **No `modules/m1/code/` directory exists**, and that is the result worth
+recording.
+
+| Measure | Value | vs. M2 |
+|---|---|---|
+| Total words | 2,140 | 2,617 |
+| **Prose** words | **973** | 1,806 |
+| Flesch–Kincaid grade | **6.3** | 6.0 |
+| Gated `.cpp` authored | **0** | 5 |
+| Fenced `cpp` blocks | **0 top-level** | 5 |
+| Mermaid diagrams | 1 (the markup ladder) | 2 |
+| Markdown gate, scoped | `0 blocks: 0 matched, 0 failed, 0 unmigrated` — **PASSED** | 5 matched |
+
+**The pre-C++ shape works, and it is not just "the same minus code."** Two things
+came out differently:
+
+**1. Prose-to-table ratio flips.** M1 is 973 prose words against M2's 1,806, but only
+477 total words shorter. The difference is tables: Markdown syntax is genuinely a
+reference, and a syntax table teaches it better than paragraphs do. The
+`reading-generator` skill's 1,500–2,500 target counts the document, not the prose, and
+M1 sits inside it at 2,140. **Do not pad a pre-C++ reading to hit a prose number** —
+the number that matters is whether the objectives are covered, and M1's are.
+
+**2. PRIMM's Predict beat survives without code.** The skill frames predict-the-output
+around a program. M1 has no program, so the predict moment is *predict-the-render*:
+here is Markdown source, say what it will look like before you scroll. It exercises the
+same habit — commit to an answer, then check — and it has its own misconception to
+catch (more `#` means *smaller*, and the blank line before a list is load-bearing).
+**Recommended for M0**, which is the other pre-C++ module.
+
+**A nested-fence result worth knowing.** Teaching code fences means showing a ` ```cpp `
+block *inside* a Markdown listing. Written as a four-backtick outer fence, the gate
+correctly reports **0 blocks** — it reads nested fences the way a renderer does, so the
+inner fence is content, not a listing to verify. That path had a self-test but had never
+met real material; it holds.
+
+**Cost.** The cheapest module so far by a wide margin — no `.cpp` to author, gate, or
+run, and no captured output to verify. Boundary research was still the expensive part,
+and still does not amortise.
+
 ---
+
+## Authoring rules learned the hard way
+
+**The instructor note goes *after* the whole list, never between items.** Every
+breadth-pass Learn beat ends with a `> **📋 Instructor note — not yet authored.**`
+blockquote, because `First pass` means the beats it routes to do not exist yet. On M2
+that blockquote was placed between list items 2 and 3 — **which silently terminates the
+numbered list.** Item 3 then starts a *new* list and renders as "1". It shipped to
+`main` that way and was caught on the M1 review, not by any gate.
+
+Nothing checks this. The markdown gate reads provenance, not rendering, and there is no
+Markdown linter in CI. **Put the note below the last item, and eyeball the rendered list
+in the PR's Files-changed view** — the same manual check Mermaid needs (bar #5).
+
+**Say "do not yet exist," not "do not."** *"This reading exists, the exit ticket and
+Apply tutorial do not"* is grammatical by ellipsis and still reads as an unfinished
+sentence. On a warning whose whole job is to stop someone handing students a file that
+is not there, ambiguity is the one thing it cannot afford.
 
 ## Open items carried forward
 
