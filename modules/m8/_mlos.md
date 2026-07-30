@@ -1,6 +1,18 @@
 # M8 — Module Learning Objectives (skeleton)
 
-**Status:** skeleton slots only — not authored objectives. Derived from
+**Status: PARTLY INSTANTIATED.** `learn.md` states finished objective sentences for
+**MLO 8.1** (produce a design document — problem statement, user stories, spec,
+flowchart) and for the *planning* half of **MLO 8.2** (decompose an implementation
+into stages that each compile and run standalone). **MLO 8.3** (test and debug
+against the spec) is named and motivated — the reading argues that a written spec is
+what turns a **Logic** error into a checkable failure — but not taught; **MLO 8.4**
+(present and defend, documenting AI assistance) is referenced only as a disclosure
+requirement students will meet. Both 8.3 and 8.4, and the *doing* half of 8.2,
+belong to the capstone itself, which is not authored. Where this file and `learn.md`
+differ in phrasing, the Learn beat is the authored version.
+
+The rest below is the original slot record — skeleton slots, not authored
+objectives. Derived from
 `_storming/CSC-134-course-spine.md` ("## M8 — Capstone Miniproject") and
 `_storming/CSC-134-learning-objectives.md` ("### M8 — Capstone Miniproject").
 Deep-build fills in beat-level detail; this file records the MLO shape and

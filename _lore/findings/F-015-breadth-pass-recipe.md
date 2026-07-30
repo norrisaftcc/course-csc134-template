@@ -429,6 +429,76 @@ elsewhere and never struck through**. The grep rule finds banners; it does not f
 these. Worth a sweep of every `- [ ]` in `_mlos.md` and `_assets.md` against
 `_lore/decisions/` at the end of the pass.
 
+### M8 — Capstone Miniproject *(the ninth, and the pass closes)*
+
+**Artifact:** `modules/m8/learn.md` — *"Knowing What to Build: The Design Document"*,
+plus **2 gated sources** (stages 1 and 2 of a staged build).
+
+| Measure | Value | vs. M7 |
+|---|---|---|
+| Total words | 2,112 | 1,975 |
+| Flesch–Kincaid grade | **5.7** (lowest of the pass) | 7.4 |
+| Gated `.cpp` authored | **2** — both clean | 4 |
+| Fenced `cpp` blocks | **2**, both born-compliant `source=` | 9 |
+| Tree-wide unmigrated | **37 — unchanged** | unchanged |
+
+**The scope was a judgment call, and this is the record of it.** M8 is the only module
+whose spine names **no reading at all**. `_overview.md`'s beat map said so plainly:
+*"No new reading content named by the spine for M8 itself — M8 draws on every prior
+Learn beat (M0–M7) as its input. The 'reading' at this stage is the student's own
+design document once drafted."* ADR-016 §5 meanwhile grants M8 a Learn beat and
+nothing else — *"the capstone project, its spec, and its rubric stay out of scope."*
+
+Those two are not in conflict, but they leave the beat's subject undetermined. The
+resolution taken: **M8's Learn beat teaches problem formulation — the design document
+itself (MLO 8.1)**, not the capstone.
+
+The argument for it, in one line: **the design document is the one thing M8 asks a
+student to do that no prior module taught them.** The spine front-loads it, grades it
+heavily, and gates implementation behind it — while eight modules of material teach
+nothing about how to write one. Every prior module handed the student the problem
+already decided. Teaching the funnel (problem statement → user stories → spec →
+flowchart) is genuinely Learn material, is *not* capstone content, and closes the
+course's problem-solving arc: M0's inputs/process/outputs, M1's Robot Sandwich
+precision, M2's flowcharts, all cashed in on the student's own problem.
+
+**A different call was available** — leave M8's Learn beat deliberately empty and
+record *why*, which the spine arguably licenses. That would have left the breadth pass
+at 8 of 9 with a documented hole, and left the one genuinely-untaught skill in the
+course untaught. Flagged here rather than settled quietly: **a spine-owner is entitled
+to overrule this and shrink M8's reading to a pointer page.**
+
+**A second thing the spine never taught, now taught.** CLAUDE.md bar #9 requires
+staged builds — *"each stage compiles and runs standalone"* — and the course has
+**shipped** them since M4 without ever telling students what a stage is or why. M8's
+reading defines it (*a version you could hand to someone*), shows stages 1 and 2 as
+two gated programs, and gives the reason: **a program that compiled at every step has
+never been broken for longer than one change.**
+
+**The staged build gave M8 a compile-gate surface it would not otherwise have had.**
+A design-document reading is prose and diagrams; it would have been the third module
+with zero gated sources, after M0 and M1. Two real staged programs make bar #9 a
+demonstrated fact rather than a builder-facing convention.
+
+**Stage 2 changes stage 1's function signature, on purpose.** `describeRoom(string,
+int)` becomes `describeRoom(Room)`. The reading says so and rules it legal: stages may
+change shape as they grow; the one rule a stage cannot break is that it compiles and
+runs when you stop. Left unsaid, a reader could reasonably infer stages must be purely
+additive — which is false and would make staging feel impossible.
+
+**The fourth error word finally gets its module.** M2 named **Logic** and could not
+demonstrate it honestly. M8 is where it lands: the error that compiles, runs, and is
+wrong — *and the one an AI assistant cannot save you from, because it will faithfully
+implement whatever you asked for.* The reading's claim is that **the spec is what
+turns a Logic error into a checkable disagreement**, which is also the spine's own
+assessment logic (*"we grade the two things AI cannot do for you"*) stated as a
+mechanism rather than a policy.
+
+**Stacked on M7's branch, not on `main`.** M8 and M7 both edit `MODULES.md`, the
+ledger, and this file. Branching M8 from `main` would have produced three guaranteed
+conflicts on shared status files. **Rule for any future parallel breadth work: the
+per-module content never collides, the four status homes always do.**
+
 ---
 
 ## Authoring rules learned the hard way
@@ -476,7 +546,30 @@ Apply tutorial do not"* is grammatical by ellipsis and still reads as an unfinis
 sentence. On a warning whose whole job is to stop someone handing students a file that
 is not there, ambiguity is the one thing it cannot afford.
 
+**A diagram may only use shapes a prior module taught, and the sentence introducing
+it must match.** M8's first draft said *"with M2's shapes: rectangles for steps, a
+diamond for every decision"* and then drew a parallelogram for input and bare
+rectangles for start and end — while M2's own flowcharts use `([stadium])` terminals
+and have never shown a parallelogram at all. Standard flowchart vocabulary, silently
+introduced, in the module that grades flowcharts. Redrawn in M2's three shapes.
+
+**Mermaid renders anything, so the reading is the only check.** This is the same
+blind spot as the M2 numbered list and the M3 piped transcript: the artifact was
+valid, compiled or rendered fine, and was still teaching something the course had not
+taught. Caught by reading the sentence next to the diagram and disbelieving it.
+
 ## Open items carried forward
+
+- **Readability grades in this file are not comparable to each other.** Bar #2 sets a
+  10th-grade ceiling and every module row quotes a Flesch–Kincaid number, but **there
+  is no script in the repo that computes it** — each module's figure came from an
+  ad-hoc measurement, and the tokenisers differ in how they strip fences, tables, and
+  inline code. Re-measuring M2 with M8's script gave **5.6** against the **6.0**
+  recorded in its row; both are far under the bar, so no module's *verdict* changes,
+  but the module-to-module deltas in these tables should not be read as real. **Every
+  reading is comfortably under 10th grade; that is the claim that holds.** A committed
+  `.github/scripts/readability.sh` would make bar #2 checkable the way bars #1 and #3
+  already are — the fourth item on the list of bars with no mechanical check.
 
 - **Mermaid render is unverified by any script.** Bar #5 requires the diagram to
   actually render; the gates check provenance and compilation, not Mermaid.
