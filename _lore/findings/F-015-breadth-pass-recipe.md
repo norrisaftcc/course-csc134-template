@@ -206,6 +206,64 @@ CLAUDE.md forbids grabbing one.
 big idea is three questions, and answering only "what is a program" would have
 shipped a third of the module while looking complete.
 
+### M3 — Program Basics
+
+**Artifact:** `modules/m3/learn.md` — *"Program Basics: When a Program Starts
+Remembering"*, plus **5 gated sources** in `modules/m3/code/`. The first
+breadth-pass module with C++ since the M2 pilot.
+
+| Measure | Value | vs. M2 (the other C++ module) |
+|---|---|---|
+| Total words | 2,187 | 2,617 |
+| Prose words | 804 | 1,806 |
+| Flesch–Kincaid grade | **7.0** | 6.0 |
+| Gated `.cpp` authored | **5** — 4 clean, 1 `EXPECT-ERROR` | 5 — 3 clean, 2 `EXPECT-ERROR` |
+| Fenced `cpp` blocks | 5, **all born-compliant** | 5 |
+| Markdown gate, scoped | `5 matched, 0 failed, 0 unmigrated` | same |
+| Compile gate, scoped | **PASSES** (5 files) | passes |
+| Tree-wide unmigrated | **37 — unchanged** | unchanged |
+
+**Born-compliant held on the first C++ module since the pilot.** Five more fenced
+blocks entered the tree and the debt did not move.
+
+**The gate caught a real drift, first time in the breadth pass.** The
+integer-division listing was written flush-left while the source has it indented
+inside `main`. `5 block(s): 4 matched, 1 failed` — with a diff pointing at the exact
+segment. This is the same shape as M4's Item 7 fragment (F-016), and it is the first
+time the gate has failed on *new* material rather than legacy. **It works.** Worth
+recording that the failure mode is not "forgot the annotation" but "annotated and
+then didn't match" — the annotation is the easy half.
+
+**The scoped compile gate passes here.** M0 and M1 could not run it at all (exit 2,
+"Nothing to gate"). M3 has `.cpp` files, so the trap recorded in the M0 entry is
+confined to pre-C++ modules — it is not a general defect in the breadth-pass
+instructions, only an unhandled case in them.
+
+**M2's promise is now paid.** M2 taught all four error words but could only
+demonstrate three, and said in student-facing text that the **Runtime** example
+"arrives later… M3, then M5 in earnest." M3 delivers it: `cin >> torches` handed the
+word `lots` leaves `torches` at `0`, and the program prints *"You asked for 0
+torches. That comes to 0 gold."* — **no crash, exit 0.** The reading names the shape
+plainly: *a program that finishes is not a program that worked.*
+
+That is the first time a named gap in one module has been closed by the next one.
+**The pattern of naming gaps instead of inventing demos (M2 entry) is now proven to
+close**, not just to defer politely.
+
+**Salvage under ADR-010, in practice.** `assignments/m1/` and `assignments/m2/` hold
+spine-M3 content under old numbering. What was actually mined was **one framing** —
+the legacy `M2T1_InteractiveMarketplace` "From Static to Interactive" progression,
+which became the Stage A → Stage B shape. No text, no code, and no exercise was
+ported. Recreate-with-salvage in practice means *the idea travels, the file does
+not.* Neither legacy file was modified, per the non-clobber policy.
+
+**A third distinct banner shape.** M0 hid a stale status claim in its top
+"Canonical home" blockquote; M3 hides one in a section called **"Contracts
+touched"** — *"This is a structure-only skeleton pass — no Learn/Practice/Apply/
+Assess content authored."* Nothing in the M0, M1 or M2 diffs would have found it.
+**Grep each module for every status claim before assuming the previous module's
+diff transfers**; three modules have now had three different hiding places.
+
 ---
 
 ## Authoring rules learned the hard way

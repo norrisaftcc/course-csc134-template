@@ -1,6 +1,14 @@
 # M3 — Module Learning Objectives (skeleton)
 
-**Status:** skeleton slots only — not authored objectives. Derived from
+**Status: PARTLY INSTANTIATED.** `learn.md` now states finished objective sentences
+for **MLO 3.1** (declare and use variables of appropriate types) and **MLO 3.3**
+(read compiler and runtime messages and name the error). It covers the *reading*
+half of **MLO 3.2** — a complete input → process → output program with arithmetic,
+shown and traced — while the *writing* half belongs to the Apply and Assess beats,
+which are not authored. Where this file and `learn.md` differ in phrasing, the Learn
+beat is the authored version.
+
+The rest below is the original slot record. Derived from
 `_storming/CSC-134-course-spine.md` ("## M3 — Program Basics") and
 `_storming/CSC-134-learning-objectives.md` ("### M3 — Program Basics").
 Deep-build fills in beat-level detail. This file records the MLO shape and its
