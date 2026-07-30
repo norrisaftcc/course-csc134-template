@@ -11,8 +11,8 @@ void describeDungeon(const int hazards[], int count);
 
 int main()
 {
-    const int ROOM_COUNT = 4;
-    int hazards[ROOM_COUNT] = {0, 2, 1, 5};   // hazards in each room
+    const int ROOM_COUNT = 3;
+    int hazards[ROOM_COUNT] = {0, 2, 1};   // hazards in each room
 
     describeDungeon(hazards, ROOM_COUNT);
     return 0;

@@ -16,7 +16,9 @@ By the end of this reading, you will be able to:
 - **Explain** why parallel arrays work and why they are a stepping stone, not a destination.
 - **Model** related data with a `struct` and **access** its members with `.` (MLO 7.2).
 - **Pass a struct by reference** so a function can change the caller's copy (MLO 7.3).
-- **Say** what a class adds to a struct, and why that is the last step of this module (MLO 7.4).
+
+This reading walks four steps of M7's five-step arc. **Classes (MLO 7.4) are previewed,
+not taught** — you will meet them properly in the rest of the module.
 
 ## Why This Matters
 
@@ -40,20 +42,19 @@ This reading walks the first four. **Classes are the destination**, and the rest
 ### An array is many values under one name
 
 ```cpp excerpt=modules/m7/code/learn-rooms-array.cpp
-    const int ROOM_COUNT = 4;
-    int hazards[ROOM_COUNT] = {0, 2, 1, 5};   // hazards in each room
+    const int ROOM_COUNT = 3;
+    int hazards[ROOM_COUNT] = {0, 2, 1};   // hazards in each room
 ```
 
-`hazards` is four `int`s in a row. You reach each one by **index** — its position, counting from zero:
+`hazards` is three `int`s in a row — one per room, same three rooms this reading uses throughout. You reach each one by **index**, its position, counting from zero:
 
 | Index | `hazards[i]` |
 |---|---|
 | `0` | 0 |
 | `1` | 2 |
 | `2` | 1 |
-| `3` | 5 |
 
-**Counting from zero is the whole difficulty of arrays**, and it produces one specific mistake so often that it has a name. Four items means valid indexes `0`, `1`, `2`, `3` — **the last index is one less than the count.** There is no `hazards[4]`.
+**Counting from zero is the whole difficulty of arrays**, and it produces one specific mistake so often that it has a name. Three items means valid indexes `0`, `1`, `2` — **the last index is one less than the count.** There is no `hazards[3]`.
 
 ### Predict first
 
@@ -74,14 +75,13 @@ This reading walks the first four. **Classes are the destination**, and the rest
 Room 0 holds 0 hazards.
 Room 1 holds 2 hazards.
 Room 2 holds 1 hazards.
-Room 3 holds 5 hazards.
 ```
 
-**Four lines, and the first room is Room 0.** Two things people get wrong here:
+**Three lines, and the first room is Room 0.** Two things people get wrong here:
 
 **`i` and `hazards[i]` are different things.** `i` is *where you are*; `hazards[i]` is *what is there*. Room 1 holds 2 hazards — the `1` and the `2` come from different places. Reading `i` when you meant the value is the most common array bug there is.
 
-**`i < count`, not `i <= count`.** With four items, `i` must stop at 3. Write `<=` and the loop reaches for `hazards[4]`, which does not exist — and C++ will not stop you. It reads whatever happens to sit in memory next and carries on with a nonsense number. **No crash, no message.** That is a **Logic** error the compiler cannot see, and it is why the off-by-one matters more here than anywhere else in the course.
+**`i < count`, not `i <= count`.** With three items, `i` must stop at 2. Write `<=` and the loop reaches for `hazards[3]`, which does not exist — and C++ will not stop you. It reads whatever happens to sit in memory next and carries on with a nonsense number. **No crash, no message.** That is a **Logic** error the compiler cannot see, and it is why the off-by-one matters more here than anywhere else in the course.
 </details>
 
 ### Parallel arrays: the honest stepping stone

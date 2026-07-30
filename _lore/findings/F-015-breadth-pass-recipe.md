@@ -399,6 +399,24 @@ the by-reference function. M6 established two; M7 shows the technique scales, an
 is what lets a single gated program carry a multi-step narrative without ever being
 shown whole.
 
+**Review round — declaring an objective out of scope takes four edits, not three.**
+The M7 build stated MLO 7.4 out of scope in `_overview.md`, `_mlos.md`, and the ledger
+— and left *"**Say** what a class adds to a struct… (MLO 7.4)"* sitting in the
+reading's own **Learning Objectives** list. The one file a student actually reads
+still claimed the objective the other three disclaimed.
+
+**The scope declaration has a fourth home and it is the most important one.** Added to
+the per-module checklist: when a beat does not carry an objective, the reading's
+Learning Objectives list is the *first* place to fix, not the place that gets
+forgotten. Reframed here as an explicit preview line beneath the objectives.
+
+**One worked example, one set of numbers.** The array section used a four-room dungeon
+while every other section used three, so the reading's own continuity broke at the
+first code block. Unified to three throughout — one dungeon, one hazard list — which
+also makes the parallel-arrays-to-struct collapse visibly *the same data*. **Cheap to
+get right at authoring time and invisible to every gate**, since both versions
+compiled and both transcripts were honestly captured.
+
 **A checklist item that outlived its own ruling by six days.** `modules/m7/_mlos.md`
 still listed *"Resolving F-001's open question on the STL/`std::string` and File I/O
 legacy manifest content"* as open — but **ADR-011 ruled it on 2026-07-24**: both
