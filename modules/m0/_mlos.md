@@ -1,8 +1,40 @@
 # M0 — Module Learning Objectives (MLOs)
 
-> **SKELETON ONLY.** These are objective *slots* — the shape an MLO takes and
-> what it must feed — not authored, finished learning-objective language. The
-> deep-build pass writes the real wording.
+> **PARTLY INSTANTIATED.** These are objective *slots* — the shape an MLO takes
+> and what it must feed.
+>
+> **`learn.md` now states finished objective sentences for MLO-0.1 and MLO-0.4.**
+> Where that file and this one differ in phrasing, the Learn beat is the authored
+> version. **MLO-0.2** (toolchain + one clean compile) belongs to Apply/Assess and
+> is untouched — the reading names both toolchain paths and why they exist, but
+> does not walk the setup. **MLO-0.3** (inputs / process / outputs) is an Assess
+> objective, so the reading **supplies the vocabulary and rehearses it once in a
+> predict moment**, without running the exercise. Do not read the four slots below
+> as all covered.
+>
+> ---
+>
+> **⚠️ OPEN QUESTION FOR A HUMAN RULING — the M0 MLO numbering disagrees with
+> itself, and the Learn beat could not resolve it.**
+>
+> This file lists **four** slots, `MLO-0.1`–`MLO-0.4`.
+> `_storming/CSC-134-learning-objectives.md` lists **three**, `MLO 0.1`–`0.3`.
+> They are not a subset of one another:
+>
+> - The **AI-collaboration objective** is `MLO-0.4` here and `MLO 0.3` there.
+>   A citation of "MLO 0.3" is therefore ambiguous across the two files.
+> - This file's `MLO-0.3` (inputs / process / outputs) **has no counterpart** in
+>   the objectives doc.
+> - This file's `MLO-0.1` **drops the systems clause** the spine and the
+>   objectives doc both require — *"how software operates within a system of
+>   people, processes, and technology"*. `learn.md` teaches the fuller version,
+>   because the spine's big idea keeps it.
+>
+> `learn.md` cites **this file's** numbering, since it is the module's own. The
+> reconciliation is a spine-owner call, not a module-builder one — it decides
+> which document is authoritative for MLO numbering course-wide. **No ADR number
+> has been taken for it.** Recorded in `_lore/findings/F-015-breadth-pass-recipe.md`
+> under the M0 entry.
 
 ---
 
