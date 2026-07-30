@@ -546,6 +546,18 @@ Apply tutorial do not"* is grammatical by ellipsis and still reads as an unfinis
 sentence. On a warning whose whole job is to stop someone handing students a file that
 is not there, ambiguity is the one thing it cannot afford.
 
+**A diagram may only use shapes a prior module taught, and the sentence introducing
+it must match.** M8's first draft said *"with M2's shapes: rectangles for steps, a
+diamond for every decision"* and then drew a parallelogram for input and bare
+rectangles for start and end — while M2's own flowcharts use `([stadium])` terminals
+and have never shown a parallelogram at all. Standard flowchart vocabulary, silently
+introduced, in the module that grades flowcharts. Redrawn in M2's three shapes.
+
+**Mermaid renders anything, so the reading is the only check.** This is the same
+blind spot as the M2 numbered list and the M3 piped transcript: the artifact was
+valid, compiled or rendered fine, and was still teaching something the course had not
+taught. Caught by reading the sentence next to the diagram and disbelieving it.
+
 ## Open items carried forward
 
 - **Readability grades in this file are not comparable to each other.** Bar #2 sets a

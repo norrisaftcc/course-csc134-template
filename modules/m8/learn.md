@@ -137,24 +137,26 @@ of things you already know how to build.** That is what eight modules bought you
 
 ### 4. The flowchart
 
-Now draw it, with M2's shapes: rectangles for steps, a diamond for every
-decision. This is the main path of the spec above.
+Now draw it, with M2's shapes and no others: a rounded box for start and end,
+a rectangle for every step, a diamond for every decision. This is the main path
+of the spec above.
 
 ```mermaid
 flowchart TD
-    A[Start: health = 20, room = 1] --> B[Print room name and hazards]
-    B --> C[/Read choice: 1 enter, 2 retreat/]
+    A([Start: health = 20, room = 1]) --> B[Print room name and hazards]
+    B --> C[Read choice: 1 enter, 2 retreat]
     C --> D{Choice valid?}
     D -- no --> C
     D -- yes --> E{Entered?}
     E -- yes --> F[health = health - hazards]
     E -- no --> G[Skip the room]
     F --> H{health <= 0?}
-    H -- yes --> I[Report: you died]
+    H -- yes --> I([End: you died])
     G --> J{More rooms?}
     H -- no --> J
-    J -- yes --> K[room = room + 1] --> B
-    J -- no --> L[Report: you survived]
+    J -- yes --> K[room = room + 1]
+    K --> B
+    J -- no --> L([End: you survived])
 ```
 
 Drawing this is where design documents earn their keep, because **the diagram
