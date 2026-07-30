@@ -25,7 +25,14 @@ work list and the ranked backlog behind it.
 | 5 | **M3** | Program Basics | type-in 100% | **First pass** | ✅ | 2,187 words, FK 7.0, **5 gated sources** — first breadth module with C++; born-compliant held. Closes M2's named Runtime gap. F-015 |
 | 6 | **M6** | Functions | finish-the-80% | **First pass** | ✅ | 2,074 words, FK 6.7, **4 gated sources** — first full single-file form; refactors the frozen `m5_menu.cpp` validation loop. F-015 |
 | 7 | **M7** | Structured Data & Objects | finish-the-80% | **First pass** | ✅ | 1,975 words, FK 7.4, **4 gated sources**, 9 blocks. ADR-011 respected; MLO 7.4 (classes) deliberately not carried. F-015 |
-| 8 | **M8** | Capstone Miniproject | spec-only | Skeleton | ☐ | Wave C — **Learn beat only**, no capstone content |
+| 8 | **M8** | Capstone Miniproject | spec-only | **First pass** | ✅ | 2,112 words, FK 5.7, **2 gated sources** (staged build, stages 1–2). Scoped to MLO 8.1 — the spine names no reading for M8, so the scope was a judgment call. F-015 |
+
+**Pass complete: 9 of 9.** Every module carries a Learn beat at `First pass` or
+better. Post-pass work resumes from §6.
+
+> **The FK figures above are not comparable to each other** — there is no committed
+> readability script, so each was measured ad-hoc (F-015, *Open items*). Every reading
+> is well under bar #2's 10th-grade ceiling; the module-to-module deltas are noise.
 
 **Done overall:** every row at `First pass` or better, every module's `compile` job green on GCC in
 CI, and no growth in the markdown gate's violation count from new material.

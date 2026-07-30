@@ -34,7 +34,7 @@ in the module's own `_overview.md`, not substituted for the title here.
 | **M5** | Loops | **Built** | Learn · Practice (+key) · Apply · Assess | F-007 (build + gate). Cohort round not yet run. |
 | **M6** | Functions | **First pass** | Learn | F-015 (breadth pass). First module using the full single-file form. No cohort round. |
 | **M7** | Structured Data & Objects | **First pass** | Learn | F-015 (breadth pass). Arrays → structs → by-reference; classes named, not taught. No cohort round. |
-| **M8** | Capstone Miniproject | Skeleton | — | — |
+| **M8** | Capstone Miniproject | **First pass** | Learn | F-015 (breadth pass). Problem formulation — design document; the capstone itself is not authored. No cohort round. |
 
 **Next: the breadth pass** ([[ADR-016]]). Seven modules have no student-facing
 content at all, so a human review meeting can only ever discuss M4 and M5. Each

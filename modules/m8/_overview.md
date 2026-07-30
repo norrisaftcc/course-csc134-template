@@ -22,7 +22,7 @@ the spine *performed*.
 
 | Beat | One-liner (from spine) |
 |---|---|
-| **Learn** | No new reading content named by the spine for M8 itself — M8 draws on every prior Learn beat (M0–M7) as its input. The "reading" at this stage is the student's own design document once drafted. |
+| **Learn** | **Authored** — `learn.md`, *"Knowing What to Build: The Design Document."* The spine names no new *C++* reading for M8, and this beat adds none: it teaches **problem formulation** (MLO 8.1) — problem statement → user stories → spec → flowchart — plus the *planning* half of staged implementation. The design document the spine front-loads and grades heavily is the one thing M8 asks students to do that no prior module taught them. See the scope judgment recorded in [[F-015-breadth-pass-recipe]]. |
 | **Practice** | Not a traditional module exit ticket — the spine frames the design document itself as the front-loaded, heavily-graded checkpoint that gates entry into implementation (see MLO 8.1). |
 | **Apply** | **Spec-only** (the Make-gradient's endpoint). No instructor-led type-in and no 80%-built starting program — the student is handed a spec for what the design document and staged build must contain, not a codebase to extend. |
 | **Assess** | The capstone itself: design doc (graded heavily) + staged implementation + presentation/defense, including any AI assistance documented. Full acceptance-criteria skeleton lives in `_assess-spec.STUB.md`. |
@@ -80,6 +80,12 @@ project-shaped deliverables that plausibly belong here, tracked in
 
 ## Contracts touched
 
-None. This is a structure-only skeleton pass — no Learn/Practice/Apply/Assess
-content authored, no edits to `_contracts/`, `_storming/`, `_tracking/`, or
-`assignments/`.
+None. No edits to `_contracts/`, `_storming/`, or `assignments/`.
+
+## Status
+
+**First pass** (ADR-016). The **Learn beat is authored** — `learn.md` plus two
+gated staged-build sources in `code/`, both green on GCC in CI. Practice, Apply,
+and Assess remain skeleton: the design-document brief, the capstone spec, the
+staged-build requirements, and the capstone rubric **do not yet exist.** The
+reading's closing instructor note says so to any student who reaches it.
