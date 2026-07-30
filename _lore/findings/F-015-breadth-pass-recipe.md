@@ -356,6 +356,61 @@ material (Markdown syntax, type tables) goes to tables; argument-shaped material
 (why functions, what a refactor is) goes to prose. **Stop treating the prose count
 as a quality signal** — it measures what the subject is made of.
 
+### M7 — Structured Data & Objects
+
+**Artifact:** `modules/m7/learn.md` — *"Structured Data: When One Variable Is Not
+Enough"*, plus **4 gated sources**. The densest excerpt use of the pass: **9 fenced
+blocks from 4 files**, all matched first run.
+
+| Measure | Value | vs. M6 |
+|---|---|---|
+| Total words | 1,975 | 2,074 |
+| Flesch–Kincaid grade | **7.4** (highest of the pass) | 6.7 |
+| Gated `.cpp` authored | **4** — 3 clean, 1 `EXPECT-ERROR` | 4 |
+| Fenced `cpp` blocks | **9**, all born-compliant | 5 |
+| Tree-wide unmigrated | **37 — unchanged** | unchanged |
+
+**An objective deliberately not carried, and said so.** The spine gives M7 a
+five-step arc — arrays → parallel arrays → structs → pointers → classes — and its
+Learn line says *"readings"*, **plural**. One First-pass reading cannot honestly be
+five. This one walks the first four steps and *names* classes as the destination
+without teaching them, so **MLO 7.4 is explicitly not carried** — stated in the
+`_overview.md` banner, in `_mlos.md`, and in the ledger row.
+
+This is the first time a breadth-pass module has had to declare an objective **out
+of scope for its own beat** rather than partly instantiated. The alternative was a
+thin pass over all five steps, which would have been worse: parallel arrays only
+teach anything if the reader feels the cost, and that needs room.
+
+**The refactor lesson transferred from code to data, for free.** The parallel-array
+program and the struct program produce **byte-identical output**. That is M6's
+definition of a refactor — behaviour held still, structure improved — now applied to
+data, and the reading points at it directly. Two modules teaching one idea in two
+domains, with the identical transcript as the proof.
+
+**Parallel arrays are taught, not skipped, and the spine is right about that.** They
+are recorded in the source as a `FUTURE REFACTOR` comment pointing at the struct
+file. The reading's line: *you cannot appreciate what a struct buys you until you
+have felt what it costs not to have one.*
+
+**Four disjoint excerpts from one source.** `learn-room-struct.cpp` is quoted four
+times — the `struct` declaration, the array initialiser, the collapsed signature, and
+the by-reference function. M6 established two; M7 shows the technique scales, and it
+is what lets a single gated program carry a multi-step narrative without ever being
+shown whole.
+
+**A checklist item that outlived its own ruling by six days.** `modules/m7/_mlos.md`
+still listed *"Resolving F-001's open question on the STL/`std::string` and File I/O
+legacy manifest content"* as open — but **ADR-011 ruled it on 2026-07-24**: both
+descoped, neither CCL-required, incidental `string` keeps its woven-in role. Closed
+with a pointer to the ADR.
+
+**This is a fourth shape of stale claim**, and the most interesting one: not a status
+banner, not a definition, not a transcript — **an open question that was answered
+elsewhere and never struck through**. The grep rule finds banners; it does not find
+these. Worth a sweep of every `- [ ]` in `_mlos.md` and `_assets.md` against
+`_lore/decisions/` at the end of the pass.
+
 ---
 
 ## Authoring rules learned the hard way

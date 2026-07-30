@@ -24,7 +24,7 @@ work list and the ranked backlog behind it.
 | 4 | **M0** | Welcome to Programming | pre-gradient | **First pass** | ✅ | 2,009 words, FK 6.3, **zero gated sources**. Surfaced an MLO-numbering collision for a spine-owner ruling. F-015 |
 | 5 | **M3** | Program Basics | type-in 100% | **First pass** | ✅ | 2,187 words, FK 7.0, **5 gated sources** — first breadth module with C++; born-compliant held. Closes M2's named Runtime gap. F-015 |
 | 6 | **M6** | Functions | finish-the-80% | **First pass** | ✅ | 2,074 words, FK 6.7, **4 gated sources** — first full single-file form; refactors the frozen `m5_menu.cpp` validation loop. F-015 |
-| 7 | **M7** | Structured Data & Objects | finish-the-80% | Skeleton | ☐ | Wave C — respect ADR-011 descope |
+| 7 | **M7** | Structured Data & Objects | finish-the-80% | **First pass** | ✅ | 1,975 words, FK 7.4, **4 gated sources**, 9 blocks. ADR-011 respected; MLO 7.4 (classes) deliberately not carried. F-015 |
 | 8 | **M8** | Capstone Miniproject | spec-only | Skeleton | ☐ | Wave C — **Learn beat only**, no capstone content |
 
 **Done overall:** every row at `First pass` or better, every module's `compile` job green on GCC in
