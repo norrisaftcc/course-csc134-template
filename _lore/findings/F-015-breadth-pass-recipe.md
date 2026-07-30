@@ -316,6 +316,40 @@ Four modules, and the rule caught this one before it shipped rather than after.
 **That is the first time a recorded lesson prevented a defect instead of explaining
 one.**
 
+**Review round — extraction reveals what was caller-specific.** `readChoice`'s header
+claimed *"any other prompt can reuse it"* while the function hard-coded M5's retry
+line, *"That is not a door."* Reusable in structure, not in wording — and the reading
+repeated the reusability claim, so the artifact undercut its own lesson.
+
+Fixed by genericising the message, and **the fix became the better lesson**: pulling
+code out reveals which parts of it were secretly about the caller. The loop was
+reusable all along; the sentence was not. The reading now says so — *if you extract a
+function and cannot name it without saying "for the menu", some of the caller is still
+stuck to it.* Recommended wherever a breadth-pass module demonstrates a refactor.
+
+**An excerpt that shows `main` should start at the includes.** Three M6 listings began
+at the prototypes, omitting `#include`/`using`. Each displayed `int main()` and a
+`return 0;`, so they **read as complete programs while not being buildable** — and one
+of them claimed "exactly one flaw" while, as excerpted, a student typing it would have
+hit several. The `reading-generator` skill already requires complete programs; the rule
+in practice is: **if the block shows `main`, it starts at the includes.** A fragment
+that is obviously a fragment (starting mid-function, like M3's integer division) does
+not need them.
+
+**A known fragility, deliberately not fixed: captured diagnostics carry `file:line:col`.**
+`learn-break-scope.cpp:27:36:` is accurate today and verified, but nothing checks it —
+the markdown gate reads `cpp` fences, not output blocks, so if the source gains a line
+the reading goes silently wrong. This was raised in review with a suggestion to strip
+the prefix.
+
+**Kept, with reasons.** M2's reading explicitly teaches students to read that prefix —
+*"it gives the line, the column, a caret pointing at the exact spot"* — so removing it
+would delete a lesson to buy durability. M2 and M4 already show diagnostics this way,
+so stripping it in M6 alone would also be inconsistent. **The real gap is that no gate
+covers output blocks or compiler messages at all**, which is the same blind spot as
+Mermaid rendering and Markdown list rendering. Three gaps now share one shape: the
+gates verify provenance and compilation, and nothing verifies *what a page shows*.
+
 **Prose ratio, third data point.** M0 1,782 / M1 973 / M3 804 / M6 1,624 prose words.
 The pattern holds and is about subject, not module position: reference-shaped
 material (Markdown syntax, type tables) goes to tables; argument-shaped material

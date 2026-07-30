@@ -45,6 +45,10 @@ flowchart TD
 Here is the smallest program that has all three:
 
 ```cpp excerpt=modules/m6/code/learn-greet-function.cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
 // ===== 1. PROTOTYPES — what exists, and what it needs =====
 void greet(string name);
 int doubled(int value);
@@ -79,7 +83,7 @@ Well met, Bram.
 Twice 6 is 12.
 ```
 
-**Why prototypes exist at all.** The compiler reads your file top to bottom, once. When it reaches `greet("Bram")` inside `main`, it has not seen the definition yet — that is forty lines further down. The prototype is the promise made in advance: *there will be a function called `greet`, it takes a `string`, it returns nothing.* That is enough for the compiler to check the call is sensible and carry on.
+**Why prototypes exist at all.** The compiler reads your file top to bottom, once. When it reaches `greet("Bram")` inside `main`, it has not seen the definition yet — that lives further down the file. The prototype is the promise made in advance: *there will be a function called `greet`, it takes a `string`, it returns nothing.* That is enough for the compiler to check the call is sensible and carry on.
 
 You could skip prototypes by putting every definition *above* `main`. Don't. `main` is the summary of what your program does, and a reader should reach it early — not after scrolling through every detail.
 
@@ -100,6 +104,9 @@ Everything you need to use a function is in one line:
 **Both functions add ten. Only one of them changes `heroHp`. Read them, then write down the two printed numbers before you scroll.**
 
 ```cpp excerpt=modules/m6/code/learn-value-vs-reference.cpp
+#include <iostream>
+using namespace std;
+
 void addTenByValue(int hp);        // takes a COPY
 void addTenByReference(int &hp);   // takes the VARIABLE ITSELF
 
@@ -144,6 +151,9 @@ The names for these are worth knowing because you will see them in every languag
 Here is the planned error for this module, and it is one nearly everybody writes once.
 
 ```cpp excerpt=modules/m6/code/learn-break-scope.cpp
+#include <iostream>
+using namespace std;
+
 void announce();
 
 int main()
@@ -191,7 +201,7 @@ int readChoice(int low, int high)
     {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "That is not a door. Choose " << low << "-" << high << ": ";
+        cout << "Not one of the choices. Choose " << low << "-" << high << ": ";
     }
 
     return value;
@@ -212,14 +222,18 @@ One line, and it reads as a sentence. A real run — the user types a word, then
 2) Hear the rules
 3) Leave
 Choose (1-3): door
-That is not a door. Choose 1-3: 9
-That is not a door. Choose 1-3: 2
+Not one of the choices. Choose 1-3: 9
+Not one of the choices. Choose 1-3: 2
 You chose 2.
 ```
 
 **Identical behaviour to M5.** Same rejection of `door`, same rejection of `9`, same acceptance of `2`. That is what makes it a **refactor** rather than a rewrite: the program's behaviour is the thing you are *not* allowed to change.
 
 And it came with something free. `readChoice` takes `low` and `high` as parameters, so the *next* menu in your program does not need its own copy of this loop — it calls the same function with different numbers. **Code that has a name can be used twice.**
+
+**One thing had to change, and it is the interesting part.** M5's retry line read *"That is not a door."* Perfectly good inside a door menu — and wrong the moment this became a function anything could call. So the message lost the door.
+
+That is worth noticing, because it happens constantly: **pulling code out reveals which parts of it were secretly about the caller.** The loop was reusable all along; the sentence was not. If you extract a function and find you cannot name it without saying "for the menu", some of the caller is still stuck to it.
 
 ## Putting It Together
 
