@@ -29,7 +29,7 @@ in the module's own `_overview.md`, not substituted for the title here.
 | **M0** | Welcome to Programming | **First pass** | Learn | F-015 (breadth pass). Pre-C++ — no `code/`, no compile-gate surface. No cohort round. |
 | **M1** | Talk to Computers (and Your Team) | **First pass** | Learn | F-015 (breadth pass). Pre-C++ — no `code/`, no compile-gate surface. No cohort round. |
 | **M2** | How to Solve Problems | **First pass** | Learn | F-015 (breadth-pass pilot). Both gates green; no cohort round. |
-| **M3** | Program Basics | Skeleton | — | — |
+| **M3** | Program Basics | **First pass** | Learn | F-015 (breadth pass). First breadth module with C++ — 5 gated sources. No cohort round. |
 | **M4** | Decisions | **Ready** | Learn · Practice (+key) · Apply · Assess | F-004 (build), F-005 (cohort round 1), F-006 (fixes + certification) |
 | **M5** | Loops | **Built** | Learn · Practice (+key) · Apply · Assess | F-007 (build + gate). Cohort round not yet run. |
 | **M6** | Functions | Skeleton | — | — |
