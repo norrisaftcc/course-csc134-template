@@ -152,3 +152,42 @@ Required by the plan, and an empty list would have been suspicious. Highlights:
 Filed no issues, fixed nothing, did not touch `modules/MODULES.md`, and **did not certify M5 `Ready`.**
 #21 is explicit that this round is necessary before `Ready` — it is not sufficient. The four
 should-fix must close first, in a follow-on PR, under human review.
+
+---
+
+## Closed: all four should-fix landed, M5 certified `Ready` (2026-07-31)
+
+Issues #48–#51 fixed in one follow-on PR. What changed, and one judgment call worth reading:
+
+| # | Fix |
+|---|---|
+| #48 | `apply-tutorial.md` Movement 1 gains a short gloss of `continue` **before** the trace exercise — including the part a student is most likely to get wrong by analogy with `while`: in a `do`/`while` the condition is at the **bottom**, so `continue` returns the player to the menu rather than leaving the loop. |
+| #49 | B tier now **publishes 0–100**, with an explicit escape hatch (pick another range, say so in the plan file — what you cannot do is skip the check because no number was given). A `500` row was added to the Testing table, so the type-only submission that used to pass every published test now fails one. |
+| #50 | The gloss went in **`learn.md`, not the exit ticket** — see below. |
+| #51 | Rubric Submission row → *"`prompts.md` present as the attempted tier requires."* |
+
+**The #50 judgment call.** The issue offered two fixes: gloss the syntax in Item 7's stem, or gloss
+it in `learn.md`'s `for` section. The reading won, and the choice changed the fix's shape — a stem
+gloss is a patch on one item, whereas the reading now carries a short *"walking a list"* subsection
+that names the syntax, states plainly that **slots count from 0**, ties the off-by-one back to the
+fence-post idea the module already teaches, and hands off to M7 by name. That serves Item 7 **and**
+the lab's Exercise 3 array search, which was the second place a student met brackets cold.
+
+It also means M5's reading now contains array syntax, which is a scope movement, however small.
+ADR-011 keeps incidental `string` in the early modules on the same logic — the spine's M5 Assess
+line names array-search explicitly, so the material was already committed; only the teaching was
+missing. **Flagged rather than smuggled: a spine-owner may prefer the narrower stem-only fix.**
+
+### `Ready` is certified with its caveat attached
+
+`modules/MODULES.md` now shows M5 **Ready** — the second module to get there — and the entry says
+in the same breath that **this round was too easy**. `Ready` in this repo means *cohort-tested and
+its findings closed*. It does not mean *proven against real student failure*, and the first human
+cohort will still find things. Certifying without that sentence would make the badge claim more
+than the evidence supports.
+
+### Not fixed here, on purpose
+
+The three **nits** stay open. The most substantive — the exit-ticket key certifying compiler silence
+from an Apple clang run, which ADR-014 forbids — needs a GCC re-run to replace the claim with
+evidence, not a wording change. That is its own piece of work.

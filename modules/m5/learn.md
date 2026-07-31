@@ -292,6 +292,28 @@ Your three traced rows match the top three. That's the muscle M5 is building: pr
 
 > **⚠️ Common Pitfall**: The **off-by-one** is the loop world's most famous bug. Write `level < 10` when you meant `<= 10` and the table prints **9 rows** instead of 10 — no crash, no warning, just a quietly wrong answer. That's a **Logic** error: the program did what you *said*, not what you *meant*. The fence-post question — "does the last value count, or not?" — is worth a two-second pause every single time you write a loop.
 
+### One thing a counted loop is for: walking a list
+
+A counted loop is how you visit a whole *list* of values one at a time, and that
+shows up on the exit ticket and again in the lab, so here is the shape.
+
+A list of numbers with one name is written like this:
+
+`int potions[5] = {2, 5, 8, 11, 14};`
+
+That makes **five numbered slots** under one name. You read a slot by putting its
+number in square brackets — `potions[0]` is `2`, `potions[1]` is `5`, and so on.
+
+**The slots count from 0, not from 1.** Five slots are numbered `0, 1, 2, 3, 4`
+— so the last one is `potions[4]`, not `potions[5]`. That is the fence-post
+question again wearing a different hat, and it is why a loop over a list is
+almost always written `for (int i = 0; i < 5; i++)`: start at `0`, stop
+*before* `5`. Inside such a loop, `potions[i]` is "the value in slot `i`."
+
+You will meet lists properly in M7, where they get their real name and a lot
+more to do. For now this is all you need: **a counted loop can walk one, and the
+first slot is slot 0.**
+
 ### Loop-and-validate: bulletproofing input
 
 Back to that honest gap in the menu. What happens when `cin >> choice` expects a number and the player types `hello`? `cin` can't turn letters into an `int`, so it gives up and enters a **fail state** — a broken mode where it stops reading anything. If a loop keeps calling a broken `cin`, it spins forever printing nothing. That's an **infinite loop** again — a **Runtime** failure — this time caused by an unguarded `cin` fail-state.

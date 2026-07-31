@@ -31,20 +31,22 @@ in the module's own `_overview.md`, not substituted for the title here.
 | **M2** | How to Solve Problems | **First pass** | Learn | F-015 (breadth-pass pilot). Both gates green; no cohort round. |
 | **M3** | Program Basics | **First pass** | Learn | F-015 (breadth pass). First breadth module with C++ — 5 gated sources. No cohort round. |
 | **M4** | Decisions | **Ready** | Learn · Practice (+key) · Apply · Assess | F-004 (build), F-005 (cohort round 1), F-006 (fixes + certification) |
-| **M5** | Loops | **Built** | Learn · Practice (+key) · Apply · Assess | F-007 (build + gate). Cohort round not yet run. |
+| **M5** | Loops | **Ready** | Learn · Practice (+key) · Apply · Assess | F-007 (build) + F-017 (cohort round 1). Four should-fix closed (#48-#51). |
 | **M6** | Functions | **First pass** | Learn | F-015 (breadth pass). First module using the full single-file form. No cohort round. |
 | **M7** | Structured Data & Objects | **First pass** | Learn | F-015 (breadth pass). Arrays → structs → by-reference; classes named, not taught. No cohort round. |
 | **M8** | Capstone Miniproject | **First pass** | Learn | F-015 (breadth pass). Problem formulation — design document; the capstone itself is not authored. No cohort round. |
 
-**Next: the breadth pass** ([[ADR-016]]). Seven modules have no student-facing
-content at all, so a human review meeting can only ever discuss M4 and M5. Each
-of M0–M3 and M6–M8 gets a **Learn beat** at status `First pass`, one PR per
-module, before further depth work. Work list: `_tracking/breadth-pass-ledger.md`.
+**The breadth pass is complete** ([[ADR-016]]) — all nine modules carry a Learn
+beat at `First pass` or better, so a human review meeting can open any of them.
+Work list and the live backlog behind it: `_tracking/breadth-pass-ledger.md`.
 
-**Deferred behind it, not dropped:** the **M5 cohort round** (#21). M5 is Built
-but not Ready — no synthetic cohort has taken it, so F-007 is a build record, not
-a field record. **Treat M5 content as unproven against real student failure until
-that round runs.**
+**M5 reached `Ready` on 2026-07-31** — cohort round 1 ran (#21, [[F-017]]), four
+should-fix were found and closed (#48–#51). **One caveat travels with that
+badge:** F-017 records that the round was *too easy* — three personas scored 7/7
+cold with identical answers and none produced the `&&`-for-`||` error the lab
+predicts. `Ready` here means *cohort-tested and its findings closed*, not
+*proven against real student failure*. The first human cohort will still find
+things.
 
 ---
 
