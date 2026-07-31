@@ -5,7 +5,8 @@ description: The Apply beats mix student handout and instructor script in one fi
 
 # F-018 — The Apply beat has no audience boundary
 
-**Date:** 2026-07-31 · **Status:** Recorded · **Issue:** #33 · **Branch:** `module/m33-apply-instructor-boundary`
+**Date:** 2026-07-31 · **Status:** Recorded · **Issue:** #33 (closed) · **Ruling:** [[ADR-017-apply-beats-are-written-to-the-student]]
+**Branch:** `module/m33-apply-instructor-boundary`, then `module/m33-student-first`
 
 #33 asked for an audit before any authoring — *"if this is a pattern, it is bigger than M4… the fix
 may be a convention rather than one document."* It is a pattern, the fix is a convention, and the
