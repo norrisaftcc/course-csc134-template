@@ -346,6 +346,15 @@ not replace it.**
 Trace one path out loud as a class: the player types `2`. Which lines run, in
 what order, and where does control go after the action finishes?
 
+**One new word before you trace.** Down in the `default` case you will hit
+`continue;`. It means *stop this pass here and go straight to the loop's
+condition test* — skip whatever is left in the body. The catch is where that
+test lives: in a `do`/`while` the condition is the `while (...)` line at the
+**bottom**, not the top. So `continue` sends the player back to the menu for
+another turn rather than out of the loop. That is the one keyword in this file
+the reading has not shown you; everything else you have already written
+yourself.
+
 **Now build it and run it as-is.** It compiles clean — the file you were handed
 always does.
 

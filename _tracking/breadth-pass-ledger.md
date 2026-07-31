@@ -1,7 +1,7 @@
 # Breadth-pass ledger — a Learn beat in every module
 
 **Ruling:** [[ADR-016-breadth-first-pass]] · **Audit:** [[F-014-breadth-pass-state-audit]]
-**Opened:** 2026-07-29 · **Status:** **breadth pass COMPLETE (9/9)**; deferred queue §6 resumes at #21
+**Opened:** 2026-07-29 · **Status:** **breadth pass COMPLETE (9/9)**; §6 is the live backlog, now at rank 1 = #33
 
 The work list for getting all nine modules to a state where a human can open **any** of them and
 review a real artifact. `modules/MODULES.md` is the reviewer's index; this file is the builder's
@@ -18,7 +18,7 @@ work list and the ranked backlog behind it.
 | # | Module | Title | Gradient | Status | Learn beat | Notes |
 |---|---|---|---|---|---|---|
 | — | **M4** | Decisions | type-in 100% | **Ready** | ✅ | Calibration reference. `learn.md` + 3 gated `learn-*.cpp` + composed Canvas pages |
-| 1 | **M5** | Loops | SPLIT (FULL→EIGHTY) | **Built** | ✅ | PR #20 merged. All 20 sources clean on GCC — the first CI run it ever had (F-014 §2) |
+| 1 | **M5** | Loops | SPLIT (FULL→EIGHTY) | **Ready** | ✅ | PR #20 merged; cohort round 1 run and its four should-fix closed (#21, F-017). Second module to reach Ready |
 | 2 | **M2** | How to Solve Problems | type-in 100% | **First pass** | ✅ | **Pilot — done.** 1,806 words, FK 6.0, 5 gated sources, both gates green. F-015 |
 | 3 | **M1** | Talk to Computers (and Your Team) | pre-gradient | **First pass** | ✅ | 2,140 words, FK 6.3, **zero gated sources** — the pre-C++ shape, proven. F-015 |
 | 4 | **M0** | Welcome to Programming | pre-gradient | **First pass** | ✅ | 2,009 words, FK 6.3, **zero gated sources**. Surfaced an MLO-numbering collision for a spine-owner ruling. F-015 |
@@ -134,13 +134,13 @@ the queue. Ranked. Nothing here was cancelled; ADR-016 deferred, it did not drop
 | Rank | Item | Why it waits |
 |---|---|---|
 | ~~1~~ | ~~**#30** — migrate M4 + M5 fences to ADR-015~~ | **✅ CLOSED 2026-07-31** across #37 (45 → 37), #44 (37 → 18), #45 (18 → 0). **71 blocks, 71 matched, 0 unmigrated** — the markdown gate is green and is now a regression test. Closing record in F-016. |
-| **1** | **#21** — M5 cohort round 1 (semi-interactive, human in the loop) | The depth gate ADR-016 defers. **Next up** — first thing back now that breadth has landed and #30 is paid. |
-| 2 | **#33** — M4 Apply has no student-facing artifact | The breadth pass answers half of it (every module gains a student-facing entry point). The Apply-beat half stays open. |
-| 3 | **#23** — ADR-013 ruling on the Haiku AI-assistant persona | Course-wide voice addition; a breadth pass is the wrong moment to widen surface. **ADR-013's number stays reserved.** |
-| 4 | **#22** — `.gitignore` / source-vs-binary in the early modules | Lands naturally with M2's or M3's Apply beat, which the breadth pass does not author. |
-| 5 | **#27** — tool installation guide (Codespaces → Mac → Windows) | Instructor-facing; unblocked by nothing here. |
-| 6 | **#19** — mini-textbook / course pack | Explicitly *"do not start building from this issue"* — needs a brainstorm → design → spec pass first. |
-| 7 | **Manifest rebuild** — `_tracking/course-manifest-csc134.yaml` | Banner applied now (F-014 §4); rebuild once `MODULES.md` is the settled index. |
+| ~~1~~ | ~~**#21** — M5 cohort round 1~~ | **✅ CLOSED 2026-07-31.** Ran as a 4-agent round (plan #47, results #52); four should-fix filed and closed (#48–#51); **M5 certified Ready**. F-017. Its own lesson: read-ahead deleted the best finding — gate the beats next round. |
+| **1** | **#33** — M4 Apply has no student-facing artifact | The breadth pass answers half of it (every module gains a student-facing entry point). The Apply-beat half stays open. |
+| 2 | **#23** — ADR-013 ruling on the Haiku AI-assistant persona | Course-wide voice addition; a breadth pass is the wrong moment to widen surface. **ADR-013's number stays reserved.** |
+| 3 | **#22** — `.gitignore` / source-vs-binary in the early modules | Lands naturally with M2's or M3's Apply beat, which the breadth pass does not author. |
+| 4 | **#27** — tool installation guide (Codespaces → Mac → Windows) | Instructor-facing; unblocked by nothing here. |
+| 5 | **#19** — mini-textbook / course pack | Explicitly *"do not start building from this issue"* — needs a brainstorm → design → spec pass first. |
+| 6 | **Manifest rebuild** — `_tracking/course-manifest-csc134.yaml` | Banner applied now (F-014 §4); rebuild once `MODULES.md` is the settled index. |
 
 ### Also still shelved (ADR-010's ranked backlog, unchanged by this pass)
 
