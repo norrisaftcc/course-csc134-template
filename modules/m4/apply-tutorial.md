@@ -73,71 +73,6 @@ The visit ends.
 
 ---
 
-## Instructor Notes
-
-**Mode: FULL (type-in 100%).** M4 is the last module at this position —
-students type every character; nothing is pre-filled. Do not paste the listing
-into a file for them. The listings live in this document only; students read
-them here and type into their own `.cpp`.
-
-**Timing (≈50 min).** Stage 1 ~8, Stage 2 ~12, Stage 3 ~12, Stage 4 ~12,
-deliberate break ~5, wrap-up ~3. **Halfway mark is the end of Stage 2** (the
-`switch` compiles and runs, ~20 minutes in). If you're behind there, trim the
-predict discussion in Stages 3–4, not the typing.
-
-**The one new idea per stage.** Stage 2 is the `switch`. Stage 3 is the
-`if` / `else if` / `else` ladder. Stage 4 is the compound condition (`&&`).
-Everything before Stage 4 is a single condition at a time; the `&&` is
-introduced last, on purpose, as its own stage — so it's taught, never sprung.
-
-**Where students typically stall (per stage):**
-
-- *Stage 2 — `switch`.* Two classics. (1) Forgetting `break;` after a `case`
-  — this is the **switch fall-through** trap; we hit it on purpose in optional
-  Break C, and the compiler flags it (`-Wimplicit-fallthrough`), so a student who
-  trips it early gets a preview and a readable warning, not a mystery.
-  (2) Typing `case 1;` (semicolon) instead of `case 1:` (colon).
-  The colon-vs-semicolon slip gives a **Syntax** error — let them read it.
-- *Stage 3 — the ladder.* The big one is `=` vs `==`. Writing
-  `if (strength = 70)` is legal C++ that assigns instead of comparing — a
-  named M4 trap. Under our build flags (`-Wall`) the compiler *warns* about
-  it, which under our zero-warning rule stops the build. Point at the warning;
-  don't let them wave it past.
-- *Stage 3 — dangling `else` / missing braces.* We always brace every
-  `if` and `else` in this course. Fair warning: an `else` with no braces binds
-  to the *nearest* `if`, not the one your indentation suggests — a silent
-  **Logic** error. Braces prevent it. If a student drops the braces "to save
-  typing," that's the trap; the fix is to put them back.
-- *Stage 4 — the compound condition.* Students often want to write
-  `strength >= 40 && hasLockpick == true`. It works, but `hasLockpick` is
-  already a `bool`, so `&& hasLockpick` is enough. Also watch ladder order:
-  the Rogue-shortcut branch must come *before* the plain `strength >= 40`
-  branch, or the shortcut can never run (that would be a **Logic** error — an
-  unreachable branch).
-
-**Deliberate break:** at the end, students swap two branches in the outcome
-ladder — putting `>= 40` above `>= 70` — and watch a strength-85 Warrior get the
-borderline riddle instead of the open gate. **It compiles with zero warnings**,
-and that is the whole point: a clean compile is not a correct program. Full
-script below.
-
-> **Why this demo and not the missing `break;`.** The fall-through demo used to
-> live here, and it was wrong. Under `-Wall -Wextra` on **GCC** — which is what
-> Codespaces runs — a missing `break;` produces `warning: this statement may fall
-> through [-Wimplicit-fallthrough=]`. It only looks silent on Apple clang, which
-> does not turn that warning on. **All three of M4's named traps are caught by
-> our flags**; the mis-ordered ladder is not, which is what makes it the honest
-> closer. Fall-through moved to the optional breaks, where the
-> compiler-catches-it lesson now lives. See
-> `_lore/findings/F-009-fallthrough-warning-claim-is-toolchain-dependent.md`.
-
-**Theme note (instructor-facing).** The gatekeeper is this beat's worked skin.
-The Assess lab lets students re-skin it (a nightclub bouncer, an airport gate
-agent, a loan officer) — the decisions stay identical. Keep the theme loose as
-you teach; nothing about the logic depends on dragons.
-
----
-
 ## Stage 1: The Gate (~8 min)
 
 Start with the smallest program that runs: the includes, `main`, and the
@@ -697,3 +632,69 @@ gate agent at an airport, a loan officer at a bank) — the decisions are what's
 graded, not the dragons. Draw the flowchart before you type, the way this
 program matches the flowchart above, and you're already most of the way there.
 ```
+
+
+---
+
+## Instructor notes (not part of the student handout)
+
+**Mode: FULL (type-in 100%).** M4 is the last module at this position —
+students type every character; nothing is pre-filled. Do not paste the listing
+into a file for them. The listings live in this document only; students read
+them here and type into their own `.cpp`.
+
+**Timing (≈50 min).** Stage 1 ~8, Stage 2 ~12, Stage 3 ~12, Stage 4 ~12,
+deliberate break ~5, wrap-up ~3. **Halfway mark is the end of Stage 2** (the
+`switch` compiles and runs, ~20 minutes in). If you're behind there, trim the
+predict discussion in Stages 3–4, not the typing.
+
+**The one new idea per stage.** Stage 2 is the `switch`. Stage 3 is the
+`if` / `else if` / `else` ladder. Stage 4 is the compound condition (`&&`).
+Everything before Stage 4 is a single condition at a time; the `&&` is
+introduced last, on purpose, as its own stage — so it's taught, never sprung.
+
+**Where students typically stall (per stage):**
+
+- *Stage 2 — `switch`.* Two classics. (1) Forgetting `break;` after a `case`
+  — this is the **switch fall-through** trap; we hit it on purpose in optional
+  Break C, and the compiler flags it (`-Wimplicit-fallthrough`), so a student who
+  trips it early gets a preview and a readable warning, not a mystery.
+  (2) Typing `case 1;` (semicolon) instead of `case 1:` (colon).
+  The colon-vs-semicolon slip gives a **Syntax** error — let them read it.
+- *Stage 3 — the ladder.* The big one is `=` vs `==`. Writing
+  `if (strength = 70)` is legal C++ that assigns instead of comparing — a
+  named M4 trap. Under our build flags (`-Wall`) the compiler *warns* about
+  it, which under our zero-warning rule stops the build. Point at the warning;
+  don't let them wave it past.
+- *Stage 3 — dangling `else` / missing braces.* We always brace every
+  `if` and `else` in this course. Fair warning: an `else` with no braces binds
+  to the *nearest* `if`, not the one your indentation suggests — a silent
+  **Logic** error. Braces prevent it. If a student drops the braces "to save
+  typing," that's the trap; the fix is to put them back.
+- *Stage 4 — the compound condition.* Students often want to write
+  `strength >= 40 && hasLockpick == true`. It works, but `hasLockpick` is
+  already a `bool`, so `&& hasLockpick` is enough. Also watch ladder order:
+  the Rogue-shortcut branch must come *before* the plain `strength >= 40`
+  branch, or the shortcut can never run (that would be a **Logic** error — an
+  unreachable branch).
+
+**Deliberate break:** at the end, students swap two branches in the outcome
+ladder — putting `>= 40` above `>= 70` — and watch a strength-85 Warrior get the
+borderline riddle instead of the open gate. **It compiles with zero warnings**,
+and that is the whole point: a clean compile is not a correct program. Full
+script below.
+
+> **Why this demo and not the missing `break;`.** The fall-through demo used to
+> live here, and it was wrong. Under `-Wall -Wextra` on **GCC** — which is what
+> Codespaces runs — a missing `break;` produces `warning: this statement may fall
+> through [-Wimplicit-fallthrough=]`. It only looks silent on Apple clang, which
+> does not turn that warning on. **All three of M4's named traps are caught by
+> our flags**; the mis-ordered ladder is not, which is what makes it the honest
+> closer. Fall-through moved to the optional breaks, where the
+> compiler-catches-it lesson now lives. See
+> `_lore/findings/F-009-fallthrough-warning-claim-is-toolchain-dependent.md`.
+
+**Theme note (instructor-facing).** The gatekeeper is this beat's worked skin.
+The Assess lab lets students re-skin it (a nightclub bouncer, an airport gate
+agent, a loan officer) — the decisions stay identical. Keep the theme loose as
+you teach; nothing about the logic depends on dragons.
