@@ -7,6 +7,7 @@ using namespace std;
 
 int main()
 {
+    // Wants to print Level 1 through Level 10:
     for (int level = 1; level < 10; level++)
     {
         cout << "Level " << level << "\n";
