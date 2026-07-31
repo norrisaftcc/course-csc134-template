@@ -103,3 +103,50 @@ and then only as the wrong diagnosis. **This is the class of defect issue #54 pr
 "is the content good," which needs cohorts, but "does the repo's structure match what it claims,"
 which is cheap and mechanical. A one-line check — *does every file containing an instructor block
 declare a boundary* — would have caught it the day M4's Apply beat was written.
+
+---
+
+## Closed: the spine question was four sentences (2026-08-01)
+
+F-018 left the inline teaching directions as a spine question with three options, framed as roughly
+comparable. **Counting them first changed the answer.**
+
+The student regions of both Apply beats contain **four** instructor-directed sentences, total:
+
+| | Was | Now |
+|---|---|---|
+| `m4:97` | **Predict first.** *Ask the room:* "What single line will this print?" | **Predict first.** What single line will this print? |
+| `m5:248` | *Ask the room:* which of the four error names is this? | Which of the four error names is this? |
+| `m5:288` | Trace one path *out loud as a class*: the player types `2`… | Trace one path: the player types `2`… |
+| `m5:345` | Read the comment block *aloud — someone read it to the room*: | Read the comment block before you go on: |
+
+Two more looked like candidates and were **left alone on inspection**, because they already address
+the student: `m4:350` *"Read that out loud"* (the student reads the compiler's warning aloud, which
+is the point of that exercise) and `m5:367` *"Restate it in your own words… answer out loud."*
+
+**Ruling: rewrite student-first.** One document still serves both readers, and the classroom use is
+untouched — an instructor can ask the room a question that happens to be written to the student.
+What is gone is the document *telling the student to run the class*.
+
+### The lesson is about the estimate, not the edit
+
+F-018 presented three options and implied a real trade-off between them. Option 3 (split into two
+files) is a genuine project with a genuine drift risk; option 1 (leave it) was defensible. **But
+option 2 turned out to be four sentences and about ten minutes**, which makes the comparison no
+comparison at all.
+
+**The estimate was wrong because nobody counted.** The audit that produced F-018 measured *where*
+instructor content lived and how it was boundaried — it never measured *how much* of it was woven
+into the prose. That is the same error F-016 recorded twice about #30: **estimating by shape instead
+of by content.** Three times now, and the fix has been identical every time — count the instances
+before choosing between options.
+
+### What this unblocks
+
+Everything before the boundary heading in both Apply beats is now addressed to the student, with no
+instructions the student cannot act on. **That is the precondition the Canvas compositor needed**
+(F-008-4): a derivable student-facing region that does not have to be hand-edited to make sense.
+Deriving an Apply page is now a compositor question rather than a content one.
+
+**#33 closes.** The split into two files is not adopted and not deferred — it is unnecessary at
+current scale, and the reason is recorded here rather than left as a standing open question.
