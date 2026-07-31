@@ -53,64 +53,6 @@ Until next time, traveler.
 
 ---
 
-## Instructor Notes
-
-**Why this session is split.** M5 sits at the seam of the Make gradient. M2–M4
-were type-in-100%; M5–M7 are finish-the-80%. Rather than flip the switch between
-modules and hope it lands, M5 flips it **inside one class period**: students get
-one more full type-in as a warm-up, then immediately meet the new shape while
-the muscle memory is warm. Do not collapse Part 1 into a handout — the type-in
-is the point of Part 1, and it is the last one they get.
-
-**Timing.**
-
-| Segment | Time | Mode |
-|---|---|---|
-| Part 1, Stage 1 — the banner | ~6 min | FULL type-in |
-| Part 1, Stage 2 — the header row | ~8 min | FULL type-in |
-| Part 1, Stage 3 — the loop | ~10 min | FULL type-in |
-| **The Deliberate Break** | ~5 min | on just-typed code |
-| Part 2, Investigate — read and run the 80% | ~10 min | EIGHTY |
-| Part 2, Spec review — read the contract aloud | ~4 min | EIGHTY |
-| Part 2, Make — write the validation loop | ~12 min | EIGHTY |
-| **Total** | **~55 min** | |
-
-Halfway mark is the Deliberate Break. If you are running long, Part 1 Stage 3
-and the Break are the floor — Part 2's Make movement can become homework, but
-only if students have at least *run* the unguarded scaffold and seen it spin.
-
-**Where students stall.**
-
-- **Stage 2, `setw`:** forgetting `#include <iomanip>`. The error names `setw`
-  as undeclared — good, readable, and worth reading aloud.
-- **Stage 3, the semicolons in the `for` header:** students write commas.
-  `for (int level = 1, level <= 10, level++)` is a Syntax error with a long
-  message; point out that the three parts are separated by `;`, not `,`.
-- **Stage 3, brace placement:** typing the loop body before the opening `{`.
-- **Part 2, Make:** the most common wrong answer is writing `&&` where `||`
-  belongs. See "If a student writes `&&`" below — it compiles clean and looks
-  right, so catch it by *testing*, not by reading.
-- **Part 2, Make:** forgetting that `cin.clear()` and `cin.ignore(...)` are two
-  separate calls in that order. The exit ticket rehearsed exactly this.
-
-**A note on the two failure reps.** The skill calls for one scripted break per
-tutorial; this session has one formal Break (Part 1, on code students just
-typed) plus one *provided-code* failure they run in Part 2's Investigate
-movement. That is deliberate, not drift: the Part 1 Break is the FULL-mode rep
-(read the failure of code you wrote), and Part 2's Investigate is the
-EIGHTY-mode rep (read the failure of code you were handed). Each part gets the
-rep its mode calls for.
-
----
-
-# PART 1 — Level Up Stats (FULL type-in)
-
-You type this one. No copy-paste, no downloading. Typing is how the syntax gets
-into your fingers, and reading your own typos is how you learn to read the
-compiler.
-
-Make a new file called `apply-levelup.cpp`.
-
 ## Stage 1: The banner (~6 min)
 
 The smallest thing that runs. Type it, build it, run it — that proves your
@@ -474,6 +416,90 @@ Choose (1-3): That is not a door. Choose 1, 2, or 3: That is not a door. Choose 
 
 *(Player typed `banana`, then `9`, then `2`.)*
 
+## Wrap-Up
+
+You did two different things today, and the difference is the point.
+
+In Part 1 you typed every character. In Part 2 you read someone else's working
+program, found the one thing it was missing, and supplied it. **The second skill
+is the one the rest of this course runs on** — and the rest of your career, for
+that matter. Most code you will ever touch is code you did not write.
+
+You also met both classic loop bugs face to face: the **off-by-one** (Logic — it
+finished and lied) and the **`cin` fail-state spin** (Runtime — it never
+finished at all). Neither was sprung on you. You now know their names and what
+they look like from the outside.
+
+**Next: the Assess lab.** You will build Project 2, the menu-driven game, on the
+pattern you just finished. The C tier is precisely the piece you wrote today —
+a menu loop with one fully-validated read — applied to a scene of your own. The
+lab starter arrives about as complete as today's did, so you start no blanker
+than you ended here. The A tier asks you to wrap an M4-style decision inside the
+loop, which is the same seam you traced in Movement 1.
+
+Bring your trace table.
+
+
+---
+
+## Instructor notes (not part of the student handout)
+
+**Why this session is split.** M5 sits at the seam of the Make gradient. M2–M4
+were type-in-100%; M5–M7 are finish-the-80%. Rather than flip the switch between
+modules and hope it lands, M5 flips it **inside one class period**: students get
+one more full type-in as a warm-up, then immediately meet the new shape while
+the muscle memory is warm. Do not collapse Part 1 into a handout — the type-in
+is the point of Part 1, and it is the last one they get.
+
+**Timing.**
+
+| Segment | Time | Mode |
+|---|---|---|
+| Part 1, Stage 1 — the banner | ~6 min | FULL type-in |
+| Part 1, Stage 2 — the header row | ~8 min | FULL type-in |
+| Part 1, Stage 3 — the loop | ~10 min | FULL type-in |
+| **The Deliberate Break** | ~5 min | on just-typed code |
+| Part 2, Investigate — read and run the 80% | ~10 min | EIGHTY |
+| Part 2, Spec review — read the contract aloud | ~4 min | EIGHTY |
+| Part 2, Make — write the validation loop | ~12 min | EIGHTY |
+| **Total** | **~55 min** | |
+
+Halfway mark is the Deliberate Break. If you are running long, Part 1 Stage 3
+and the Break are the floor — Part 2's Make movement can become homework, but
+only if students have at least *run* the unguarded scaffold and seen it spin.
+
+**Where students stall.**
+
+- **Stage 2, `setw`:** forgetting `#include <iomanip>`. The error names `setw`
+  as undeclared — good, readable, and worth reading aloud.
+- **Stage 3, the semicolons in the `for` header:** students write commas.
+  `for (int level = 1, level <= 10, level++)` is a Syntax error with a long
+  message; point out that the three parts are separated by `;`, not `,`.
+- **Stage 3, brace placement:** typing the loop body before the opening `{`.
+- **Part 2, Make:** the most common wrong answer is writing `&&` where `||`
+  belongs. See "If a student writes `&&`" below — it compiles clean and looks
+  right, so catch it by *testing*, not by reading.
+- **Part 2, Make:** forgetting that `cin.clear()` and `cin.ignore(...)` are two
+  separate calls in that order. The exit ticket rehearsed exactly this.
+
+**A note on the two failure reps.** The skill calls for one scripted break per
+tutorial; this session has one formal Break (Part 1, on code students just
+typed) plus one *provided-code* failure they run in Part 2's Investigate
+movement. That is deliberate, not drift: the Part 1 Break is the FULL-mode rep
+(read the failure of code you wrote), and Part 2's Investigate is the
+EIGHTY-mode rep (read the failure of code you were handed). Each part gets the
+rep its mode calls for.
+
+---
+
+# PART 1 — Level Up Stats (FULL type-in)
+
+You type this one. No copy-paste, no downloading. Typing is how the syntax gets
+into your fingers, and reading your own typos is how you learn to read the
+compiler.
+
+Make a new file called `apply-levelup.cpp`.
+
 ### Instructor-only: the reference solution
 
 The finished file is `modules/m5/code/apply-menu-complete.cpp`. Do not
@@ -515,27 +541,3 @@ class of bug by running it, not by looking at it.** `||` is right because the
 input is bad if it fails the read **or** it is under 1 **or** it is over 3 — any
 one of those is enough to re-ask.
 
----
-
-## Wrap-Up
-
-You did two different things today, and the difference is the point.
-
-In Part 1 you typed every character. In Part 2 you read someone else's working
-program, found the one thing it was missing, and supplied it. **The second skill
-is the one the rest of this course runs on** — and the rest of your career, for
-that matter. Most code you will ever touch is code you did not write.
-
-You also met both classic loop bugs face to face: the **off-by-one** (Logic — it
-finished and lied) and the **`cin` fail-state spin** (Runtime — it never
-finished at all). Neither was sprung on you. You now know their names and what
-they look like from the outside.
-
-**Next: the Assess lab.** You will build Project 2, the menu-driven game, on the
-pattern you just finished. The C tier is precisely the piece you wrote today —
-a menu loop with one fully-validated read — applied to a scene of your own. The
-lab starter arrives about as complete as today's did, so you start no blanker
-than you ended here. The A tier asks you to wrap an M4-style decision inside the
-loop, which is the same seam you traced in Movement 1.
-
-Bring your trace table.
