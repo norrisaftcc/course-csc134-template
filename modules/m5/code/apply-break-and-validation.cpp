@@ -6,8 +6,18 @@
 // compiler, invisible on inspection, and only findable by running it.
 //
 // A number cannot be both less than 1 and greater than 3, so the condition is
-// never true, the loop body never runs, and the program behaves exactly like
-// the unguarded version. Type `banana` and it spins forever.
+// never true and the loop body never runs — the guard is decorative.
+//
+// WHAT THIS FILE DOES, exactly: feed it `banana` and it prints
+//     Choose (1-3): You chose 0.
+// and exits. The read fails, `choice` is left 0, the dead loop is skipped, and
+// the program marches on with garbage. It does NOT spin here, because there is
+// no outer loop to spin in.
+//
+// WHAT THE STUDENT SEES is worse, and is the reason this matters: in the Apply
+// tutorial the same guard sits inside the menu's do/while. There, the failed
+// read is never cleared, so every later read fails too and the menu redisplays
+// forever. Same bug, same clean compile, louder symptom.
 //
 // The correct condition is in learn-validate.cpp and in the frozen contract
 // (_contracts/m5_menu.cpp): `||`, because bad input is a failed read OR too

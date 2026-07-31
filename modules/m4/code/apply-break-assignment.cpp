@@ -2,10 +2,17 @@
 //
 // GATE: EXPECT-WARNING
 //
-// BROKEN ON PURPOSE: the tutorial has the student change ONE character in their
-// working gatekeeper — `==` to `=` — and read what the compiler says. On GCC:
+// BROKEN ON PURPOSE: Break A has the student find their strength check
+// `if (strength >= 70)` and delete the `>` — one character — so it reads
+// `if (strength = 70)`. That assigns 70 and tests 70, which is always true.
+//
+// On GCC:
 //     warning: suggest parentheses around assignment used as truth value [-Wparentheses]
-// It still builds and runs, and now every hero passes. Do not "fix" this file.
+// g++ still emits a binary, but the course's zero-warning rule treats a warning
+// as a failed build, so the tutorial is right to say "it won't build." Both
+// facts matter: the compiler saw it, and only the rule made anyone stop.
+//
+// Do not "fix" this file.
 //
 // Build (to see the warning): g++ -std=c++17 -Wall -Wextra -o apply-break-assignment apply-break-assignment.cpp
 #include <iostream>

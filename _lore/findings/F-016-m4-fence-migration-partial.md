@@ -182,3 +182,37 @@ This is the **fifth shape of stale claim** in the ledger, and the first that liv
 **CI configuration** rather than in prose: a comment on a job that tells the next reader
 to expect a failure that can no longer happen. Grep for status claims does not reach into
 `.github/` unless someone thinks to look there.
+
+### Review round — a false behavioural claim, in a comment, on correct code
+
+Copilot caught three on #45, all real, all mine:
+
+**`apply-break-and-validation.cpp` said *"Type `banana` and it spins forever."* It does not.**
+Run it and the whole program is:
+
+```
+Choose (1-3): You chose 0.
+```
+
+The read fails, `choice` stays 0, the dead guard is skipped, and it exits. **There is no
+outer loop for it to spin in** — the spinning belongs to the *student's* menu, where the
+same guard sits inside a `do/while` and the uncleared fail state makes every later read
+fail too. I had described the symptom from the tutorial's context and attached it to a
+minimal reproducer that cannot produce it.
+
+**This is F-009's exact shape** — *false claims in comments sitting on correct code* — and
+it is the shape ADR-015 was written to stop. The gate did its job perfectly and could not
+help: the fence matches the source byte-for-byte, and the source's own header is the thing
+that lies. **Provenance verifies that the page and the program agree. Nothing verifies
+that either one is telling the truth about what the program does.**
+
+Prompted by the catch, every broken-on-purpose file in M4 and M5 was compiled **and run**,
+and its header checked line by line against actual output. The other six were accurate. But
+they were accurate by luck of attention, not by any gate, and the same is true of every
+"Program Output:" block in every reading.
+
+**Rule, and it is the third time this pass has landed on some version of it:** a comment
+that describes runtime behaviour is a claim, and a claim gets *run*, not reasoned about.
+The two smaller catches were the same family — a PR count stated as "four" when the history
+shows three, and a header describing Break A as changing `==` to `=` when the tutorial
+changes `>=` to `=`. Cheap to state, cheap to check, never checked by a machine.
