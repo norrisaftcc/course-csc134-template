@@ -116,7 +116,7 @@ Make a new file called `apply-levelup.cpp`.
 The smallest thing that runs. Type it, build it, run it — that proves your
 toolchain works before anything harder shows up.
 
-```cpp
+```cpp excerpt=modules/m5/code/apply-stage1-banner.cpp
 #include <iostream>
 using namespace std;
 
@@ -150,7 +150,7 @@ numbers line up in a column instead of drifting.
 
 Two new things: the `#include <iomanip>` line, and the header `cout`.
 
-```cpp
+```cpp excerpt=modules/m5/code/apply-stage2-headers.cpp
 #include <iostream>
 #include <iomanip>                          // NEW — setw lives here
 using namespace std;
@@ -191,7 +191,7 @@ exactly what you want for a table of numbers.
 Here is the module's whole idea in one block. Three stats, ten levels, one
 counted loop.
 
-```cpp
+```cpp excerpt=modules/m5/code/apply-stage3-loop.cpp
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -266,13 +266,13 @@ Everyone's program works. Now break it on purpose.
 
 **Find this line:**
 
-```cpp
+```cpp excerpt=modules/m5/code/apply-levelup.cpp
     for (int level = 1; level <= 10; level++)
 ```
 
 **Change `<=` to `<`:**
 
-```cpp
+```cpp excerpt=modules/m5/code/practice-item4-offbyone.cpp
     for (int level = 1; level < 10; level++)
 ```
 
@@ -393,7 +393,7 @@ That spin is your job to fix.
 Scroll to the marked region. Read the comment block aloud — someone read it to
 the room:
 
-```cpp
+```cpp excerpt=modules/m5/code/apply-menu-scaffold.cpp
         // ============================================================
         // YOUR CODE: the input-validation loop
         //
@@ -470,7 +470,7 @@ Choose (1-3): That is not a door. Choose 1, 2, or 3: That is not a door. Choose 
 The finished file is `modules/m5/code/apply-menu-complete.cpp`. Do not
 distribute it before the Make movement ends. The validation loop reads:
 
-```cpp
+```cpp excerpt=modules/m5/code/apply-menu-complete.cpp
         // ===== THE VALIDATION LOOP (the M5 bulletproofing) =====
         // Keep asking until the player gives a real number, 1 through 3.
         while (!(cin >> choice) || choice < 1 || choice > 3)
@@ -490,8 +490,8 @@ canonical pattern, not a one-off.
 This is the single most common wrong answer, and it is **invisible on
 inspection**:
 
-```cpp
-        while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG
+```cpp excerpt=modules/m5/code/apply-break-and-validation.cpp
+    while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG — silently does nothing
 ```
 
 It compiles clean under `-Wall -Wextra`. It looks reasonable. And it does
