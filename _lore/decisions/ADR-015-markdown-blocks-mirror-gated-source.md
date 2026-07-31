@@ -178,6 +178,13 @@ A sustained red decays into background noise, so the red is built to describe it
 - it links the tracked migration issue (**#30**), so the debt has an owner rather than living in
   a red check nobody holds.
 
+> **Status (2026-07-31): the red is closed.** Issue #30 is paid in full across three PRs
+> — **#37** (45 → 37), **#44** (37 → 18), **#45** (18 → 0) — leaving **71 blocks, 71
+> matched, 0 unmigrated.** The
+> markdown job is green and is now a regression test: a new un-annotated block fails it on
+> arrival. The decision text above stands as the record of why the gate shipped enforcing
+> and red; the state it describes no longer holds. See [[F-016-m4-fence-migration-partial]].
+
 ### 7. The convention is proved on fixtures, not on M4
 
 Because M4 stays unmigrated this PR, the hard cases are exercised by

@@ -335,8 +335,8 @@ warn you about this — only counting will catch it.
 
 **Your validation accepts everything.** Almost always this:
 
-```cpp
-while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG — silently does nothing
+```cpp excerpt=modules/m5/code/apply-break-and-validation.cpp
+    while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG — silently does nothing
 ```
 
 A number cannot be both below 1 and above 3, so the condition is never true and

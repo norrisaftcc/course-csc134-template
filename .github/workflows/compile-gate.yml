@@ -138,8 +138,14 @@ jobs:
         run: bash .github/scripts/selftest/markdown/run.sh
 
       - name: Run the markdown block gate
-        # EXPECTED RED until M4's 23 blocks are migrated (ADR-015 §6). The failure
-        # text says "unmigrated, not defective" and prints a per-file countdown,
+        # GREEN as of #30's close — every fenced C++ block in the repo now names
+        # the gated .cpp it is a view of, so this job is a real regression test
+        # rather than a countdown. A new un-annotated block fails it immediately,
+        # which is the point: the debt is paid, and the gate now keeps it paid.
+        #
+        # It shipped ENFORCING and red on purpose (ADR-015 §6) — "the gate is the
+        # failing test; the migration is the fix", in that order. The failure text
+        # still says "unmigrated, not defective" and prints a per-file countdown,
         # because a red that does not explain itself is indistinguishable from a
         # broken repo — and that is how a gate becomes background noise.
         env:
