@@ -14,6 +14,7 @@ remembering, that fact goes in the PR description and Kevin gets to disagree.
 |---|---|---|
 | `decisions/` | ADR-lite records, numbered `ADR-NNN-slug.md` | Context → Decision → Consequences, ~1 page max |
 | `findings/` | Cohort QA findings ledgers, one file per module cycle | Transcript-cited entries; feeds common-mistakes + distractor banks |
+| `invariants/` | Canonical course or catalog text preserved verbatim | Exact-text snapshots for audit and drift checks |
 | `glossary.md` | Project vocabulary, one line per term | Term — definition — first-use pointer |
 
 ## Why ADR-lite
