@@ -54,6 +54,9 @@ on:
         type: boolean
         default: true
 
+permissions:
+  contents: read
+
 jobs:
   compile:
     name: g++ -std=c++17 -Wall -Wextra
