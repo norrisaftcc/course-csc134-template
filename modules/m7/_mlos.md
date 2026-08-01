@@ -67,8 +67,9 @@ matrix.
 - [ ] Per-MLO "what a student can do" behavioral statement (beyond the
       spine's one-line summary above).
 - [ ] Mapping each MLO to the specific Learn/Practice/Apply/Assess artifact
-      that measures it (Assess is stubbed in `_assess-spec.STUB.md`; Learn/
-      Practice/Apply are not yet built).
+      that measures it. **Learn is built** (`learn.md` + 4 gated sources, [[F-015]]) and
+      deliberately does not carry MLO 7.4; Practice, Apply and Assess are not, and
+      `_assess-spec.STUB.md` is the Assess build record.
 - [ ] Confirming how MLO 7.3 (pointers) is scoped for exit-ticket
       Practice-beat items — the spine is explicit that pointers are "not a
       standalone unit," so Practice items must test the in-context use
