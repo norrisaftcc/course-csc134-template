@@ -49,6 +49,10 @@ on:
         description: 'Markdown gate — treat an un-annotated cpp block as a failure'
         type: boolean
         default: true
+      lpaa_strict:
+        description: 'LPAA gate — treat a structural-claim violation as a failure'
+        type: boolean
+        default: true
 
 jobs:
   compile:
@@ -183,20 +187,26 @@ jobs:
         run: bash .github/scripts/selftest/lpaa/run.sh
 
       - name: Run the LPAA content gate
-        # REPORTING ONLY on purpose (#54). ADR-015 §6 shipped the markdown gate
-        # enforcing-and-red and that was right — but it was right because the debt
-        # was already measured at 23 blocks. Here the debt was unmeasured until
-        # the first run, and a gate that goes red before anyone knows how red is a
-        # gate people learn to ignore.
+        # ENFORCING. It shipped reporting-only on purpose (#54) — ADR-015 §6 shipped
+        # the markdown gate enforcing-and-red and that was right, but it was right
+        # because the debt was already measured at 23 blocks. Here the debt was
+        # unmeasured until the first run, and a gate that goes red before anyone
+        # knows how red is a gate people learn to ignore.
         #
-        # As it happens the first run was clean, so flipping STRICT=1 is now a
-        # one-line change and a judgement call about how much churn a red should
-        # cause mid-authoring. Left off until someone decides that on purpose.
+        # The first run was clean and it has stayed clean across five merges, so
+        # there was never a backlog to pay down — which is the only reason this
+        # could be flipped without a migration. A violation is now a build break.
         #
         # What this job checks is NOT whether the content is any good — that needs
         # a cohort round (#21, F-017). It checks that the repo's structural claims
         # about itself are true, which is the class of defect that produced six
         # false status claims in one week with no gate able to see any of them.
         env:
-          STRICT: ${{ vars.LPAA_GATE_STRICT || '0' }}
+          # ENFORCING as of 2026-08-01. Written the long way round for the reason
+          # documented on the compile gate above: on push and pull_request `inputs`
+          # is undefined, and in GitHub expressions `null == false` is TRUE — so the
+          # obvious `vars.LPAA_GATE_STRICT || '1'` is worse than it looks. A string
+          # '0' is falsy to `||`, so the escape hatch would silently fail to relax
+          # anything. Only a deliberate manual dispatch that unticked the box can.
+          STRICT: ${{ (github.event_name == 'workflow_dispatch' && inputs.lpaa_strict == false) && '0' || '1' }}
         run: bash .github/scripts/lpaa-gate.sh

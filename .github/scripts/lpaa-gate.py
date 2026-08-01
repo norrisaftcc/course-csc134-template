@@ -49,11 +49,17 @@ THE DIALS
     STRICT=1                           # exit nonzero on violations (default: 0)
     ONLY=status-files,boundary         # run a subset of checks
 
-Ships REPORTING-ONLY (STRICT=0) on purpose. ADR-015 §6 shipped the markdown gate
+Default is STRICT=0 so a local run reports rather than fails; CI runs it
+ENFORCING as of 2026-08-01.
+
+It shipped reporting-only on purpose. ADR-015 §6 shipped the markdown gate
 enforcing-and-red and that worked -- but it worked because the debt was already
-measured at 23 blocks. Here the debt is unmeasured until the first run, and a
+measured at 23 blocks. Here the debt was unmeasured until the first run, and a
 gate that goes red before anyone knows how red is a gate people learn to ignore.
-Measure first, pay it down, then flip STRICT on in CI.
+Measure first, pay it down, then enforce.
+
+There turned out to be nothing to pay down: clean on the first run and clean
+across every merge since, which is the only reason the flip needed no migration.
 """
 
 import os
@@ -364,9 +370,9 @@ def main():
     if STRICT:
         print("%sGATE FAILED%s" % (RED, OFF))
         return 1
-    print("%sReporting only%s — this gate ships non-enforcing on purpose (#54).")
-    print("Nothing above is a build break yet. Pay the list down, then set STRICT=1 in CI;")
-    print("a gate that goes red before anyone knows how red is a gate people learn to ignore.")
+    print("%sReporting only%s — run with STRICT=1 to make violations fail." % (BOLD, OFF))
+    print("CI runs this gate ENFORCING, so anything listed above will fail there.")
+    print("This local default reports instead, so a mid-edit run does not block you.")
     return 0
 
 

@@ -81,9 +81,20 @@ ADR-015 §6 shipped the markdown gate *enforcing and red*, and that was right �
 because the debt was already measured at 23 blocks. Here the debt was unmeasured until the first
 run. **A gate that goes red before anyone knows how red is a gate people learn to ignore.**
 
-As it happens the first run was clean, so `STRICT=1` is now a one-line change (`vars.LPAA_GATE_STRICT`)
-and a judgement about how much churn a red should cause mid-authoring. Left off until somebody
-decides that on purpose rather than inheriting it.
+As it happens the first run was clean, so `STRICT=1` was a one-line change and a judgement about how
+much churn a red should cause mid-authoring.
+
+> **Flipped 2026-08-01 — the gate is now ENFORCING in CI.** It stayed clean across every merge since
+> shipping, so there was never a backlog to pay down; that absence is the only reason the flip needed
+> no migration. Written the long way round (`github.event_name == 'workflow_dispatch' && inputs...`)
+> rather than `vars.LPAA_GATE_STRICT || '1'`, because a string `'0'` is falsy to GitHub's `||` and the
+> escape hatch would have silently failed to relax anything — the same trap the compile gate documents.
+>
+> Flipping it also exposed a real bug on the path that had never run: the "Reporting only" line carried
+> `%s` placeholders with no args tuple, so it would have printed them literally. **The gate has never
+> had a violation to report, so that line had never executed.** A branch no test and no real run has
+> ever taken is not covered by either.
+
 
 **The green is also the problem.** The compile gate has a must-warn fixture; the markdown gate had 23
 real violations to chew through. This gate found nothing, so real material proves nothing about it
