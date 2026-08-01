@@ -1,6 +1,14 @@
 # M7 — Module Learning Objectives (skeleton)
 
-**Status:** skeleton slots only — not authored objectives. Derived from
+**Status: PARTLY INSTANTIATED.** `learn.md` now states finished objective sentences
+for **MLO 7.1** (declare, initialize, traverse arrays) and **MLO 7.2** (model related
+data with structs, access members). It covers **MLO 7.3** in the in-context form the
+spine requires — passing a struct by reference, not free-standing pointer arithmetic.
+**MLO 7.4 (classes) is NOT carried by this beat**: the reading names a class as "a
+struct that also has behaviour" and hands off. Where this file and `learn.md` differ
+in phrasing, the Learn beat is the authored version.
+
+The rest below is the original slot record. Derived from
 `_storming/CSC-134-course-spine.md` ("## M7 — Structured Data & Objects") and
 `_storming/CSC-134-learning-objectives.md` ("### M7 — Structured Data &
 Objects"). Deep-build fills in beat-level detail; this file records the MLO
@@ -59,13 +67,16 @@ matrix.
 - [ ] Per-MLO "what a student can do" behavioral statement (beyond the
       spine's one-line summary above).
 - [ ] Mapping each MLO to the specific Learn/Practice/Apply/Assess artifact
-      that measures it (Assess is stubbed in `_assess-spec.STUB.md`; Learn/
-      Practice/Apply are not yet built).
+      that measures it. **Learn is built** (`learn.md` + 4 gated sources, [[F-015]]) and
+      deliberately does not carry MLO 7.4; Practice, Apply and Assess are not, and
+      `_assess-spec.STUB.md` is the Assess build record.
 - [ ] Confirming how MLO 7.3 (pointers) is scoped for exit-ticket
       Practice-beat items — the spine is explicit that pointers are "not a
       standalone unit," so Practice items must test the in-context use
       (pass-a-struct-by-reference), not free-standing pointer arithmetic.
-- [ ] Resolving F-001's open question on the STL/`std::string` and File I/O
-      legacy manifest content (see `_assets.md`) before deep-build decides
-      whether either has any place inside M7's scope, given the spine names
-      neither.
+- [x] ~~Resolving F-001's open question on the STL/`std::string` and File I/O
+      legacy manifest content.~~ **Ruled by [[ADR-011]]** (2026-07-24): both are
+      **descoped from the alpha**, neither is CCL-required, and incidental
+      `std::string` keeps its woven-in role with no dedicated slot. Neither has a
+      place in M7's scope. This checklist item outlived its own ruling by six days;
+      closed on the M7 Learn build.

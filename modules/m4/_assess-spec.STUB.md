@@ -1,12 +1,19 @@
 ---
-> **NOT YET AUTHORED — STUB**
-> This is a skeleton of what the M4 Assess-beat artifact *will be*, not the
-> lab itself. No student-facing prose below is final; no acceptance criteria
-> here are complete. Deep-build (via the `lab-creator` skill) replaces this
-> file's content with the real lab — do not hand this stub to students.
+> **SUPERSEDED — THE LAB IS AUTHORED.**
+> The M4 Assess beat exists: **`modules/m4/assess-lab.md`**. That is the file
+> students receive, and M4 is certified **Ready** (F-006).
+>
+> This file is kept as the **build record** — the acceptance criteria, MLO map,
+> and contract the lab was authored against, as they stood at deep-build time.
+> Read it to see *why* the lab asks what it asks. Two rules: never hand it to a
+> student, and if it disagrees with `assess-lab.md`, **the lab wins.**
+>
+> *(The `.STUB` in the filename is legacy. It is kept so existing links and the
+> nine-module file shape stay consistent; this banner is the authority on the
+> file's status, not its name.)*
 ---
 
-# M4 Assess Spec — STUB
+# M4 Assess Spec — build record
 
 **Spine anchor:** "a decision lab from spec (the CYOA theme carries the
 branching lesson twice — in the content *and* in the structure)" —
@@ -89,10 +96,12 @@ stumble into one as a "gotcha." That's the course's no-trick-questions rule.
 
 ## Tier ladder (inherits `_contracts/rubric-template.md`)
 
-Fixed left-column meaning per the template; right column is skeleton-only,
-**not yet filled with this lab's real requirements.**
+Fixed left-column meaning per the template. The right column records the
+**candidates as they stood at spec time** — some were adopted, some changed.
+**`modules/m4/assess-lab.md` carries the requirements that actually shipped;**
+read this column for the reasoning, never for the current ask.
 
-| Tier | Fixed meaning (course-wide) | M4 slot (TBD at deep-build) |
+| Tier | Fixed meaning (course-wide) | M4 candidate at spec time |
 |---|---|---|
 | **C — core** | The core competency, demonstrated end to end; a complete, passing submission. | [ ] A flowchart (Mermaid) drawn first, then a program using `switch` for one input and `if`/`else if`/`else` (3+ branches) for another, matching the flowchart, compiling clean. |
 | **B — depth** | One added concept from the module, or a harder case of the first. | [ ] TBD — candidate: a compound condition (`&&`/`\|\|`/`!`) that changes an outcome, plus a single-pass input-validation check (graceful `default`/`else` exit, no crash — not a validation loop). |
@@ -101,10 +110,13 @@ Fixed left-column meaning per the template; right column is skeleton-only,
 
 ## Four-column scoring table (inherits `_contracts/rubric-template.md`)
 
-Columns, order, and point weights are fixed course-wide; "what we're looking
-for" cells are **unfilled placeholders**, not this lab's real rubric text.
+Columns, order, and point weights are fixed course-wide. The cells below were
+**left unfilled at spec time on purpose** — the real rubric text is authored
+against the finished lab, and it lives in `modules/m4/assess-lab.md`. They stay
+empty here rather than being back-filled, so this file cannot drift into being a
+second, competing rubric.
 
-| Criterion | Points | What we're looking for (TBD — deep-build fills per this lab) |
+| Criterion | Points | Filled in `assess-lab.md` — kept empty here by design |
 |---|---|---|
 | **Correctness** | 8 | [ ] |
 | **Completeness** | 6 | [ ] |
@@ -112,8 +124,8 @@ for" cells are **unfilled placeholders**, not this lab's real rubric text.
 | **Submission** | 3 | [ ] — correct file/folder/repo, committed and pushed (no branches — ADR-004), `prompts.md` if AI was used. |
 | **Total** | **20** | |
 
-"No hidden criteria" applies once this stub is instantiated: what's on the
-lab page will be the whole rubric.
+"No hidden criteria" is in force: what is on the lab page **is** the whole
+rubric. Nothing in this build record adds to it.
 
 ---
 

@@ -17,6 +17,17 @@
 
 ## LPAA beat map
 
+> **FIRST PASS.** The **Learn** beat is authored: `learn.md`, with its gated
+> sources in `code/`. Practice, Apply, and Assess are **not** — they are still the
+> one-line spine pointers below, and `_assess-spec.STUB.md` is still a stub.
+>
+> First pass means one real artifact per module so humans can review any module,
+> not a finished module ([[ADR-016]]). Authored **without graduate seeding** and
+> **no cohort has taken it** — reviewable, not proven.
+>
+> **M3 is the first breadth-pass module with C++**, so unlike M0–M2 it has a real
+> `code/` directory and a compile-gate surface.
+
 | Beat | One-liner (from spine) |
 |---|---|
 | **Learn** | `thinkcpp` / *Chapter 2* reading on I/O and expressions. |
@@ -65,6 +76,7 @@ was moved, renamed, or edited to produce this scaffold.
 
 ## Contracts touched
 
-None. This is a structure-only skeleton pass — no Learn/Practice/Apply/Assess
-content authored, no edits to `_contracts/`, `_storming/`, `_tracking/`, or
-`assignments/`.
+None. The **Learn** beat is now authored (see the FIRST PASS banner above), but it
+touches no contract: no edits to `_contracts/`, `_storming/`, or `assignments/`.
+Practice, Apply, and Assess remain unauthored — and the Assess beat is the one that
+will inherit `_contracts/rubric-template.md` when it is built.

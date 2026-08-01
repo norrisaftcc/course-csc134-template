@@ -41,7 +41,7 @@ int main()
             }
         }
 
-    } while (choice != 2);   // <-- note the semicolon after do-while
+    } while (choice != 2);
 
     cout << "Until next time, traveler.\n";
     return 0;

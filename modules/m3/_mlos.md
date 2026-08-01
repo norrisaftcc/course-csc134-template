@@ -1,6 +1,14 @@
 # M3 — Module Learning Objectives (skeleton)
 
-**Status:** skeleton slots only — not authored objectives. Derived from
+**Status: PARTLY INSTANTIATED.** `learn.md` now states finished objective sentences
+for **MLO 3.1** (declare and use variables of appropriate types) and **MLO 3.3**
+(read compiler and runtime messages and name the error). It covers the *reading*
+half of **MLO 3.2** — a complete input → process → output program with arithmetic,
+shown and traced — while the *writing* half belongs to the Apply and Assess beats,
+which are not authored. Where this file and `learn.md` differ in phrasing, the Learn
+beat is the authored version.
+
+The rest below is the original slot record. Derived from
 `_storming/CSC-134-course-spine.md` ("## M3 — Program Basics") and
 `_storming/CSC-134-learning-objectives.md` ("### M3 — Program Basics").
 Deep-build fills in beat-level detail. This file records the MLO shape and its
@@ -52,8 +60,9 @@ M2. All CLOs master at M8's capstone.
 - [ ] Per-MLO "what a student can do" behavioral statement (beyond the spine's
       one-line summary above).
 - [ ] Mapping each MLO to the specific Learn/Practice/Apply/Assess artifact
-      that measures it (Assess is stubbed in `_assess-spec.STUB.md`; Learn/
-      Practice/Apply are not yet built).
+      that measures it. **Learn is built** (`learn.md` + 5 gated sources, [[F-015]]);
+      Practice, Apply and Assess are not, and `_assess-spec.STUB.md` is the Assess
+      build record.
 - [ ] Confirming MLO 3.3's error-taxonomy scope for M3 specifically. All four
       words are in play course-wide by M2, per the spine's error taxonomy
       table. M3's "Debugging as curriculum" framing is where students first

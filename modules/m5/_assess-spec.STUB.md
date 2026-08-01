@@ -1,12 +1,21 @@
 ---
-> **NOT YET AUTHORED — STUB**
-> This is a skeleton of what the M5 Assess-beat artifact *will be*, not the lab
-> itself. No student-facing prose below is final; no acceptance criteria here
-> are complete. Deep-build (via the `lab-creator` skill) replaces this file's
-> content with the real lab — do not hand this stub to students.
+> **SUPERSEDED — THE LAB IS AUTHORED.**
+> The M5 Assess beat exists: **`modules/m5/assess-lab.md`**. That is the file
+> students receive. M5 is **Built** — gate-green, but no cohort has taken it yet
+> (F-007; the round is #21), so its content is unproven against real student
+> failure, not unwritten.
+>
+> This file is kept as the **build record** — the acceptance criteria, MLO map,
+> and contract the lab was authored against, as they stood at deep-build time.
+> Read it to see *why* the lab asks what it asks. Two rules: never hand it to a
+> student, and if it disagrees with `assess-lab.md`, **the lab wins.**
+>
+> *(The `.STUB` in the filename is legacy. It is kept so existing links and the
+> nine-module file shape stay consistent; this banner is the authority on the
+> file's status, not its name.)*
 ---
 
-# M5 Assess Spec — STUB
+# M5 Assess Spec — build record
 
 **Spine anchor:** "loop fundamentals (`while` / `for` / array-search) +
 Project 2, the menu-driven game (tiered C/B/A)" — `_storming/CSC-134-course-
@@ -107,10 +116,13 @@ the Practice beat.
 
 ## Tier ladder (inherits `_contracts/rubric-template.md`)
 
-Fixed left-column meaning per the template; right column is skeleton-only,
-**not yet filled with this lab's real requirements.**
+Fixed left-column meaning per the template. The right column records the
+**candidates as they stood at spec time** — some were adopted, some changed
+(A tier in particular was trimmed to one idea during review, `e891fca`).
+**`modules/m5/assess-lab.md` carries the requirements that actually shipped;**
+read this column for the reasoning, never for the current ask.
 
-| Tier | Fixed meaning (course-wide) | M5 slot (TBD at deep-build) |
+| Tier | Fixed meaning (course-wide) | M5 candidate at spec time |
 |---|---|---|
 | **C — core** | The core competency, demonstrated end to end; a complete, passing submission. | [ ] Candidate: a working menu loop (do/while) with one fully-validated numeric read (type + range), proving MLO 5.1/5.2 end to end. |
 | **B — depth** | One added concept from the module, or a harder case of the first. | [ ] TBD — candidate: nested loops, or a second validated input, or the array-search half of the "loop fundamentals" component folded in. |
@@ -120,9 +132,12 @@ Fixed left-column meaning per the template; right column is skeleton-only,
 ## Four-column scoring table (inherits `_contracts/rubric-template.md`)
 
 Columns, order, and point weights are fixed course-wide; "what we're looking
-for" cells are **unfilled placeholders**, not this lab's real rubric text.
+for" cells were **left unfilled at spec time on purpose** — the real rubric text
+is authored against the finished lab, and it lives in `modules/m5/assess-lab.md`.
+They stay empty here rather than being back-filled, so this file cannot drift into
+being a second, competing rubric.
 
-| Criterion | Points | What we're looking for (TBD — deep-build fills per this lab) |
+| Criterion | Points | Filled in `assess-lab.md` — kept empty here by design |
 |---|---|---|
 | **Correctness** | 8 | [ ] |
 | **Completeness** | 6 | [ ] |
@@ -130,7 +145,7 @@ for" cells are **unfilled placeholders**, not this lab's real rubric text.
 | **Submission** | 3 | [ ] — correct file/folder/repo, committed and pushed (no branches — ADR-004), `prompts.md` if AI was used. |
 | **Total** | **20** | |
 
-"No hidden criteria" applies once this stub is instantiated: what's on the
+"No hidden criteria" is in force: what is on the
 lab page will be the whole rubric.
 
 ---

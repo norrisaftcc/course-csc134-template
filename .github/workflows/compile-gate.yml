@@ -3,16 +3,21 @@ name: Compile gate
 # Mechanical quality bar #1 — "every C++ block in every artifact builds under
 # g++ -std=c++17 -Wall -Wextra with zero warnings and zero errors."
 #
-# TWO JOBS, ON PURPOSE (ADR-015 §6).
+# THREE JOBS, ON PURPOSE (ADR-015 §6, extended by #54).
 #
 #   g++ …            compiles the .cpp files. Compiler behaviour.
 #   markdown blocks  proves every fenced listing is a faithful view of one of
 #                    those .cpp files. Provenance. Compiles nothing.
+#   LPAA content     proves the repo's structural claims about itself are true —
+#                    status vs files, frontmatter vs path, no shipped module
+#                    calling itself unauthored. Reads nothing but text.
 #
-# They are separate jobs rather than steps so the two signals stay independently
-# readable. The markdown job is EXPECTED RED on main until M4's blocks are
-# migrated; folding it into the compile job would drag a working compiler signal
-# down with it and train everyone to ignore both.
+# They are separate jobs rather than steps so the signals stay independently
+# readable. That mattered concretely while the markdown job was red: folding it
+# into the compile job would have dragged a working compiler signal down with it
+# and trained everyone to ignore both. It is green now (#45) and the separation
+# still earns its keep — a structural failure and a compiler failure want
+# different readers.
 #
 # This runs on ubuntu-latest because that is what students use (Codespaces).
 # It is deliberately NOT run on macOS: Apple clang does not enable
@@ -42,6 +47,10 @@ on:
         default: 'g++'
       fail_on_unannotated:
         description: 'Markdown gate — treat an un-annotated cpp block as a failure'
+        type: boolean
+        default: true
+      lpaa_strict:
+        description: 'LPAA gate — treat a structural-claim violation as a failure'
         type: boolean
         default: true
 
@@ -138,12 +147,16 @@ jobs:
         run: bash .github/scripts/selftest/markdown/run.sh
 
       - name: Run the markdown block gate
-        # GREEN as of the issue #30 migration: all 45 blocks in modules/m4 and
-        # modules/m5 are gated (23 + 22). It shipped ENFORCING while red (ADR-015
-        # §6) — the failure text said "unmigrated, not defective" and printed a
-        # per-file countdown, because a red that does not explain itself is
-        # indistinguishable from a broken repo. That countdown has reached zero;
-        # a fenced block added without source=/excerpt= turns it red again.
+        # GREEN as of #30's close — every fenced C++ block in the repo now names
+        # the gated .cpp it is a view of, so this job is a real regression test
+        # rather than a countdown. A new un-annotated block fails it immediately,
+        # which is the point: the debt is paid, and the gate now keeps it paid.
+        #
+        # It shipped ENFORCING and red on purpose (ADR-015 §6) — "the gate is the
+        # failing test; the migration is the fix", in that order. The failure text
+        # still says "unmigrated, not defective" and prints a per-file countdown,
+        # because a red that does not explain itself is indistinguishable from a
+        # broken repo — and that is how a gate becomes background noise.
         env:
           FAIL_ON_UNANNOTATED: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_unannotated == false) && '0' || '1' }}
           SEARCH_PATHS: ${{ inputs.search_paths || '_contracts modules' }}
@@ -151,3 +164,49 @@ jobs:
           # because someone forgot to set a variable is worse than no pointer.
           MIGRATION_ISSUE: 'https://github.com/norrisaftcc/course-csc134-template/issues/30'
         run: bash .github/scripts/markdown-gate.sh
+
+  lpaa:
+    name: LPAA content (structural claims)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Self-test — prove the LPAA gate passes and fails correctly
+        # This matters more here than for either sibling gate, and for a reason
+        # worth stating: the LPAA gate is GREEN against the real tree on the day
+        # it ships. The compile gate has a must-warn fixture; the markdown gate
+        # shipped red with 23 real violations to chew through. This one found
+        # nothing enforcing on its first run, so real material proves nothing
+        # about it either way. These ten fixtures are the ONLY evidence that a
+        # green run means anything at all.
+        #
+        # One of them — boundary-ok — is a must-PASS twin for a self-flagging bug
+        # this gate hit on its first real run. A check that was just fixed and is
+        # not pinned by a fixture is a mute waiting to be rediscovered.
+        run: bash .github/scripts/selftest/lpaa/run.sh
+
+      - name: Run the LPAA content gate
+        # ENFORCING. It shipped reporting-only on purpose (#54) — ADR-015 §6 shipped
+        # the markdown gate enforcing-and-red and that was right, but it was right
+        # because the debt was already measured at 23 blocks. Here the debt was
+        # unmeasured until the first run, and a gate that goes red before anyone
+        # knows how red is a gate people learn to ignore.
+        #
+        # The first run was clean and it has stayed clean across five merges, so
+        # there was never a backlog to pay down — which is the only reason this
+        # could be flipped without a migration. A violation is now a build break.
+        #
+        # What this job checks is NOT whether the content is any good — that needs
+        # a cohort round (#21, F-017). It checks that the repo's structural claims
+        # about itself are true, which is the class of defect that produced six
+        # false status claims in one week with no gate able to see any of them.
+        env:
+          # ENFORCING as of 2026-08-01. Written the long way round for the reason
+          # documented on the compile gate above: on push and pull_request `inputs`
+          # is undefined, and in GitHub expressions `null == false` is TRUE — so the
+          # obvious `vars.LPAA_GATE_STRICT || '1'` is worse than it looks. A string
+          # '0' is falsy to `||`, so the escape hatch would silently fail to relax
+          # anything. Only a deliberate manual dispatch that unticked the box can.
+          STRICT: ${{ (github.event_name == 'workflow_dispatch' && inputs.lpaa_strict == false) && '0' || '1' }}
+        run: bash .github/scripts/lpaa-gate.sh

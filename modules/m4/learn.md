@@ -34,15 +34,15 @@ This is also where the course starts talking about **filters**: conditionally pr
 
 The simplest decision does one thing when a condition is true and another when it is false.
 
-``` cpp excerpt=modules/m4/code/learn-firstfork.cpp
-if (strength >= 70)
-{
-    cout << "The gate swings wide.\n";
-}
-else
-{
-    cout << "Turned away.\n";
-}
+```cpp excerpt=modules/m4/code/learn-gate-first-if.cpp
+    if (strength >= 70)
+    {
+        cout << "The gate swings wide.\n";
+    }
+    else
+    {
+        cout << "Turned away.\n";
+    }
 ```
 
 The thing in the parentheses is a **condition** — an expression that is either true or false. If it is true, the first block runs. Otherwise the `else` block runs. Exactly one of them runs, never both.
@@ -53,7 +53,9 @@ Two outcomes are rarely enough. The gatekeeper has three answers ready — pass,
 
 **Predict first.** Read this complete program. If the player types `55`, what prints? Write your guess down before you scroll.
 
-``` cpp excerpt=modules/m4/code/learn-gate-strength.cpp
+**Stage A** — `code/learn-gate-strength.cpp`
+
+```cpp excerpt=modules/m4/code/learn-gate-strength.cpp
 #include <iostream>
 using namespace std;
 
@@ -125,7 +127,9 @@ Notice the shape: each diamond has exactly two exits, and every path lands at th
 
 A chain of `else if`s comparing the *same* variable against a list of *exact* values gets noisy. When you are matching one whole number against fixed choices — a menu, a class number — `switch` says it more cleanly. The gatekeeper's first question is exactly this shape.
 
-``` cpp excerpt=modules/m4/code/learn-gate-class.cpp
+**Stage B** — `code/learn-gate-class.cpp`
+
+```cpp excerpt=modules/m4/code/learn-gate-class.cpp
 #include <iostream>
 using namespace std;
 
@@ -178,15 +182,15 @@ Sometimes one comparison is not enough. A middling Rogue can still slip through 
 | `\|\|` | OR | **at least one** side is true |
 | `!` | NOT | flips true to false |
 
-``` cpp excerpt=modules/m4/code/learn-combine-ops.cpp
-// Both must be true:
-if (strength >= 40 && hasLockpick)
-// ...
-// At least one is enough:
-if (characterClass == 1 || characterClass == 2)
-// ...
-// Flip it — true when NOT locked:
-if (!isLocked)
+```cpp excerpt=modules/m4/code/learn-logic-operators.cpp
+    // Both must be true:
+    if (strength >= 40 && hasLockpick)
+    // ...
+    // At least one is enough:
+    if (characterClass == 1 || characterClass == 2)
+    // ...
+    // Flip it — true when NOT locked:
+    if (!isLocked)
 ```
 
 > **⚠️ Common Pitfall**: You can't write `if (strength >= 40 && >= 70)`. Each side of `&&` must be a full condition with its own variable: `if (strength >= 40 && strength <= 70)`. Leaving out the second `strength` is a **Static semantic** error — grammar fine, meaning impossible. The program won't compile until you fix it.
@@ -197,7 +201,8 @@ if (!isLocked)
 
 **Predict first.** The player is a **Rogue** (class `3`), strength `55`, and answers `1` (yes, has a lockpick). Which single line of outcome prints? Guess before you scroll.
 
-``` cpp excerpt=modules/m4/code/learn-gate-full.cpp
+```cpp excerpt=modules/m4/code/learn-gate-full.cpp
+// ... includes, main, and the Stage B class switch are above this line ...
     bool hasLockpick = false;
     if (characterClass == 3)          // nested: only a Rogue is asked
     {
@@ -245,8 +250,8 @@ These three are the classic decision bugs. This course doesn't spring traps on y
 
 One equals sign **assigns**. Two equals signs **compare**. Inside an `if`, you almost always want two.
 
-``` cpp excerpt=modules/m4/code/learn-trap1-assign.cpp
-if (strength = 70)   // BUG: this ASSIGNS 70 to strength, then the if is "true"
+```cpp excerpt=modules/m4/code/learn-break-assignment.cpp
+    if (strength = 70)   // BUG: this ASSIGNS 70 to strength, then the if is "true"
 ```
 
 That line sets `strength` to `70` and then treats the result as true — so the branch runs *every time*, no matter what the player typed. The good news: the compiler is watching. Under `-Wall` it prints a warning like *"suggest parentheses around assignment used as truth value [-Wparentheses]"* and even suggests `==`. That warning is exactly why the course compiles with `-Wall -Wextra` and demands zero warnings. **Fix:** use `==`. Memory hook: *one equals gives, two equals asks.*
@@ -255,17 +260,17 @@ That line sets `strength` to `70` and then treats the result as true — so the 
 
 Every `case` needs its own `break;`. Forget it, and the program keeps running straight into the *next* case.
 
-``` cpp excerpt=modules/m4/code/learn-trap2-fallthrough.cpp
-switch (characterClass)
-{
-    case 1:
-        cout << "\"A Warrior.\"\n";
-        // BUG: no break here!
-    case 2:
-        cout << "\"A Mage.\"\n";
-        break;
-    // ...
-}
+```cpp excerpt=modules/m4/code/learn-break-fallthrough.cpp
+    switch (characterClass)
+    {
+        case 1:
+            cout << "\"A Warrior.\"\n";
+            // BUG: no break here!
+        case 2:
+            cout << "\"A Mage.\"\n";
+            break;
+        // ...
+    }
 ```
 
 **Predict:** the player is class `1` (a Warrior). What prints?
@@ -295,12 +300,12 @@ The catch is that it **still produces a program**. A warning is not an error, so
 
 Without braces, an `else` pairs with the **nearest** `if` — not the one your indentation seems to point at.
 
-``` cpp excerpt=modules/m4/code/learn-trap3-dangling.cpp
-if (strength >= 40)
-    if (hasLockpick)
-        cout << "Clever hands.\n";
-else                              // looks like it pairs with the OUTER if...
-    cout << "Turned away.\n";     // ...but it actually pairs with the INNER if
+```cpp excerpt=modules/m4/code/learn-break-dangling-else.cpp
+    if (strength >= 40)
+        if (hasLockpick)
+            cout << "Clever hands.\n";
+    else                              // looks like it pairs with the OUTER if...
+        cout << "Turned away.\n";     // ...but it actually pairs with the INNER if
 ```
 
 The indentation *suggests* the `else` belongs to `if (strength >= 40)`. It doesn't. It binds to `if (hasLockpick)`, the closest one. So a strong player *without* a lockpick prints "Turned away." — the opposite of what the layout implied. **Fix:** always use `{ }` braces, even for one line. Braces make the pairing explicit and this trap disappears.

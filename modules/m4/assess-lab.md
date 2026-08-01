@@ -196,15 +196,15 @@ Earn the Badge by turning in all three of these:
       under a heading "Reverse Recovery," draw the Mermaid flowchart for this
       code snippet — read the code, recover the diagram:
 
-      ``` cpp excerpt=modules/m4/code/assess-temp-ladder.cpp
-      int temp = 0;
-      cin >> temp;
-      if (temp >= 100)
-          cout << "Boiling.\n";
-      else if (temp <= 0)
-          cout << "Freezing.\n";
-      else
-          cout << "Liquid.\n";
+      ```cpp excerpt=modules/m4/code/assess-badge-reverse.cpp
+          int temp = 0;
+          cin >> temp;
+          if (temp >= 100)
+              cout << "Boiling.\n";
+          else if (temp <= 0)
+              cout << "Freezing.\n";
+          else
+              cout << "Liquid.\n";
       ```
 
 - [ ] **`prompts.md`** — if you used AI at all, list every prompt you sent and

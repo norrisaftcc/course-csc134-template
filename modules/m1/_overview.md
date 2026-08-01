@@ -32,7 +32,18 @@ exists to hide behind.
 
 ---
 
-## LPAA beat map (skeleton — not yet authored)
+## LPAA beat map
+
+> **FIRST PASS.** The **Learn** beat is authored: `learn.md`. Practice, Apply,
+> and Assess are **not** — they are still the one-line spine pointers below, and
+> `_assess-spec.STUB.md` is still a stub.
+>
+> First pass means one real artifact per module so humans can review any module,
+> not a finished module ([[ADR-016]]). Authored **without graduate seeding** and
+> **no cohort has taken it** — reviewable, not proven.
+>
+> **M1 has no `code/` directory, on purpose.** It is pre-C++ (see the Make-gradient
+> note below), so its Learn beat has no compile-gate surface at all.
 
 | Beat | One-liner from spine |
 |---|---|

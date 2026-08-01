@@ -95,6 +95,12 @@ Add a **second validated numeric read** inside one of the menu actions — the
 barkeep asks you for a number (gold slid across the bar, say). It gets the same
 bulletproofing the menu read got: bad type re-prompts, bad range re-prompts.
 
+**The range is 0 to 100.** The menu's range came free — three options, so `1-3`.
+This one does not, so it is stated: accept `0` through `100`, re-prompt on
+anything outside it. Pick a different range if your scene needs one, and say so
+in your plan file; what you cannot do is skip the range check because no number
+was given.
+
 Writing the pattern twice is the point. The first time you were copying a shape;
 the second time you are choosing it.
 
@@ -283,6 +289,7 @@ it is a program that has never been told no.
 | `3` (or your exit number) | Exits cleanly |
 | `banana` **then** `2` | Recovers and runs action 2 — recovery must actually recover |
 | B tier: `banana` at the barkeep's number | Re-prompts there too |
+| B tier: `500` at the barkeep's number | Re-prompts — the range is 0-100, and type-only validation fails here |
 
 **Before you run Part 1's Exercise 1, trace it.** Fill this in by hand, then
 check yourself against the machine:
@@ -335,8 +342,8 @@ warn you about this — only counting will catch it.
 
 **Your validation accepts everything.** Almost always this:
 
-``` cpp excerpt=modules/m5/code/assess-validate-wrong.cpp
-while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG — silently does nothing
+```cpp excerpt=modules/m5/code/apply-break-and-validation.cpp
+    while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG — silently does nothing
 ```
 
 A number cannot be both below 1 and above 3, so the condition is never true and
@@ -390,7 +397,7 @@ hidden.*
 | **Correctness** | 8 | Loops run the right number of times — no off-by-one. Validation actually rejects bad input rather than appearing to. The search reports both found and not-found correctly. The program always reaches its exit. |
 | **Completeness** | 6 | Everything the **attempted tier** requires is present, including the named edge cases: letters at every prompt, out-of-range numbers at both ends, and a not-found search result. |
 | **Format** | 3 | Readable code, helpful comments, aligned table output. **Compiles clean under `g++ -std=c++17 -Wall -Wextra` — zero warnings.** |
-| **Submission** | 3 | Both `.cpp` files named correctly, in the right repo, committed and pushed (no branches — commit straight to your repository). `prompts.md` present if AI was used. |
+| **Submission** | 3 | Both `.cpp` files named correctly, in the right repo, committed and pushed (no branches — commit straight to your repository). `prompts.md` present as the attempted tier requires. |
 | **Total** | **20** | |
 
 **No hidden criteria — what is on this page is the whole rubric.**

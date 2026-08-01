@@ -52,3 +52,10 @@ modules/*/code/*
 # Python cache from the gate scripts
 __pycache__/
 *.pyc
+
+# Agent worktrees. Workflow runs with isolation:'worktree' create full repo
+# copies here (one per student in a cohort round). They are scaffolding for a
+# run in progress, not deliverables — committing them would check a whole
+# second copy of the repo into the repo. What a run produces is harvested
+# into _tracking/cohort/<round>/ and _lore/ deliberately.
+.claude/worktrees/

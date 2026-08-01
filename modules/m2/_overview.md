@@ -1,8 +1,14 @@
 # M2 — How to Solve Problems
 
-> **SKELETON.** Structure only — no Learn/Practice/Apply/Assess lesson content
-> has been authored yet. This file is the module's identity card, built per
-> `_tracking/skeleton-plan.md` v0.6. The deep-build pass fills in the beats.
+> **FIRST PASS.** The **Learn** beat is authored: `learn.md`, with its gated
+> sources in `code/`. Practice, Apply, and Assess are **not** — they are still
+> the one-line spine pointers below, and `_assess-spec.STUB.md` is still a stub.
+>
+> First pass means one real artifact per module so humans can review any module,
+> not a finished module ([[ADR-016]]). It is authored **without graduate
+> seeding** and **no cohort has taken it**, so treat it as reviewable, not
+> proven. This file remains the module's identity card, built per
+> `_tracking/skeleton-plan.md` v0.6.
 
 ## Spine header
 

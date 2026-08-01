@@ -53,70 +53,12 @@ Until next time, traveler.
 
 ---
 
-## Instructor Notes
-
-**Why this session is split.** M5 sits at the seam of the Make gradient. M2–M4
-were type-in-100%; M5–M7 are finish-the-80%. Rather than flip the switch between
-modules and hope it lands, M5 flips it **inside one class period**: students get
-one more full type-in as a warm-up, then immediately meet the new shape while
-the muscle memory is warm. Do not collapse Part 1 into a handout — the type-in
-is the point of Part 1, and it is the last one they get.
-
-**Timing.**
-
-| Segment | Time | Mode |
-|---|---|---|
-| Part 1, Stage 1 — the banner | ~6 min | FULL type-in |
-| Part 1, Stage 2 — the header row | ~8 min | FULL type-in |
-| Part 1, Stage 3 — the loop | ~10 min | FULL type-in |
-| **The Deliberate Break** | ~5 min | on just-typed code |
-| Part 2, Investigate — read and run the 80% | ~10 min | EIGHTY |
-| Part 2, Spec review — read the contract aloud | ~4 min | EIGHTY |
-| Part 2, Make — write the validation loop | ~12 min | EIGHTY |
-| **Total** | **~55 min** | |
-
-Halfway mark is the Deliberate Break. If you are running long, Part 1 Stage 3
-and the Break are the floor — Part 2's Make movement can become homework, but
-only if students have at least *run* the unguarded scaffold and seen it spin.
-
-**Where students stall.**
-
-- **Stage 2, `setw`:** forgetting `#include <iomanip>`. The error names `setw`
-  as undeclared — good, readable, and worth reading aloud.
-- **Stage 3, the semicolons in the `for` header:** students write commas.
-  `for (int level = 1, level <= 10, level++)` is a Syntax error with a long
-  message; point out that the three parts are separated by `;`, not `,`.
-- **Stage 3, brace placement:** typing the loop body before the opening `{`.
-- **Part 2, Make:** the most common wrong answer is writing `&&` where `||`
-  belongs. See "If a student writes `&&`" below — it compiles clean and looks
-  right, so catch it by *testing*, not by reading.
-- **Part 2, Make:** forgetting that `cin.clear()` and `cin.ignore(...)` are two
-  separate calls in that order. The exit ticket rehearsed exactly this.
-
-**A note on the two failure reps.** The skill calls for one scripted break per
-tutorial; this session has one formal Break (Part 1, on code students just
-typed) plus one *provided-code* failure they run in Part 2's Investigate
-movement. That is deliberate, not drift: the Part 1 Break is the FULL-mode rep
-(read the failure of code you wrote), and Part 2's Investigate is the
-EIGHTY-mode rep (read the failure of code you were handed). Each part gets the
-rep its mode calls for.
-
----
-
-# PART 1 — Level Up Stats (FULL type-in)
-
-You type this one. No copy-paste, no downloading. Typing is how the syntax gets
-into your fingers, and reading your own typos is how you learn to read the
-compiler.
-
-Make a new file called `apply-levelup.cpp`.
-
 ## Stage 1: The banner (~6 min)
 
 The smallest thing that runs. Type it, build it, run it — that proves your
 toolchain works before anything harder shows up.
 
-``` cpp excerpt=modules/m5/code/apply-levelup-stage1.cpp
+```cpp excerpt=modules/m5/code/apply-stage1-banner.cpp
 #include <iostream>
 using namespace std;
 
@@ -150,7 +92,7 @@ numbers line up in a column instead of drifting.
 
 Two new things: the `#include <iomanip>` line, and the header `cout`.
 
-``` cpp excerpt=modules/m5/code/apply-levelup-stage2.cpp
+```cpp excerpt=modules/m5/code/apply-stage2-headers.cpp
 #include <iostream>
 #include <iomanip>                          // NEW — setw lives here
 using namespace std;
@@ -191,7 +133,7 @@ exactly what you want for a table of numbers.
 Here is the module's whole idea in one block. Three stats, ten levels, one
 counted loop.
 
-``` cpp excerpt=modules/m5/code/apply-levelup-stage3.cpp
+```cpp excerpt=modules/m5/code/apply-stage3-loop.cpp
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -266,13 +208,13 @@ Everyone's program works. Now break it on purpose.
 
 **Find this line:**
 
-``` cpp excerpt=modules/m5/code/apply-levelup.cpp
+```cpp excerpt=modules/m5/code/apply-levelup.cpp
     for (int level = 1; level <= 10; level++)
 ```
 
 **Change `<=` to `<`:**
 
-``` cpp excerpt=modules/m5/code/practice-item4-offbyone.cpp
+```cpp excerpt=modules/m5/code/practice-item4-offbyone.cpp
     for (int level = 1; level < 10; level++)
 ```
 
@@ -303,7 +245,7 @@ g++ -std=c++17 -Wall -Wextra -o apply-levelup apply-levelup.cpp
 -Wextra`. The program ran perfectly and finished normally. It just printed
 **nine** rows instead of ten.
 
-Ask the room: which of the four error names is this?
+Which of the four error names is this?
 
 - Not **Syntax** — nothing broke the grammar; it compiled.
 - Not **Static semantic** — `level < 10` is a perfectly legal comparison.
@@ -343,8 +285,17 @@ the decision changed. What is new is the `do`/`while` wrapped around it. That is
 the seam this whole module is about — **the loop wrapped the decision; it did
 not replace it.**
 
-Trace one path out loud as a class: the player types `2`. Which lines run, in
-what order, and where does control go after the action finishes?
+Trace one path: the player types `2`. Which lines run, in what order, and
+where does control go after the action finishes?
+
+**One new word before you trace.** Down in the `default` case you will hit
+`continue;`. It means *stop this pass here and go straight to the loop's
+condition test* — skip whatever is left in the body. The catch is where that
+test lives: in a `do`/`while` the condition is the `while (...)` line at the
+**bottom**, not the top. So `continue` sends the player back to the menu for
+another turn rather than out of the loop. That is the one keyword in this file
+the reading has not shown you; everything else you have already written
+yourself.
 
 **Now build it and run it as-is.** It compiles clean — the file you were handed
 always does.
@@ -390,10 +341,9 @@ That spin is your job to fix.
 
 ## Movement 2 — Spec review (~4 min)
 
-Scroll to the marked region. Read the comment block aloud — someone read it to
-the room:
+Scroll to the marked region. Read the comment block before you go on:
 
-``` cpp excerpt=modules/m5/code/apply-menu-scaffold.cpp
+```cpp excerpt=modules/m5/code/apply-menu-scaffold.cpp
         // ============================================================
         // YOUR CODE: the input-validation loop
         //
@@ -465,49 +415,6 @@ Choose (1-3): That is not a door. Choose 1, 2, or 3: That is not a door. Choose 
 
 *(Player typed `banana`, then `9`, then `2`.)*
 
-### Instructor-only: the reference solution
-
-The finished file is `modules/m5/code/apply-menu-complete.cpp`. Do not
-distribute it before the Make movement ends. The validation loop reads:
-
-``` cpp excerpt=modules/m5/code/apply-menu-complete.cpp
-        // ===== THE VALIDATION LOOP (the M5 bulletproofing) =====
-        // Keep asking until the player gives a real number, 1 through 3.
-        while (!(cin >> choice) || choice < 1 || choice > 3)
-        {
-            cin.clear();  // drop the fail flag if they typed letters
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // dump the bad line
-            cout << "That is not a door. Choose 1, 2, or 3: ";
-        }
-```
-
-This is identical to the frozen contract's validation in
-`_contracts/m5_menu.cpp`, on purpose — students are building the course's
-canonical pattern, not a one-off.
-
-### Instructor-only: if a student writes `&&`
-
-This is the single most common wrong answer, and it is **invisible on
-inspection**:
-
-``` cpp excerpt=modules/m5/code/apply-validate-wrong.cpp
-        while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG
-```
-
-It compiles clean under `-Wall -Wextra`. It looks reasonable. And it does
-**nothing at all** — a number cannot be both less than 1 and greater than 3, so
-the condition is never true and the loop body never runs. The program behaves
-exactly like the unguarded stub they started with: type `banana` and it spins
-forever, just as before.
-
-Do not correct this by reading their screen. Send them to the acceptance check —
-test 1 fails immediately. That is the habit worth building: **you find this
-class of bug by running it, not by looking at it.** `||` is right because the
-input is bad if it fails the read **or** it is under 1 **or** it is over 3 — any
-one of those is enough to re-ask.
-
----
-
 ## Wrap-Up
 
 You did two different things today, and the difference is the point.
@@ -530,3 +437,106 @@ than you ended here. The A tier asks you to wrap an M4-style decision inside the
 loop, which is the same seam you traced in Movement 1.
 
 Bring your trace table.
+
+
+---
+
+## Instructor notes (not part of the student handout)
+
+**Why this session is split.** M5 sits at the seam of the Make gradient. M2–M4
+were type-in-100%; M5–M7 are finish-the-80%. Rather than flip the switch between
+modules and hope it lands, M5 flips it **inside one class period**: students get
+one more full type-in as a warm-up, then immediately meet the new shape while
+the muscle memory is warm. Do not collapse Part 1 into a handout — the type-in
+is the point of Part 1, and it is the last one they get.
+
+**Timing.**
+
+| Segment | Time | Mode |
+|---|---|---|
+| Part 1, Stage 1 — the banner | ~6 min | FULL type-in |
+| Part 1, Stage 2 — the header row | ~8 min | FULL type-in |
+| Part 1, Stage 3 — the loop | ~10 min | FULL type-in |
+| **The Deliberate Break** | ~5 min | on just-typed code |
+| Part 2, Investigate — read and run the 80% | ~10 min | EIGHTY |
+| Part 2, Spec review — read the contract aloud | ~4 min | EIGHTY |
+| Part 2, Make — write the validation loop | ~12 min | EIGHTY |
+| **Total** | **~55 min** | |
+
+Halfway mark is the Deliberate Break. If you are running long, Part 1 Stage 3
+and the Break are the floor — Part 2's Make movement can become homework, but
+only if students have at least *run* the unguarded scaffold and seen it spin.
+
+**Where students stall.**
+
+- **Stage 2, `setw`:** forgetting `#include <iomanip>`. The error names `setw`
+  as undeclared — good, readable, and worth reading aloud.
+- **Stage 3, the semicolons in the `for` header:** students write commas.
+  `for (int level = 1, level <= 10, level++)` is a Syntax error with a long
+  message; point out that the three parts are separated by `;`, not `,`.
+- **Stage 3, brace placement:** typing the loop body before the opening `{`.
+- **Part 2, Make:** the most common wrong answer is writing `&&` where `||`
+  belongs. See "If a student writes `&&`" below — it compiles clean and looks
+  right, so catch it by *testing*, not by reading.
+- **Part 2, Make:** forgetting that `cin.clear()` and `cin.ignore(...)` are two
+  separate calls in that order. The exit ticket rehearsed exactly this.
+
+**A note on the two failure reps.** The skill calls for one scripted break per
+tutorial; this session has one formal Break (Part 1, on code students just
+typed) plus one *provided-code* failure they run in Part 2's Investigate
+movement. That is deliberate, not drift: the Part 1 Break is the FULL-mode rep
+(read the failure of code you wrote), and Part 2's Investigate is the
+EIGHTY-mode rep (read the failure of code you were handed). Each part gets the
+rep its mode calls for.
+
+---
+
+# PART 1 — Level Up Stats (FULL type-in)
+
+You type this one. No copy-paste, no downloading. Typing is how the syntax gets
+into your fingers, and reading your own typos is how you learn to read the
+compiler.
+
+Make a new file called `apply-levelup.cpp`.
+
+### Instructor-only: the reference solution
+
+The finished file is `modules/m5/code/apply-menu-complete.cpp`. Do not
+distribute it before the Make movement ends. The validation loop reads:
+
+```cpp excerpt=modules/m5/code/apply-menu-complete.cpp
+        // ===== THE VALIDATION LOOP (the M5 bulletproofing) =====
+        // Keep asking until the player gives a real number, 1 through 3.
+        while (!(cin >> choice) || choice < 1 || choice > 3)
+        {
+            cin.clear();  // drop the fail flag if they typed letters
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // dump the bad line
+            cout << "That is not a door. Choose 1, 2, or 3: ";
+        }
+```
+
+This is identical to the frozen contract's validation in
+`_contracts/m5_menu.cpp`, on purpose — students are building the course's
+canonical pattern, not a one-off.
+
+### Instructor-only: if a student writes `&&`
+
+This is the single most common wrong answer, and it is **invisible on
+inspection**:
+
+```cpp excerpt=modules/m5/code/apply-break-and-validation.cpp
+    while (!(cin >> choice) && choice < 1 && choice > 3)   // WRONG — silently does nothing
+```
+
+It compiles clean under `-Wall -Wextra`. It looks reasonable. And it does
+**nothing at all** — a number cannot be both less than 1 and greater than 3, so
+the condition is never true and the loop body never runs. The program behaves
+exactly like the unguarded stub they started with: type `banana` and it spins
+forever, just as before.
+
+Do not correct this by reading their screen. Send them to the acceptance check —
+test 1 fails immediately. That is the habit worth building: **you find this
+class of bug by running it, not by looking at it.** `||` is right because the
+input is bad if it fails the read **or** it is under 1 **or** it is over 3 — any
+one of those is enough to re-ask.
+

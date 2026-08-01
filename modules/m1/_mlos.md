@@ -1,8 +1,13 @@
 # M1 — Module Learning Objectives (skeleton)
 
-> **Skeleton slots only — not authored objectives.** This file names the
-> *shape* each MLO must take and the CLO/CCL it feeds. The deep-build pass
-> writes the actual objective language.
+> **PARTLY INSTANTIATED.** This file names the *shape* each MLO must take and
+> the CLO/CCL it feeds.
+>
+> **`learn.md` now states finished objective sentences for MLO-1 and MLO-2**, and
+> sets up **MLO-4** without testing it (the Robot Sandwich does that, in a beat not
+> yet authored). Where that file and this one differ in phrasing, the Learn beat is
+> the authored version. **MLO-3** (the commit/push cycle) belongs to the Apply beat
+> and is untouched. Do not read the draft shapes below as covering all four.
 
 ## MLO slots (feeding the CLOs)
 

@@ -20,6 +20,19 @@ module.
 
 ## LPAA beat map
 
+> **FIRST PASS.** The **Learn** beat is authored: `learn.md`, with its gated
+> sources in `code/`. Practice, Apply, and Assess are **not** — they are still the
+> one-line spine pointers below, and `_assess-spec.STUB.md` is still a stub.
+>
+> First pass means one real artifact per module so humans can review any module,
+> not a finished module ([[ADR-016]]). Authored **without graduate seeding** and
+> **no cohort has taken it** — reviewable, not proven.
+>
+> **Scope note.** The spine's Learn line says *"readings"*, plural, for a five-step
+> arc. This single reading walks **arrays → parallel arrays → structs → structs by
+> reference**, and *names* classes as the destination without teaching them.
+> **MLO 7.4 (classes) is therefore the one objective this beat does not carry.**
+
 | Beat | One-liner (from spine) |
 |---|---|
 | **Learn** | Readings on arrays, structs, classes. |
@@ -78,6 +91,7 @@ instead in `_assets.md`, per F-001's not-yet-imported status for all four.
 
 ## Contracts touched
 
-None. This is a structure-only skeleton pass — no Learn/Practice/Apply/Assess
+None. The **Learn** beat is now authored (see the FIRST PASS banner above) and
+touches no contract. Practice, Apply, and Assess remain unauthored — no edits to
 content authored, no edits to `_contracts/`, `_storming/`, `_tracking/`, or
 `assignments/`.

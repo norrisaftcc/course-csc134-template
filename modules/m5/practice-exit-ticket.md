@@ -34,7 +34,7 @@ this module teaches. Spotting them here is the whole point.
 A `for` loop counts `level` from 1 up to and including 3. What does this
 program print?
 
-``` cpp excerpt=modules/m5/code/practice-item1-levelup.cpp
+```cpp excerpt=modules/m5/code/practice-item1-levelup.cpp
 #include <iostream>
 using namespace std;
 
@@ -60,7 +60,7 @@ int main()
 This loop drops your `hp` by 2 each pass until you run out. Walk it one pass at
 a time using the trace table, then answer the question.
 
-``` cpp excerpt=modules/m5/code/practice-item2-hp.cpp
+```cpp excerpt=modules/m5/code/practice-item2-hp.cpp
 #include <iostream>
 using namespace std;
 
@@ -104,7 +104,7 @@ the same kind of branching you wrote in M4 — but now it lives **inside** a
 `do`/`while` loop that keeps bringing the player back to the door. The loop
 didn't replace the decision; it wrapped it.
 
-``` cpp excerpt=modules/m5/code/practice-item3-menu.cpp
+```cpp excerpt=modules/m5/code/practice-item3-menu.cpp
 #include <iostream>
 using namespace std;
 
@@ -164,7 +164,7 @@ The author wanted this loop to print **all ten levels** — `Level 1` through
 `Level 10`. It compiles with no errors, it runs with no crash, but it prints
 only **nine** lines (`Level 1` through `Level 9`).
 
-``` cpp excerpt=modules/m5/code/practice-offbyone-levels.cpp
+```cpp excerpt=modules/m5/code/practice-item4-offbyone.cpp
 #include <iostream>
 using namespace std;
 
@@ -196,7 +196,7 @@ A player types the **word** `six` instead of the digit. The program then prints
 the prompt again, and again, and again, forever — it never stops and never
 crashes on its own.
 
-``` cpp excerpt=modules/m5/code/practice-item5-cinfail.cpp
+```cpp excerpt=modules/m5/code/practice-item5-cinfail.cpp
 #include <iostream>
 using namespace std;
 
@@ -231,7 +231,7 @@ It keeps asking until it gets a real number from 1 to 3. If you type a letter,
 it recovers and re-prompts. Two clean-up lines make that recovery work:
 `cin.clear()` and `cin.ignore(...)`.
 
-``` cpp excerpt=modules/m5/code/practice-item6-validation.cpp
+```cpp excerpt=modules/m5/code/practice-item6-validation.cpp
 #include <iostream>
 #include <limits>
 using namespace std;
@@ -269,7 +269,7 @@ type the letter `x`.
 This program walks a bag of five potion values once, and checks each slot
 against the one it's looking for. What does it print?
 
-``` cpp excerpt=modules/m5/code/practice-item7-search.cpp
+```cpp excerpt=modules/m5/code/practice-item7-search.cpp
 #include <iostream>
 using namespace std;
 

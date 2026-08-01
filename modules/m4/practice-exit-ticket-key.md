@@ -42,7 +42,7 @@ grow — harvest wrong-answer rates after the first run and append.
     the answer when there is a real Syntax or Static semantic error.
 
 ## Item 1.5 — Bridge: trace a two-branch chain
-- **Type:** Trace-the-branch · **MLO:** 4.1 (`if`/`else if` chain) · **Source:** inline snippet (verified separately; not in `code/`)
+- **Type:** Trace-the-branch · **MLO:** 4.1 (`if`/`else if` chain) · **Source:** `code/practice-item1_5-mana.cpp` (gated; mirrored per ADR-015)
 - **Key: B** — `You cast a minor spell.`
 - **Filled trace table:**
 
@@ -217,16 +217,19 @@ grow — harvest wrong-answer rates after the first run and append.
   that gates the target outcome."
 - Item 7 / C: treating `if / else if` as interchangeable with separate `if`s.
 
-## Compile & run log (2026-07-24)
+## Compile & run log (2026-07-24, updated 2026-07-29)
 ```
 g++ -std=c++17 -Wall -Wextra  → zero warnings on:
-  practice-item1-vault.cpp, practice-gatekeeper.cpp,
-  practice-item4-doors.cpp, practice-item7-status.cpp
+  practice-item1-vault.cpp, practice-item1_5-mana.cpp,
+  practice-gatekeeper.cpp, practice-item4-doors.cpp,
+  practice-item7-status.cpp
 
-Item 1.5 bridge snippet is inline (not yet a code/ file). It is a trivial
-if / else-if program with no toolchain-specific behavior; compiled clean with
-zero warnings under -Wall -Wextra when this beat was updated. If it graduates to
-code/, add practice-item1_5-mana.cpp and fold it into the canonical run.
+Item 1.5 GRADUATED to code/ on 2026-07-29 (issue #30). It is now
+practice-item1_5-mana.cpp — the filename this note proposed — and the ticket's
+listing mirrors it via `excerpt=` per ADR-015. Until then it was student-facing
+C++ that no gate had ever built, inside a module certified Ready; the claim
+above that it "compiled clean" was true but unverifiable by anyone reading it.
+It is now folded into the canonical run and checked on GCC in CI every push.
 
 Item 1   (no input)                        → Not enough gold. Come back richer.
 Item 1.5 (no input)                        → You cast a minor spell.
