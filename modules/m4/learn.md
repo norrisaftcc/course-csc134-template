@@ -202,7 +202,7 @@ Sometimes one comparison is not enough. A middling Rogue can still slip through 
 **Predict first.** The player is a **Rogue** (class `3`), strength `55`, and answers `1` (yes, has a lockpick). Which single line of outcome prints? Guess before you scroll.
 
 ```cpp excerpt=modules/m4/code/learn-gate-full.cpp
-// ...
+// ... includes, main, and the Stage B class switch are above this line ...
     bool hasLockpick = false;
     if (characterClass == 3)          // nested: only a Rogue is asked
     {
