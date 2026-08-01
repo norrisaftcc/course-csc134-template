@@ -94,7 +94,7 @@ int main()
 }
 ```
 
-**Predict first.** Ask the room: "What single line will this print?"
+**Predict first.** What single line will this print?
 
 **Build and run:**
 

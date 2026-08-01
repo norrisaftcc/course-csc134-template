@@ -245,7 +245,7 @@ g++ -std=c++17 -Wall -Wextra -o apply-levelup apply-levelup.cpp
 -Wextra`. The program ran perfectly and finished normally. It just printed
 **nine** rows instead of ten.
 
-Ask the room: which of the four error names is this?
+Which of the four error names is this?
 
 - Not **Syntax** — nothing broke the grammar; it compiled.
 - Not **Static semantic** — `level < 10` is a perfectly legal comparison.
@@ -285,8 +285,8 @@ the decision changed. What is new is the `do`/`while` wrapped around it. That is
 the seam this whole module is about — **the loop wrapped the decision; it did
 not replace it.**
 
-Trace one path out loud as a class: the player types `2`. Which lines run, in
-what order, and where does control go after the action finishes?
+Trace one path: the player types `2`. Which lines run, in what order, and
+where does control go after the action finishes?
 
 **One new word before you trace.** Down in the `default` case you will hit
 `continue;`. It means *stop this pass here and go straight to the loop's
@@ -341,8 +341,7 @@ That spin is your job to fix.
 
 ## Movement 2 — Spec review (~4 min)
 
-Scroll to the marked region. Read the comment block aloud — someone read it to
-the room:
+Scroll to the marked region. Read the comment block before you go on:
 
 ```cpp excerpt=modules/m5/code/apply-menu-scaffold.cpp
         // ============================================================
