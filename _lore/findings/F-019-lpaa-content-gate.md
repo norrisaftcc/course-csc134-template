@@ -107,3 +107,59 @@ instruments; neither substitutes for the other.**
 "EXPECTED RED" claim. Adding the third job made the first false and re-exposed the second — fixed in
 the same commit. **The sixth stale claim was found by the work of building the thing that finds
 stale claims**, which is either reassuring or funny depending on the hour.
+
+---
+
+## First harvest: 8 of the 22 reported items closed (2026-08-01)
+
+The `open-questions` reporter's first real use. **22 → 14**, and the triage is worth recording
+because the counts were not what the raw list looked like.
+
+### Twelve of the 22 were the same two items, repeated
+
+Six modules each carried *"Per-MLO behavioral statement"* and *"Mapping each MLO to the artifact"* —
+boilerplate inherited from the skeleton template. So the list looked like 22 distinct questions and
+was really **ten module-specific questions plus one template repeated twelve times.** A reporter that
+prints line-by-line hides that; whoever reads it next should group before estimating.
+
+### Five carried a false claim inside the item
+
+Every "Mapping" item said *"Learn/Practice/Apply are not yet built."* **Learn was built in all five
+modules**, and M4 and M5 had all four beats and were cohort-tested. The items were written true and
+the work of building the course made them false — the same pattern this gate exists to catch, sitting
+*inside the checklist items the gate surfaced.* All five corrected.
+
+### What actually closed, and what it cost
+
+Eight items, all closed from evidence already in the repo — no new decisions:
+
+- **M4 (4/4).** Behavioral statements and the full MLO→artifact table, both writable because M4 is
+  `Ready`. MLO 4.3's *"recover a flowchart from existing code"* half resolved to **Badge item 1**,
+  which has done exactly that since the lab shipped. The 4.2/4.1 tier boundary resolved by reading
+  the tiers: **4.1 first required at C, 4.2 at B** — taught in Learn, typed in Apply Stage 4,
+  required one tier above baseline, which is the no-trick-questions rule satisfied.
+- **M5 (3/4).** Same two, plus MLO 5.3's trace-table question — **all three homes**, ungraded
+  scratchpads in Practice and Apply and a graded four-pass minimum at Badge, with F-017's watch-list
+  Q6 confirming the design holds.
+- **M6 (1/4).** The reference-vs-pointer boundary, **closed by grep**: `m6/learn.md` contains the
+  word "pointer" zero times, so the conflation it guards against cannot happen from that reading.
+
+**Nothing was closed by asserting it.** Each answer quotes the artifact that settles it.
+
+### The honest caveat found while closing M6's
+
+The item framed the boundary as a handoff to M7. **M7's Learn beat does not say "pointer" either** —
+it walks arrays → parallel arrays → structs → by-reference and names classes without teaching them.
+So the boundary holds on M6's side and the pickup on M7's side is not built. Recorded in M6's file
+rather than quietly claiming the handoff works.
+
+### And closing them made two more banners stale
+
+`m4/_mlos.md` and `m5/_mlos.md` opened with *"skeleton slots only — not authored objectives"* — false
+the moment the slots were authored. Both now read **AUTHORED**, with the slot record kept as the
+derivation and an explicit precedence rule: **where the record and the authored beats differ, the
+beats win.**
+
+That is the seventh instance of the pattern, and it arrived *while fixing the sixth*. The reporter
+cannot see it — a status banner is not a `- [ ]`. **Worth considering as a future enforcing check:
+a file whose pending section is empty should not describe itself as pending.**

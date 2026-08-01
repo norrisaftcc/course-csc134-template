@@ -70,20 +70,37 @@ M7 introduces it formally.
 
 ---
 
+## Resolved (2026-08-01)
+
+### MLO 6.2's scope boundary — answered, and verified by grep
+
+The item asked that the reference-vs-pointer boundary be stated explicitly in the Learn reading so
+students don't conflate "reference parameter" with "pointer" a module early.
+
+**`modules/m6/learn.md` contains the word "pointer" zero times.** It teaches the distinction as a
+parameter-passing choice and names it in exactly those terms — *"Pass by value — the function gets a
+copy"* / *"Pass by reference — the function gets your variable"* — plus the one-character reading
+rule, `int hp` is a copy and `int &hp` is the original. The conflation this item guards against
+cannot happen from M6's reading, because the other word never appears.
+
+**One honest caveat, since the item framed the boundary as a handoff.** M7's Learn beat does not say
+"pointer" either — it walks arrays → parallel arrays → structs → by-reference and names classes as
+the destination without teaching them ([[F-015]]). So the *boundary* holds on M6's side; the
+*pickup* on M7's side is not built yet. That is M7's business and is tracked by M7's own pending
+slots, not this one.
+
 ## Slots pending deep-build authoring
 
 - [ ] Per-MLO "what a student can do" behavioral statement (beyond the
-      spine's one-line summary above).
+      spine's one-line summary above). **Blocked:** M6 is `First pass` — the Learn beat is
+      authored; Practice, Apply and Assess are not, so the artifact that would measure each
+      objective does not exist to describe.
 - [ ] Mapping each MLO to the specific Learn/Practice/Apply/Assess artifact
-      that measures it (Assess is stubbed in `_assess-spec.STUB.md`; Learn/
-      Practice/Apply are not yet built).
-- [ ] Confirming MLO 6.2's scope boundary: pass-by-reference is taught here as
-      a parameter-passing choice (`&` on a parameter); the pointer/array
-      relationship proper is M7's job (per the spine, "introduced in context"
-      there). Deep-build should state this boundary explicitly in the Learn
-      reading so students don't conflate "reference parameter" with "pointer"
-      a module early.
+      that measures it. **Learn is built** (`learn.md` + 4 gated sources); Practice, Apply and
+      Assess are not, and `_assess-spec.STUB.md` is the Assess build record.
 - [ ] Scope basics (MLO 6.1's "scope" clause) — deep-build to decide how much
       time this gets relative to the refactor signature move; the spine lists
       it as content but does not name a dedicated Practice item beyond "identify
-      scope" in the exit-ticket one-liner.
+      scope" in the exit-ticket one-liner. **Blocked:** a timing question about a session that
+      does not exist yet. The Learn beat does carry the planned scope error
+      (`learn-break-scope.cpp`, `'torches' was not declared in this scope`).

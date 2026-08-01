@@ -60,8 +60,9 @@ M2. All CLOs master at M8's capstone.
 - [ ] Per-MLO "what a student can do" behavioral statement (beyond the spine's
       one-line summary above).
 - [ ] Mapping each MLO to the specific Learn/Practice/Apply/Assess artifact
-      that measures it (Assess is stubbed in `_assess-spec.STUB.md`; Learn/
-      Practice/Apply are not yet built).
+      that measures it. **Learn is built** (`learn.md` + 5 gated sources, [[F-015]]);
+      Practice, Apply and Assess are not, and `_assess-spec.STUB.md` is the Assess
+      build record.
 - [ ] Confirming MLO 3.3's error-taxonomy scope for M3 specifically. All four
       words are in play course-wide by M2, per the spine's error taxonomy
       table. M3's "Debugging as curriculum" framing is where students first

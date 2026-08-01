@@ -1,6 +1,11 @@
-# M4 — Module Learning Objectives (skeleton)
+# M4 — Module Learning Objectives
 
-**Status:** skeleton slots only — not authored objectives. Derived from
+**Status: AUTHORED.** M4 is `Ready` — four beats and two cohort rounds ([[F-005]], [[F-006]]) — and every slot
+this file once listed as pending is answered below under *Resolved*: behavioral statements
+per MLO, the MLO→artifact mapping, and the module's two scope questions. The slot record
+below is kept as the derivation. Where it and the authored beats differ, **the beats win.**
+
+Derived from
 `_storming/CSC-134-course-spine.md` ("## M4 — Decisions") and
 `_storming/CSC-134-learning-objectives.md` ("### M4 — Decisions"). Deep-build
 fills in beat-level detail; this file records the MLO shape and its CLO/CCL
@@ -49,21 +54,49 @@ CLOs master at M8's capstone.
 
 ---
 
-## Slots pending deep-build authoring
+## Resolved (2026-08-01)
 
-- [ ] Per-MLO "what a student can do" behavioral statement (beyond the
-      spine's one-line summary above).
-- [ ] Mapping each MLO to the specific Learn/Practice/Apply/Assess artifact
-      that measures it. (Assess is stubbed in `_assess-spec.STUB.md`. Learn/
-      Practice/Apply are not yet built.)
-- [ ] Confirming MLO 4.3's "recover a flowchart from existing code" half.
-      The spine names this explicitly ("at least once, the reverse") but
-      doesn't say which beat carries it. Candidate: a Practice-beat exit-
-      ticket item, or an Assess-tier requirement — see the existing gatekeeper
-      lab draft's "flowchart matches code" check, flagged in `_assets.md`.
-- [ ] Confirming the boundary between MLO 4.2's "logical operators" and
-      MLO 4.1's "switch." A compound condition (`&&`/`||`/`!`) is a natural
-      B-tier reach past a C-tier `if`/`else if`/`switch` baseline. Deep-build
-      should state explicitly which tier each first appears at, matching the
-      Make-gradient's "no trick questions" rule — nothing sprung on students
-      that wasn't taught.
+All four items are answered by artifacts that shipped after this file was written. M4 is `Ready`:
+four beats, two cohort rounds, seven findings closed ([[F-004]], [[F-005]], [[F-006]]).
+
+### What a student can do — per MLO
+
+- **MLO 4.1** — Given a scene with a category and a score, write a `switch` with at least three
+  `case`s plus a `default`, and an `if` / `else if` / `else` chain with at least three branches,
+  and explain why `break` is needed in the first and not the second.
+- **MLO 4.2** — Write one compound condition using `&&`, `||`, or `!` that changes the outcome for
+  at least one input, and say in plain words which combination it selects for.
+- **MLO 4.3** — Both directions. Draw a flowchart before coding and produce code matching it; and,
+  given code never seen before, recover its flowchart with the right number of decision diamonds.
+
+### Which artifact measures each MLO
+
+| MLO | Learn | Practice | Apply | Assess |
+|---|---|---|---|---|
+| **4.1** | `learn.md` — the `if` ladder and the `switch` | exit ticket Items 1, 4, 5 | Apply Stages 2–3 | **C tier** — both structures required |
+| **4.2** | `learn.md` — the logic-operator section | exit ticket Item 7 | Apply Stage 4 (`&&`) | **B tier** — one compound condition |
+| **4.3** | the flowchart-first framing | flowchart items | Apply's design-first opening | **A tier** (forward) + **Badge** (reverse) |
+
+### MLO 4.3's "recover a flowchart from existing code" half — answered
+
+**It lives at Badge.** `assess-lab.md`'s Badge item 1 is *"A recovered flowchart (the reverse
+direction)… read the code, recover the diagram,"* against a temperature classifier the student has
+never seen. It is deliberately **not** the dungeon: a familiar gatekeeper would let a student answer
+from memory instead of from the code. Its snippet is now a gated source
+(`code/assess-badge-reverse.cpp`, added in #44), so the thing being recovered is a program that
+actually compiles.
+
+The item's two candidate homes were "a Practice exit-ticket item, or an Assess-tier requirement."
+Assess won, and Badge specifically — reverse recovery is documentation work, which is what the
+Badge tier is for.
+
+### The MLO 4.2 / 4.1 tier boundary — answered
+
+**4.1 first appears at C; 4.2 first appears at B.** Verbatim from the lab:
+
+- **C tier** — *"A `switch` on the category input with at least three `case`s"* and *"an `if` /
+  `else if` / `else` chain with at least three branches."*
+- **B tier** — *"One compound condition using `&&`, `||`, or `!` that actually changes"* the outcome.
+
+That ordering satisfies the no-trick-questions rule: the compound condition is taught in Learn, typed
+in Apply Stage 4, and only *required* one tier above the baseline. Nothing is sprung.
