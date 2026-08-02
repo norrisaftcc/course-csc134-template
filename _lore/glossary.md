@@ -18,3 +18,6 @@ One line per term. Add on first use; point to where it's defined.
 - **The wall** — `_lore/`; marks go on it daily.
 - **Mail Run** — 134's submission loop, pull → commit → push: check the mailbox, box it and write the label (the commit message), hand it to the carrier and check the tracking (ADR-003).
 - **Exit ticket (134 sense)** — completion-gated comprehension checkpoint (predict/classify/trace). NOT the weekly *reflection* instrument other program courses call by the same name — imports get renamed (ADR-003).
+- **Compile gate / markdown gate** — the two enforcers of bar #1: `compile-gate.sh` builds each `.cpp` on GCC (ADR-014); `markdown-gate.sh` proves each fenced listing is a faithful view of one (ADR-015). Neither is sufficient alone.
+- **Editorial gate** — the instrument for bar #2 (readability): `editorial-gate.sh` scores reading grade and sentence length on student-facing prose, STE-100-derived, advisory by default (ADR-016).
+- **The seam (M4→M5)** — the M4 gatekeeper grown a loop: same decision, dropped into a do/while menu as one action, with `return 0`→`continue` and a cin-validation loop. Frozen in `_contracts/m5_menu.cpp`.

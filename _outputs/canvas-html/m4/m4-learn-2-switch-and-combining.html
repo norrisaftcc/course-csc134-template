@@ -11,8 +11,7 @@
 
 <p style="margin:0 0 1.2rem;">A chain of else-ifs comparing the <em>same</em> variable against a list of <em>exact</em> values gets noisy fast. When you are matching one whole number against fixed choices — a menu, a class number — <strong>switch</strong> says it more cleanly. The gatekeeper's first question is exactly this shape.</p>
 
-<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">// learn-gate-class.cpp — Stage B
-#include &lt;iostream&gt;
+<pre style="margin:0 0 1.2rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">#include &lt;iostream&gt;
 using namespace std;
 
 int main()
@@ -94,8 +93,7 @@ if (!isLocked)</pre>
 
 <p style="margin:0 0 1.2rem;"><strong>Predict first.</strong> The player is a <strong>Rogue</strong>, strength <strong>55</strong>, and answers <strong>1</strong> — yes, they have a lockpick. Which single line of outcome prints? Decide before you read past the code.</p>
 
-<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">// learn-gate-full.cpp — Stage C (abridged; full file in code/)
-    bool hasLockpick = false;
+<pre style="margin:0 0 1.4rem;padding:.85rem 1rem;background-color:#F4F6F7;color:#16191D;border-left:2px solid #DFE3E8;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.5;overflow-x:auto;">    bool hasLockpick = false;
     if (characterClass == 3)          // nested: only a Rogue is asked
     {
         int answer = 0;               // 1 = yes, anything else = no
