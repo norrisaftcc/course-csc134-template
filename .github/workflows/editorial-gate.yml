@@ -1,0 +1,73 @@
+name: Editorial gate
+
+# Mechanical quality bar #2 — "10th-grade readability on all student-facing prose
+# (code excluded). Complexity lives in the problem, never in the sentence
+# describing it."  -- CLAUDE.md
+#
+# A SEPARATE WORKFLOW FROM THE COMPILE GATE, ON PURPOSE (ADR-015 §8's logic, one
+# level up). Bar #1 is compiler behaviour; bar #2 is prose. Folding readability
+# into "Compile gate" would blur two signals that fail for unrelated reasons and
+# are owned by different people (compile-warden vs Linx).
+#
+# ADVISORY BY DEFAULT (ADR-016). Readability formulas are proxies; a syllable
+# heuristic must not veto a warm, correct sentence at grade 10.2. So the gate
+# reports a grade per file and names the longest sentences, and the human keeps
+# the call. It is made enforcing here on ONE thing only: the grade, at the loose
+# target+band (12.0 — two full grades of slack over the bar's 10). Student warm
+# prose scores grade 5–8, so this catches a genuine breakdown, not editorial
+# nuance. The sentence-length lint stays advisory: it has false positives (quiz
+# options, answer-key metadata) and its job is to point Linx at candidates.
+#
+# Runs on ubuntu-latest with the stock Python 3 — no packages, so a laptop run
+# and a CI run give the same number (ADR-014 §4).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      search_paths:
+        description: 'Which trees/files to score'
+        type: string
+        default: 'modules'
+      target_grade:
+        description: 'Target reading grade (flag above target + 2.0)'
+        type: string
+        default: '10.0'
+      fail_on_grade:
+        description: 'Fail the build when a file is above the band'
+        type: boolean
+        default: true
+      fail_on_long_sentence:
+        description: 'Fail the build on any over-cap sentence (noisy — off by default)'
+        type: boolean
+        default: false
+
+jobs:
+  editorial:
+    name: readability (bar #2)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record the toolchain
+        run: python3 --version
+
+      - name: Self-test — prove the gate passes and fails correctly
+        # A gate that cannot fail is not a gate (ADR-014). The editorial gate ships
+        # advisory, so its failure paths live behind FAIL_ON_GRADE and
+        # FAIL_ON_LONG_SENTENCE — five fixtures prove each fires when it should and
+        # stays quiet when it should, including that code is stripped before scoring.
+        run: bash .github/scripts/selftest/editorial/run.sh
+
+      - name: Run the editorial gate
+        # Enforcing on grade at the loose band; sentence-length advisory. An
+        # explicit manual dispatch can turn either dial.
+        env:
+          SEARCH_PATHS: ${{ inputs.search_paths || 'modules' }}
+          TARGET_GRADE: ${{ inputs.target_grade || '10.0' }}
+          FAIL_ON_GRADE: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_grade == false) && '0' || '1' }}
+          FAIL_ON_LONG_SENTENCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.fail_on_long_sentence == true) && '1' || '0' }}
+        run: bash .github/scripts/editorial-gate.sh

@@ -126,7 +126,12 @@ Environment variables, locally and as `workflow_dispatch` inputs in the Actions 
 | `FAIL_ON_WARNING` | `1` | compile gate |
 | `FAIL_ON_UNANNOTATED` | `1` | markdown gate |
 | `GATED_PATHS` | `_contracts modules` | markdown gate — trees the compile gate covers |
-| `VERBOSE` | `0` | both |
+| `TARGET_GRADE` | `10.0` | editorial gate — flag files above target + 2.0 |
+| `MAX_SENTENCE_WORDS` | `30` | editorial gate — STE-100-derived sentence cap |
+| `SKIP_META` | `1` | editorial gate — skip `_`-prefixed planning files |
+| `FAIL_ON_GRADE` | `0` | editorial gate — advisory by default (ADR-016) |
+| `FAIL_ON_LONG_SENTENCE` | `0` | editorial gate — advisory by default |
+| `VERBOSE` | `0` | all three |
 
 ## Do not trust a local run on macOS
 
@@ -143,7 +148,7 @@ everywhere.
 
 ## The self-tests
 
-A gate that cannot fail is not a gate, so both prove they still bite, on every run:
+A gate that cannot fail is not a gate, so each proves it still bites, on every run:
 
 ```bash
 # the markdown gate: 10 fixtures, one per behaviour
@@ -155,13 +160,58 @@ SEARCH_PATHS=.github/scripts/selftest/must-warn.cpp bash .github/scripts/compile
 # the EXPECT-ERROR marker, both directions
 SEARCH_PATHS=.github/scripts/selftest/markers/expect-error-ok       bash .github/scripts/compile-gate.sh  # passes
 SEARCH_PATHS=.github/scripts/selftest/markers/expect-error-violated bash .github/scripts/compile-gate.sh  # fails
+
+# the editorial gate: 5 fixtures (advisory, so its failures live behind the dials)
+bash .github/scripts/selftest/editorial/run.sh
 ```
 
-The markdown fixtures matter more than usual right now: M4 ships **unmigrated**, so on
-day one the convention gets no exercise from real material at all.
+The markdown fixtures mattered more than usual at first: M4 shipped **unmigrated**, so
+on day one the convention got no exercise from real material. As of the issue #30
+migration, all 45 blocks in `modules/m4` and `modules/m5` are gated and green.
+
+---
+
+# Bar #2 — the editorial gate
+
+Mechanical quality bar #2 says:
+
+> 10th-grade readability on all **student-facing prose** (code excluded). Complexity
+> lives in the problem, never in the sentence describing it.
+
+Bar #1 had two gates; bar #2 had a human who vouched. `editorial-gate.sh` gives that
+pass an instrument — the same state bar #1 was in before F-009 shipped four false
+claims inside a module certified Ready. See
+[ADR-016](../../_lore/decisions/ADR-016-editorial-gate-ste100-derived.md).
+
+| Script | Question it answers | Compiles? |
+|---|---|---|
+| `editorial-gate.sh` | Does this page read at grade level, in short sentences? | no |
+
+```bash
+bash .github/scripts/editorial-gate.sh          # advisory: prints a grade table
+```
+
+It is **STE-100-derived, not adopted whole**: it takes the readability-serving parts of
+Simplified Technical English (short sentences, a bounded grade) and deliberately leaves
+the parts — article mandates, gerund bans, an approved-word dictionary — that would sand
+off the course's warm "GameFAQs register" voice. It measures length and grade, nothing
+that has a voice.
+
+It **defaults to advisory** (ADR-016): a syllable heuristic must not veto a warm, correct
+sentence at grade 10.2, so it reports and lets Linx keep the call. CI makes it enforcing
+on one thing only — the grade, at the loose `target + 2.0` band (12.0) — which student
+prose (grade 5–8) clears with room to spare, so it catches a breakdown, not a nuance. The
+sentence-length lint stays advisory.
+
+It scores **prose only**: frontmatter, fenced code, Mermaid, inline `code`, HTML, tables,
+and headings are stripped first — counting a `for` loop as a sentence is the readability
+analog of "diffing text no student ever sees" (ADR-015). `_`-prefixed planning files are
+skipped by default (`SKIP_META=1`); they are builder notes, not student prose.
 
 ## Related lore
 
 - [ADR-014](../../_lore/decisions/ADR-014-compile-gate-runs-on-gcc-in-ci.md) — the gate runs GCC in CI, and CI is the authority
 - [ADR-015](../../_lore/decisions/ADR-015-markdown-blocks-mirror-gated-source.md) — fenced blocks mirror a gated source file
+- [ADR-016](../../_lore/decisions/ADR-016-editorial-gate-ste100-derived.md) — the STE-100-derived editorial gate for bar #2
 - [F-013](../../_lore/findings/F-013-markdown-blocks-are-unversioned-copies.md) — why identity and not similarity
+- [F-014](../../_lore/findings/F-014-m4-m5-hardening.md) — issue #30 migration, seam verification, editorial baseline
