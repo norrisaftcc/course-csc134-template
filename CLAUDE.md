@@ -13,8 +13,12 @@ spine disagree, the spine wins and the disagreement gets an ADR.
 
 ## Mechanical quality bars (no exceptions)
 
-Every deliverable clears all of these. Bars 1–4 now have instruments in CI; the
-rest are enforced by review. A PR that fails any is not done.
+Every deliverable clears all of these. Bars #1, #2 and #10 have instruments in
+CI; the rest are enforced by review. A PR that fails any is not done.
+
+> **The numbers are load-bearing.** `_lore/`, the ADRs, and a CI job name all
+> cite these bars by number (`readability (bar #2)`, "bar #9" for staged builds).
+> Never renumber an existing bar — append a new one at the end, as #10 was.
 
 1. **Clean compile.** Every C++ source in every artifact builds under
    `g++ -std=c++17 -Wall -Wextra` with **zero warnings and zero errors**. Not
@@ -27,33 +31,17 @@ rest are enforced by review. A PR that fails any is not done.
    students' compiler runs: `bash .github/scripts/compile-gate.sh`, or read the
    CI result. **Never assert compiler _silence_ from a macOS run** — quoting
    output is safe, promising there was none is not.
-2. **Fenced blocks are views of gated source** (ADR-015). A ` ```cpp ` block in
-   Markdown is not source — it is a view of a gated `.cpp`, and it must say so on
-   the fence info-string: `source=<path>` for a whole file, `excerpt=<path>` for
-   part of one. Matching is exact text, comments included; the only softener is a
-   `// ...` elision line. No line numbers, no skip, no mute. Write the `.cpp`
-   first, then quote it; `bash .github/scripts/markdown-gate.sh` checks the rest.
-   Broken-on-purpose code is an `excerpt=` of a file marked
-   `// GATE: EXPECT-WARNING` or `// GATE: EXPECT-ERROR` — **assertions, not
-   mutes**: a marked file that stops misbehaving fails the gate.
-3. **The repo's claims about itself are checked too** (`lpaa-gate.sh`, blocking
-   since 2026-08-01; F-019). Six false status claims shipped in one week before
-   this existed. Three things it makes non-optional:
-   - **Frontmatter.** Every beat file carries `module:` matching its directory
-     (`M4`) and `lpaa_beat:` matching its filename (`Learn` / `Practice` /
-     `Apply` / `Assess`). Missing frontmatter is a failure, not a warning.
-   - **Status and file set agree, in both directions.** `modules/MODULES.md`
-     holds the status table the gate parses. Shipping a beat without bumping the
-     module's status fails; so does bumping the status before the files exist.
-     Landing a beat means editing that table **in the same PR**. And no
-     `NOT YET AUTHORED` survives inside a `Built` or `Ready` module (F-014 §5) —
-     retarget the stub banner when its lab lands.
-   - **Audience boundary** (ADR-017, F-018). Apply beats are written *to the
-     student*. Instructor-only material stays in the same file but below a
-     heading containing the literal phrase **`not part of the student handout`**,
-     and every instructor marker sits under it. A student-facing beat never names
-     `practice-exit-ticket-key.md`.
-4. **10th-grade readability** on all student-facing prose (code excluded).
+   **Fenced blocks count too, and have their own gate** (ADR-015). A ` ```cpp `
+   block in Markdown is not source — it is a view of a gated `.cpp`, and it must
+   say so on the fence info-string: `source=<path>` for a whole file,
+   `excerpt=<path>` for part of one. Matching is exact text, comments included;
+   the only softener is a `// ...` elision line. No line numbers, no skip, no
+   mute. Write the `.cpp` first, then quote it;
+   `bash .github/scripts/markdown-gate.sh` checks the rest. Broken-on-purpose
+   code is an `excerpt=` of a file marked `// GATE: EXPECT-WARNING` or
+   `// GATE: EXPECT-ERROR` — **assertions, not mutes**: a marked file that stops
+   misbehaving fails the gate.
+2. **10th-grade readability** on all student-facing prose (code excluded).
    Complexity lives in the *problem*, never in the sentence describing it. Linx
    owns the readability pass — and now has an instrument, `editorial-gate.sh`
    (STE-100-derived: it takes short sentences and a bounded grade, and leaves the
@@ -65,38 +53,55 @@ rest are enforced by review. A PR that fails any is not done.
    lint stays advisory and just points Linx at candidates. It scores prose only:
    frontmatter, code, Mermaid, tables, and headings are stripped first, and
    `_`-prefixed planning files are skipped as builder notes.
-5. **Single-file convention.** No multi-file projects. **Its form is
+3. **Single-file convention.** No multi-file projects. **Its form is
    module-dependent:** before M6, everything lives in `main` — no functions, no
    prototypes (the "pre-M6 incomplete form"). From M6 on, the full shape:
    prototypes at top, `main` in the middle, definitions at the bottom. Do not
    use functions in M2–M5 material; they are not taught yet.
-6. **Four-word error taxonomy, used consistently.** The only names for errors:
+4. **Four-word error taxonomy, used consistently.** The only names for errors:
    **Syntax** ("broke the grammar"), **Static semantic** ("grammar fine, meaning
    impossible"), **Runtime** ("ran, then fell over"), **Logic** ("did what you
    said, not what you meant"). Use these words; do not coin synonyms.
-7. **Mermaid renders.** All flowcharts are Mermaid-in-Markdown (renders natively
+5. **Mermaid renders.** All flowcharts are Mermaid-in-Markdown (renders natively
    on GitHub, reuses the M1 skill). Verify the diagram actually renders — a
    broken ` ```mermaid ` block is a failed deliverable.
-8. **Rubrics descend from the four columns.** Every lab rubric inherits
+6. **Rubrics descend from the four columns.** Every lab rubric inherits
    `_contracts/rubric-template.md`: **Correctness / Completeness / Format /
    Submission** × **C / B / A / Badge**. Column one is **Correctness** (ADR-002,
    never "Precision"). No new columns, no hidden criteria.
-9. **No trick questions.** Stated policy. Assessments verify the objectives, not
+7. **No trick questions.** Stated policy. Assessments verify the objectives, not
    stamina or lawyer-reading. Exit tickets are low-stakes and completion-gated.
-10. **Stay on the Make gradient.** Apply-beat scaffolding shifts by module:
-    **M2–M4 type-in 100%**, **M5–M7 finish-the-80%**, **M8 spec-only**. Build the
-    beat at its module's position; do not hand M4 a spec or M7 a full type-in.
-11. **Staged builds.** Demos and instructor examples build in stages; each stage
-    compiles and runs standalone, so complexity accumulates visibly. Mark the
-    stages in comments. A stage is **a shorter whole program, not a slice of the
-    final one** — so each stage is its own gated file (`apply-stage1-*.cpp`,
-    `apply-stage2-*.cpp`, …) and this bar is actually checked.
+8. **Stay on the Make gradient.** Apply-beat scaffolding shifts by module:
+   **M2–M4 type-in 100%**, **M5–M7 finish-the-80%**, **M8 spec-only**. Build the
+   beat at its module's position; do not hand M4 a spec or M7 a full type-in.
+9. **Staged builds.** Demos and instructor examples build in stages; each stage
+   compiles and runs standalone, so complexity accumulates visibly. Mark the
+   stages in comments. A stage is **a shorter whole program, not a slice of the
+   final one** — so each stage is its own gated file (`apply-stage1-*.cpp`,
+   `apply-stage2-*.cpp`, …) and this bar is actually checked.
+10. **The repo's claims about itself are true** (`lpaa-gate.sh`, blocking since
+    2026-08-01; F-019). The newest bar — six false status claims shipped in one
+    week before it existed. Three things it makes non-optional:
+    - **Frontmatter.** Every beat file carries `module:` matching its directory
+      (`M4`) and `lpaa_beat:` matching its filename (`Learn` / `Practice` /
+      `Apply` / `Assess`). Missing frontmatter is a failure, not a warning.
+    - **Status and file set agree, in both directions.** `modules/MODULES.md`
+      holds the status table the gate parses. Shipping a beat without bumping the
+      module's status fails; so does bumping the status before the files exist.
+      Landing a beat means editing that table **in the same PR**. And no
+      `NOT YET AUTHORED` survives inside a `Built` or `Ready` module (F-014 §5) —
+      retarget the stub banner when its lab lands.
+    - **Audience boundary** (ADR-017, F-018). Apply beats are written *to the
+      student*. Instructor-only material stays in the same file but below a
+      heading containing the literal phrase **`not part of the student handout`**,
+      and every instructor marker sits under it. A student-facing beat never
+      names `practice-exit-ticket-key.md`.
 
 ### Run the gates before you push
 
-Four gates in two workflows, all running on every PR. Bar #1's three live in
-`compile-gate.yml` as separate jobs; bar #2's readability gate is its own
-workflow (`editorial-gate.yml`) **on purpose** — compiler behaviour and prose
+Four gates in two workflows, all running on every PR. The compile, markdown and
+LPAA gates are three jobs inside `compile-gate.yml`; the editorial gate is its
+own workflow (`editorial-gate.yml`) **on purpose** — compiler behaviour and prose
 fail for unrelated reasons and are owned by different people, so folding them
 together would blur two signals:
 
@@ -178,7 +183,7 @@ silent edit. See `_contracts/README.md`.
   HTML lands here, never in `modules/`. Never hand-edit a file in `_outputs/`: edit the
   Markdown source and re-emit, or the change is lost on the next build — after surviving
   just long enough to be believed. Committed so formatting churn is reviewable in a diff.
-- `.github/scripts/` — the three gates and their self-tests. Read its README
+- `.github/scripts/` — the four gates and their self-tests. Read its README
   before changing anything that runs in CI.
 - `assignments/` — **frozen legacy tree** (ADR-008). `modules/` is the only build
   target; never scaffold into `assignments/`. Ports out of it land per-module,
