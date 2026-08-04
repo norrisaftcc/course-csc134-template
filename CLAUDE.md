@@ -13,9 +13,8 @@ spine disagree, the spine wins and the disagreement gets an ADR.
 
 ## Mechanical quality bars (no exceptions)
 
-Every deliverable clears all of these. Bars 1–3 are enforced mechanically by CI
-and the compile-warden; the rest are enforced by review. A PR that fails any is
-not done.
+Every deliverable clears all of these. Bars 1–4 now have instruments in CI; the
+rest are enforced by review. A PR that fails any is not done.
 
 1. **Clean compile.** Every C++ source in every artifact builds under
    `g++ -std=c++17 -Wall -Wextra` with **zero warnings and zero errors**. Not
@@ -56,7 +55,16 @@ not done.
      `practice-exit-ticket-key.md`.
 4. **10th-grade readability** on all student-facing prose (code excluded).
    Complexity lives in the *problem*, never in the sentence describing it. Linx
-   owns the readability pass.
+   owns the readability pass — and now has an instrument, `editorial-gate.sh`
+   (STE-100-derived: it takes short sentences and a bounded grade, and leaves the
+   article mandates and approved-word dictionary that would sand off the voice).
+   **Mostly advisory on purpose:** a syllable heuristic must not veto a warm,
+   correct sentence at grade 10.2. CI enforces one thing — the grade, at the loose
+   `target + 2.0` band (12.0), which student prose at grade 5–8 clears easily — so
+   a failure means a genuine breakdown, not editorial nuance. The sentence-length
+   lint stays advisory and just points Linx at candidates. It scores prose only:
+   frontmatter, code, Mermaid, tables, and headings are stripped first, and
+   `_`-prefixed planning files are skipped as builder notes.
 5. **Single-file convention.** No multi-file projects. **Its form is
    module-dependent:** before M6, everything lives in `main` — no functions, no
    prototypes (the "pre-M6 incomplete form"). From M6 on, the full shape:
@@ -86,14 +94,22 @@ not done.
 
 ### Run the gates before you push
 
-Three gates, three jobs, one workflow (`.github/workflows/compile-gate.yml`) —
-all blocking on every PR. They compose; nothing exempts an artifact from any:
+Four gates in two workflows, all running on every PR. Bar #1's three live in
+`compile-gate.yml` as separate jobs; bar #2's readability gate is its own
+workflow (`editorial-gate.yml`) **on purpose** — compiler behaviour and prose
+fail for unrelated reasons and are owned by different people, so folding them
+together would blur two signals:
 
 ```bash
 bash .github/scripts/compile-gate.sh    # zero warnings under the student toolchain
 bash .github/scripts/markdown-gate.sh   # every cpp fence declares source= / excerpt=
 bash .github/scripts/lpaa-gate.sh       # frontmatter, status, stubs, audience boundary
+bash .github/scripts/editorial-gate.sh  # reading grade + sentence length (advisory locally)
 ```
+
+The editorial gate is advisory locally and enforcing on grade only in CI; the
+other three are blocking everywhere. Stock Python 3, no packages — so a laptop
+run and a CI run give the same number.
 
 Scope a fast loop with `SEARCH_PATHS=modules/m6 bash .github/scripts/compile-gate.sh`
 (it takes directories or single files). Exit `2` means a configuration problem —
@@ -259,8 +275,12 @@ Two amendments worth knowing:
   make, record it as an open question for a human ruling. **ADR-013 is reserved
   and deliberately unwritten** (the Haiku persona ruling, issue #23) — ADR-014,
   015, and 017 each carry a note saying they skipped it rather than take it.
-  Findings numbering has the same texture: F-011 and F-012 do not exist and
-  F-009 has two files. Check `ls _lore/decisions/` before you number anything.
+  **`ls _lore/decisions/` before you number anything**, and re-check after a
+  merge: numbering here is contested in practice, not just in principle. Live
+  proof — **two different ADR-016s exist right now** (`breadth-first-pass` and
+  `editorial-gate-ste100-derived`), authored on parallel branches that each read
+  a tree where 016 was free. Findings have the same texture: F-011 and F-012 do
+  not exist, F-009 has two files, and two different F-014s are in play.
 
 ---
 
