@@ -136,7 +136,7 @@ Environment variables, locally and as `workflow_dispatch` inputs in the Actions 
 | `MODULES_INDEX` | `modules/MODULES.md` | LPAA gate — where the status table lives |
 | `MODULES_ROOT` | `modules` | LPAA gate — the module tree to walk |
 | `LORE_ROOT` | `_lore` | LPAA gate — the lore tree, for `lore-numbers` |
-| `VERBOSE` | `0` | all three |
+| `VERBOSE` | `0` | compile, markdown, editorial — **not** the LPAA gate, which has no verbose mode |
 
 ## The entry points
 

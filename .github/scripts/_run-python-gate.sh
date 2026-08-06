@@ -29,9 +29,14 @@ run_python_gate() {
 
   cd "$(git rev-parse --show-toplevel 2>/dev/null || echo .)" || exit 2
 
+  # The `python` fallback must be version-checked. Every gate .py is python3-shebanged
+  # and lpaa-gate.py uses f-strings, so running one under Python 2 dies with a
+  # SyntaxError instead of the message below — the script would break its own promise
+  # at exactly the moment the promise matters.
   local py
   for py in python3 python; do
-    if command -v "$py" >/dev/null 2>&1; then
+    if command -v "$py" >/dev/null 2>&1 &&
+       "$py" -c 'import sys; sys.exit(0 if sys.version_info[0] >= 3 else 1)' 2>/dev/null; then
       exec "$py" ".github/scripts/$script" "$@"
     fi
   done
