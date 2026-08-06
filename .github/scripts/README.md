@@ -131,7 +131,22 @@ Environment variables, locally and as `workflow_dispatch` inputs in the Actions 
 | `SKIP_META` | `1` | editorial gate — skip `_`-prefixed planning files |
 | `FAIL_ON_GRADE` | `0` | editorial gate — advisory by default (ADR-016) |
 | `FAIL_ON_LONG_SENTENCE` | `0` | editorial gate — advisory by default |
-| `VERBOSE` | `0` | all three |
+| `STRICT` | `0` | LPAA gate — report locally, enforcing in CI |
+| `ONLY` | *(all)* | LPAA gate — run a subset, e.g. `ONLY=boundary,stale-stub` |
+| `MODULES_INDEX` | `modules/MODULES.md` | LPAA gate — where the status table lives |
+| `MODULES_ROOT` | `modules` | LPAA gate — the module tree to walk |
+| `LORE_ROOT` | `_lore` | LPAA gate — the lore tree, for `lore-numbers` |
+| `VERBOSE` | `0` | compile, markdown, editorial — **not** the LPAA gate, which has no verbose mode |
+
+## The entry points
+
+The three Python gates share one mechanism — find the repo root, find a Python, exec,
+fail loudly if there is none — in `_run-python-gate.sh`. Each wrapper keeps its own
+header comment, because that text is the gate's specification and `head -30` on the
+wrapper is how people actually read it. **The mechanism is shared; the specification is
+not.**
+
+`compile-gate.sh` is not a wrapper. It is the gate.
 
 ## Do not trust a local run on macOS
 
@@ -168,6 +183,43 @@ bash .github/scripts/selftest/editorial/run.sh
 The markdown fixtures mattered more than usual at first: M4 shipped **unmigrated**, so
 on day one the convention got no exercise from real material. As of the issue #30
 migration, all 45 blocks in `modules/m4` and `modules/m5` are gated and green.
+
+---
+
+# The LPAA gate — is what the repo says about itself true?
+
+The other gates ask whether the code is right. This one asks whether the repo's
+**claims about itself** are true — the class of defect that produced six false status
+claims in one week, none of which any other gate could see
+([F-019](../../_lore/findings/F-019-lpaa-content-gate.md)).
+
+| Script | Question it answers | Compiles? |
+|---|---|---|
+| `lpaa-gate.sh` | Are the repo's structural claims about itself true? | no |
+
+```bash
+bash .github/scripts/lpaa-gate.sh            # reports
+STRICT=1 bash .github/scripts/lpaa-gate.sh   # fails, as CI runs it
+```
+
+Seven checks. Six enforce; one reports.
+
+| Check | Asserts |
+|---|---|
+| `status-files` | `MODULES.md`'s status implies a file set — **asserted both ways**, so authoring past a `First pass` status fails too |
+| `frontmatter` | `module:` and `lpaa_beat:` agree with the path the file sits at |
+| `stale-stub` | no "NOT YET AUTHORED" inside a `Built` or `Ready` module |
+| `key-leak` | a student-facing beat never links its own answer key |
+| `boundary` | instructor content sits below a heading containing `not part of the student handout` (ADR-017) |
+| `lore-numbers` | one lore number, one file. Three pairs are grandfathered by ADR-018 and **that list must never grow** |
+| `open-questions` | **reports only** — whether a ruling closes an item is a human call, and a gate that guessed would either nag or lie |
+
+**`status-files` failing in both directions is the point.** A `First pass` module holding
+a lab is not a filing mistake; it is a status that went stale when somebody authored past
+it. A gate that only checked for *missing* files would have caught none of F-019's six.
+
+**The vocabulary is read from `MODULES.md`, not hard-coded** — a gate keeping its own copy
+of the status list becomes the next stale claim.
 
 ---
 

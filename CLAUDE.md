@@ -324,6 +324,8 @@ deliberately does not inline.
 | Rubric | `rubric-converter` (builds on the four columns) |
 | Voice / philosophy on any content | `course-content-writer` |
 | Canvas page / assignment HTML | `csc134-canvas-compositor` (ADR-012; output to `_outputs/`, never `modules/`) |
+| Turning a vague ask into a buildable spec | `the-algorithm-lite` — **provisional** stand-in for house style (ADR-019, expires 2026-11-04) |
+| Teaching that same floor test to students | `running-the-bases` (the teaching form; the operating form above wins on conflict) |
 
 Agents in `.claude/agents/` carry the roles. Named agents keep their capitals —
 **Linx** (readability, bar #2), **Liza** (theme and skin), **Kevin** (repo

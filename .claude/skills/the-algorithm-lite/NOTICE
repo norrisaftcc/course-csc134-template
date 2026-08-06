@@ -1,0 +1,75 @@
+the-algorithm-lite — provenance and attribution
+================================================
+
+Vendored 2026-08-06 into course-csc134-template as PROVISIONAL house style.
+See _lore/decisions/ADR-019-the-algorithm-lite-provisional-house-style.md.
+
+WHAT CAME FROM WHERE
+--------------------
+
+This package is a DERIVED work, not a copy. Be precise about which is which, because
+the whole point of the discipline it encodes is that claims about a document are
+checkable.
+
+  SKILL.md
+    Compressed by us from the v2 prose form (see reference/v2-full.md), applying that
+    document's own Self-hosting clause: "This document is subject to its own floor
+    test." The Invariants section is carried VERBATIM, per v2's own rule that no edit,
+    human or model, may paraphrase it. Everything cut was exposition, never
+    specification.
+
+    Measured with `wc -lwc`, both files, same method:
+        full   308 lines / 2,898 words / 18,567 bytes
+        lite   226 lines / 1,791 words / 11,040 bytes
+        40.5% fewer bytes, 38.2% fewer words.
+
+  reference/v2-full.md
+    The v2 prose form, copied unmodified.
+
+  The clearance ladder (RED / ORANGE / YELLOW / GREEN)
+    From upstream SKILL-mini.md, quoted from verbatim extracts. This concept is NOT
+    present in v2 — the mini is not a strict subset of the full, and an escalation from
+    lite to full would LOSE it. Recorded because it is the safety property that matters
+    most for small models.
+
+UPSTREAM
+--------
+
+  https://github.com/algocratic/the-algorithm-lite   (release/alpha)
+
+  MIT License
+  Copyright (c) 2026 teacherbot
+
+  The upstream LICENSE appends one line after the standard MIT text, preserved here as
+  part of that text:
+
+      Thank you for your cooperation. (This line is invariant.)
+
+WHAT WE COULD NOT VERIFY
+------------------------
+
+Upstream could not be fetched directly. `raw.githubusercontent.com` is denied by this
+session's egress policy (403 on CONNECT, recorded by the proxy), and the repository was
+not attached to the session. Everything sourced from upstream above came through a
+summarizing fetch that returned verbatim extracts on request but declined to return
+whole files.
+
+Consequences, stated so a later reader does not have to rediscover them:
+
+  - No upstream commit SHA is recorded. "Vendored from main" is unfalsifiable, and we
+    will not write a SHA we did not read.
+  - SKILL.md is NOT byte-comparable to upstream SKILL-mini.md and must not be diffed
+    against it as if it were. It is our compression of v2, which is a different
+    artifact reached by a different route.
+  - Upstream SKILL.md, registry/, bridge/BRIDGE.md and assay.py were never read.
+
+TO RECONCILE WITH UPSTREAM
+--------------------------
+
+Attach the repo to a session, then compare and record the SHA:
+
+    add_repo algocratic/the-algorithm-lite
+    diff <upstream SKILL-mini.md> .claude/skills/the-algorithm-lite/SKILL.md
+
+Expect real differences. The value of that diff is finding which rules upstream carries
+that our compression dropped — not making the files match.

@@ -27,13 +27,5 @@
 
 set -uo pipefail
 
-cd "$(git rev-parse --show-toplevel 2>/dev/null || echo .)" || exit 2
-
-for py in python3 python; do
-  if command -v "$py" >/dev/null 2>&1; then
-    exec "$py" .github/scripts/editorial-gate.py "$@"
-  fi
-done
-
-echo "FATAL: python3 not found. The editorial gate needs Python 3 (no packages)." >&2
-exit 2
+. "$(dirname "$0")/_run-python-gate.sh"
+run_python_gate editorial-gate.py "editorial" "$@"
