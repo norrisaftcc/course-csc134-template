@@ -9,6 +9,10 @@ spine disagree, the spine wins and the disagreement gets an ADR.
 > Building a specific beat? Load the matching **skill** first (see *Skill guild*
 > below). The skills carry the step-by-step; this file carries the invariants.
 
+House style, from `.github/instructions/`: check `_lore/invariants/` first for
+world state, then take the extreme-programming route — **the simplest thing that
+could work, and iterate.**
+
 ---
 
 ## Mechanical quality bars (no exceptions)
@@ -114,8 +118,13 @@ in one week, every one checkable, none visible to the other gates (F-019). Its
 checks: `status-files` (MODULES.md's status implies a file set — asserted **both
 ways**, so authoring past a `First pass` status fails too), `frontmatter`
 (`module:` and `lpaa_beat:` must agree with the path), `stale-stub` (no "NOT YET
-AUTHORED" inside a `Built`/`Ready` module), `key-leak`, `boundary`, and
-`open-questions` (reports only, never fails).
+AUTHORED" inside a `Built`/`Ready` module), `key-leak`, `boundary`,
+`lore-numbers` (one lore number, one file — ADR-018), and `open-questions`
+(reports only, never fails).
+
+**So when you author past a status, fix the status in the same PR** — all of it:
+`modules/MODULES.md`, the module's `_overview.md`, `_tracking/breadth-pass-ledger.md`,
+and any stub banner that the work just made false.
 
 **Every gate has self-tests, because a gate that cannot fail is not a gate:**
 
@@ -186,6 +195,10 @@ silent edit. See `_contracts/README.md`.
 - `m5_menu.cpp` — canonical M5 menu program; the M4 gatekeeper grown a loop
   (the M4→M5 seam). M6 refactors it into functions; M7 extends it.
 - `rubric-template.md` — the four-column × four-tier rubric every lab inherits.
+
+**Descoped, deliberately** (ADR-011): STL containers and File I/O are out of the
+alpha. M7 teaches arrays → structs → by-reference; classes are *named*, not
+taught. Do not reach for `std::vector` or `fstream` in student-facing material.
 
 ---
 
@@ -285,9 +298,15 @@ ADR number** when numbering is contested.
 Shape: ADRs are `ADR-NNN-slug.md`, Context → Decision → Consequences, ~1 page max.
 Findings are `F-NNN-slug.md`, transcript-cited. Cross-link with `[[wiki-style]]`
 refs. **Check the directory before taking a number** — `ADR-013` is reserved and
-unwritten, and two different decisions already share `ADR-016` (breadth-first
-pass, editorial gate) because two sessions took it at once. `F-009` and `F-014`
-collide the same way.
+unwritten.
+
+**Three numbers name two files each** (ADR-018): `ADR-016` (breadth-first pass,
+editorial gate), `F-009`, and `F-014`. They stand as history and are **cited by
+slug** — `[[ADR-016-editorial-gate-ste100-derived]]`, never a bare `ADR-016`.
+Numbers that name one file may still be cited bare. **They are the last three:**
+the LPAA gate's `lore-numbers` check fails any new collision, and that
+grandfather list must never grow — a fourth entry means the check was silenced
+rather than the number fixed.
 
 ---
 
@@ -317,6 +336,33 @@ role slugs: **compile-warden** (the mechanical gate — evidence, never opinions
 
 When in doubt: the spine decides *what*, the contracts fix the *shapes*, the
 skills carry the *how*, and this file holds the *invariants*.
+
+---
+
+## Decisions worth knowing before you start
+
+The full set is `_lore/decisions/`; these bite most often.
+
+| ADR | Ruling |
+|---|---|
+| 002 | Column one of every rubric is **Correctness**, never "Precision" |
+| 004 | Two-tier git workflow — student flow vs. build flow |
+| 008 | `modules/` is canonical; `assignments/` and `_past_work/` are frozen legacy |
+| 009 | `using namespace std;` is taught on purpose |
+| 011 | STL and File I/O are descoped from the alpha |
+| 012 | The Canvas compositor derives, never authors; output to `_outputs/` |
+| 014 | The compile gate runs GCC in CI, and **CI is the authority** |
+| 015 | Fenced blocks mirror a gated source file — `source=` / `excerpt=`, no skip |
+| 016 *(`-breadth-first-pass`)* | Breadth first: a Learn beat in every module before more depth |
+| 016 *(`-editorial-gate-ste100-derived`)* | An STE-100-derived editorial gate gives bar #2 an instrument (advisory) |
+| 017 | Apply beats are written to the student; instructor content sits behind the boundary |
+| 018 | Colliding lore numbers stand; citations disambiguate by slug |
+
+Findings that changed how the build works: **F-009** (a macOS "clean" is not a
+clean), **F-013** (Markdown blocks were unversioned copies), **F-018** (the Apply
+audience boundary), **F-019** (six false status claims in one week), **F-020**
+(the haiku ladder calibration — 30/30 clean, zero variance, and two material gaps
+no gate can see).
 
 ## Copilot CI triage guardrail
 

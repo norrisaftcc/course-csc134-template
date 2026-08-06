@@ -39,6 +39,8 @@ THE CHECKS
   5  boundary        Instructor content sits behind a declared boundary heading.
   6  open-questions  `- [ ]` items are reported for review against _lore/decisions/.
                      REPORT ONLY -- whether a ruling closes an item is a human call.
+  7  lore-numbers    One lore number, one file. Three known pairs are grandfathered
+                     by ADR-018; a fourth collision is a build break.
 
 ---------------------------------------------------------------------------
 THE DIALS
@@ -46,6 +48,7 @@ THE DIALS
 
     MODULES_INDEX=modules/MODULES.md   # where the status table lives
     MODULES_ROOT=modules               # the module tree to walk
+    LORE_ROOT=_lore                    # the lore tree to walk for check 7
     STRICT=1                           # exit nonzero on violations (default: 0)
     ONLY=status-files,boundary         # run a subset of checks
 
@@ -97,6 +100,15 @@ STATUS_REQUIRES = {
     "Built":      set(BEATS),
     "Ready":      set(BEATS),
 }
+
+LORE_ROOT = os.environ.get("LORE_ROOT", "_lore")
+
+# ADR-018: three numbers name two files each, they stand, and they are the LAST.
+# Every one was two sessions taking the same number on the same day without
+# seeing each other. This list is history, not policy -- it must never grow. A
+# fourth entry means someone silenced the check instead of picking a free number.
+GRANDFATHERED_LORE_NUMBERS = {"ADR-016", "F-009", "F-014"}
+LORE_FILE = re.compile(r"^(ADR|F)-(\d{3})-(.+)\.md$")
 
 BOUNDARY_HEADING = "not part of the student handout"
 # Phrases that only ever address an instructor. Deliberately narrow: this gate
@@ -295,12 +307,44 @@ def check_open_questions(index, found, report):
                         (f"{p}:{i}", line.strip()[:96]))
 
 
+def check_lore_numbers(index, found):
+    """7 — one number, one file (ADR-018).
+
+    Cheapest check in the gate and the one with the clearest cause: every
+    collision in this repo was two sessions taking the same number on the same
+    day, neither able to see the other's branch. The gate cannot stop the race;
+    it can refuse to let the result land.
+
+    The three known pairs are grandfathered by ADR-018 and cited by slug. This
+    check exists so they stay the only three.
+    """
+    for sub in ("decisions", "findings"):
+        d = Path(LORE_ROOT) / sub
+        if not d.is_dir():
+            continue
+        by_number = {}
+        for p in sorted(d.glob("*.md")):
+            m = LORE_FILE.match(p.name)
+            if m:
+                by_number.setdefault("%s-%s" % (m.group(1), m.group(2)), []).append(p)
+        for number, paths in sorted(by_number.items()):
+            if len(paths) < 2 or number in GRANDFATHERED_LORE_NUMBERS:
+                continue
+            found.append(Finding(
+                "lore-numbers", str(paths[0].parent),
+                "%s names %d files: %s" % (number, len(paths),
+                                           ", ".join(p.name for p in paths)),
+                "Take the next free number. ADR-018 grandfathers %s and nothing else."
+                % ", ".join(sorted(GRANDFATHERED_LORE_NUMBERS))))
+
+
 CHECKS = [
     ("status-files",   check_status_files),
     ("frontmatter",    check_frontmatter),
     ("stale-stub",     check_stale_stub),
     ("key-leak",       check_key_leak),
     ("boundary",       check_boundary),
+    ("lore-numbers",   check_lore_numbers),
 ]
 
 
@@ -308,6 +352,7 @@ def main():
     print("%sCSC-134 LPAA content gate%s" % (BOLD, OFF))
     print("  index        : %s" % MODULES_INDEX)
     print("  module tree  : %s" % MODULES_ROOT)
+    print("  lore tree    : %s" % LORE_ROOT)
     print("  mode         : %s" % ("ENFORCING (violations fail)" if STRICT
                                    else "reporting only (STRICT=1 to enforce)"))
     print("  checks       : does the repo's structure match what it CLAIMS")
