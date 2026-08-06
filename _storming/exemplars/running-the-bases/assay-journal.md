@@ -87,3 +87,55 @@ gates are documented and four are shipped.
 **Prediction, recorded before the work so it can be wrong:** the reduction pass on this file
 will return `Cut: nothing.` and add the missing LPAA section instead. The document is below
 the floor by *absence*, not above it by padding — and a vague ask comes back longer.
+
+---
+
+## 003 — the reduction pass, and how entry 002 scored
+
+**2026-08-06 · written after the work**
+
+**The prediction held.** `.github/scripts/README.md`: `Cut: nothing.` — and **+52 lines**,
+being the LPAA gate's missing section, its five dials, and a note on the shared entry point.
+The document was below its floor by absence. It came back longer, as a below-floor document
+does.
+
+The real reduction was somewhere the assay had not looked:
+
+```
+Residue (the three .sh wrappers, before):
+- Find the repo root.
+- Find python3 or python.
+- Exec the matching .py with all arguments.
+- Print a fatal message and exit 2 if there is no Python.
+
+Evaporated: nothing. All three files carried the four steps above, byte-identical
+  except for one filename and one label.
+Operative sentence: line 12 of 12, in each of three files.
+Finding: above the floor · erosion direction none · duplication flagged, 3x.
+
+This is a finding, not a draft.
+```
+
+**What moved and what did not.** The mechanism went into `_run-python-gate.sh` — one copy,
+twelve lines. Every wrapper kept its **full header comment**, because those comments are the
+gate's specification: what it asks, which dials it takes, why it is shaped that way. Cutting
+them would have been the named failure — a cut that removes specification is damage.
+
+`head -30` on a wrapper is how people actually read a gate. Collapsing three headers into one
+shared block would have saved thirty more lines and cost every gate the ability to explain
+itself where it is invoked.
+
+**Net: −30 lines of mechanism, +52 lines of specification.** That is the shape of an honest
+compression pass, and it is the opposite of what "reduce complexity" sounds like it should
+produce. Complexity went down; the file count went up by one and the line count went up by
+twenty-two.
+
+**For the moonshot pile — the generalizable bit.** Two documents, two different failures, and
+the floor test told them apart before the work started:
+
+| | Symptom | The cut |
+|---|---|---|
+| `README.md` | below floor by **absence** | add — `Cut: nothing.` |
+| the three wrappers | above floor, **duplicated** | extract the mechanism, keep the spec |
+
+Neither is "too long." Length was never the variable, in either direction.
