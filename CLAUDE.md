@@ -306,12 +306,13 @@ deliberately does not inline.
 | Voice / philosophy on any content | `course-content-writer` |
 | Canvas page / assignment HTML | `csc134-canvas-compositor` (ADR-012; output to `_outputs/`, never `modules/`) |
 
-Agents in `.claude/agents/` carry the roles: **compile-warden** (the mechanical
-gate — evidence, never opinions), **linx** (readability, bar #2), **liza** (theme
-and skin), **kevin** (repo hygiene, the lore merge gate), **spine-owner**
-(contracts and acceptance criteria), **module-builder** (graduate-and-teach: take
-module N as a student, build N+1), **cohort-lead** (fresh-spawn synthetic
-students), **cadence-master** (the promotion cycle), **clive** (prompt integrity),
+Agents in `.claude/agents/` carry the roles. Named agents keep their capitals —
+**Linx** (readability, bar #2), **Liza** (theme and skin), **Kevin** (repo
+hygiene, the lore merge gate), **Clive** (prompt integrity) — and the rest are
+role slugs: **compile-warden** (the mechanical gate — evidence, never opinions),
+**spine-owner** (contracts and acceptance criteria), **module-builder**
+(graduate-and-teach: take module N as a student, build N+1), **cohort-lead**
+(fresh-spawn synthetic students), **cadence-master** (the promotion cycle),
 **program-advisor** (outward-facing rationale).
 
 When in doubt: the spine decides *what*, the contracts fix the *shapes*, the
