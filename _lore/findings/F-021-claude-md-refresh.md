@@ -72,7 +72,14 @@ editorial-gate  18 files, median grade 5.9, highest 8.3; 0 above the band       
 
 Re-run green after the merge resolution.
 
-## Open question — the numbering collision (for a human ruling)
+## The numbering collision — RULED 2026-08-06
+
+> **Closed by [[ADR-018-lore-numbers-disambiguate-by-slug]]:** option 2. The three
+> pairs stand as history and are cited by slug; nothing is renumbered and no
+> existing citation is swept. The gate grew a `lore-numbers` check the same day —
+> the third possibility named at the bottom of this section — so the grandfathered
+> three are the last three. The question below is kept as the reasoning that led
+> there.
 
 CLAUDE.md says: *do not grab an ADR number when numbering is contested.* It is
 contested, in three places:

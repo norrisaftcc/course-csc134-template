@@ -118,8 +118,9 @@ in one week, every one checkable, none visible to the other gates (F-019). Its
 checks: `status-files` (MODULES.md's status implies a file set — asserted **both
 ways**, so authoring past a `First pass` status fails too), `frontmatter`
 (`module:` and `lpaa_beat:` must agree with the path), `stale-stub` (no "NOT YET
-AUTHORED" inside a `Built`/`Ready` module), `key-leak`, `boundary`, and
-`open-questions` (reports only, never fails).
+AUTHORED" inside a `Built`/`Ready` module), `key-leak`, `boundary`,
+`lore-numbers` (one lore number, one file — ADR-018), and `open-questions`
+(reports only, never fails).
 
 **So when you author past a status, fix the status in the same PR** — all of it:
 `modules/MODULES.md`, the module's `_overview.md`, `_tracking/breadth-pass-ledger.md`,
@@ -297,9 +298,15 @@ ADR number** when numbering is contested.
 Shape: ADRs are `ADR-NNN-slug.md`, Context → Decision → Consequences, ~1 page max.
 Findings are `F-NNN-slug.md`, transcript-cited. Cross-link with `[[wiki-style]]`
 refs. **Check the directory before taking a number** — `ADR-013` is reserved and
-unwritten, and two different decisions already share `ADR-016` (breadth-first
-pass, editorial gate) because two sessions took it at once. `F-009` and `F-014`
-collide the same way.
+unwritten.
+
+**Three numbers name two files each** (ADR-018): `ADR-016` (breadth-first pass,
+editorial gate), `F-009`, and `F-014`. They stand as history and are **cited by
+slug** — `[[ADR-016-editorial-gate-ste100-derived]]`, never a bare `ADR-016`.
+Numbers that name one file may still be cited bare. **They are the last three:**
+the LPAA gate's `lore-numbers` check fails any new collision, and that
+grandfather list must never grow — a fourth entry means the check was silenced
+rather than the number fixed.
 
 ---
 
@@ -346,9 +353,10 @@ The full set is `_lore/decisions/`; these bite most often.
 | 012 | The Canvas compositor derives, never authors; output to `_outputs/` |
 | 014 | The compile gate runs GCC in CI, and **CI is the authority** |
 | 015 | Fenced blocks mirror a gated source file — `source=` / `excerpt=`, no skip |
-| 016 | Breadth first: a Learn beat in every module before more depth |
-| 016 | An STE-100-derived editorial gate gives bar #2 an instrument (advisory) |
+| 016 *(`-breadth-first-pass`)* | Breadth first: a Learn beat in every module before more depth |
+| 016 *(`-editorial-gate-ste100-derived`)* | An STE-100-derived editorial gate gives bar #2 an instrument (advisory) |
 | 017 | Apply beats are written to the student; instructor content sits behind the boundary |
+| 018 | Colliding lore numbers stand; citations disambiguate by slug |
 
 Findings that changed how the build works: **F-009** (a macOS "clean" is not a
 clean), **F-013** (Markdown blocks were unversioned copies), **F-018** (the Apply

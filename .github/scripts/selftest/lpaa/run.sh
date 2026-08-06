@@ -31,11 +31,19 @@ if [ ! -t 1 ] && [ -z "${GITHUB_ACTIONS:-}" ]; then BOLD=""; RED=""; GREEN=""; D
 
 fails=0
 
-# expect <must-pass|must-fail> <dir> <what it proves>
+# expect <must-pass|must-fail> <dir> <what it proves> [lore-dir]
+#
+# The module tree and the lore tree are separate dials, so each fixture tests one
+# thing. A module fixture points at `lore-clean` (no collisions) and a lore
+# fixture reuses `pass`'s module tree — otherwise a case named for the boundary
+# check could go red because someone took a duplicate ADR number, which is how a
+# self-test stops testing the thing it names.
 expect() {
-  local want="$1" dir="$2" what="$3" out rc
-  out="$(STRICT=1 MODULES_INDEX="$BASE/$dir/MODULES.md" MODULES_ROOT="$BASE/$dir/modules" \
-         $GATE 2>&1)"; rc=$?
+  local want="$1" dir="$2" what="$3" lore="${4:-lore-clean}" out rc mods
+  mods="$dir"
+  [ -d "$BASE/$dir/modules" ] || mods="pass"
+  out="$(STRICT=1 MODULES_INDEX="$BASE/$mods/MODULES.md" MODULES_ROOT="$BASE/$mods/modules" \
+         LORE_ROOT="$BASE/$lore" $GATE 2>&1)"; rc=$?
 
   if [ "$want" = "must-pass" ] && [ "$rc" -ne 0 ]; then
     printf '  %sBROKEN%s  %-20s expected PASS, got exit %d — %s\n' "$RED" "$OFF" "$dir" "$rc" "$what"
@@ -63,6 +71,8 @@ expect must-fail key-leak           "a student beat linking its own answer key i
 expect must-fail boundary-missing   "instructor content with no declared boundary is caught (F-018)"
 expect must-fail boundary-above     "an instructor block above the boundary is caught"
 expect must-pass boundary-ok        "the boundary heading does not flag itself — must-pass twin"
+expect must-fail lore-collision     "a fourth colliding lore number is caught (ADR-018)"        lore-collision
+expect must-pass lore-grandfathered "ADR-018's three known pairs do not fire — must-pass twin"  lore-grandfathered
 
 echo
 if [ "$fails" -gt 0 ]; then

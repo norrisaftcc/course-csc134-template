@@ -17,6 +17,23 @@ remembering, that fact goes in the PR description and Kevin gets to disagree.
 | `invariants/` | Canonical course or catalog text preserved verbatim | Exact-text snapshots for audit and drift checks |
 | `glossary.md` | Project vocabulary, one line per term | Term — definition — first-use pointer |
 
+## Numbers and citations
+
+**Check the directory before taking a number.** `ADR-013` is reserved and unwritten.
+
+Three numbers name two files each — `ADR-016`, `F-009`, `F-014` — because two sessions
+took the same number on the same day. [[ADR-018-lore-numbers-disambiguate-by-slug]] rules
+that they **stand as history and are cited by slug**:
+
+```
+[[ADR-016-editorial-gate-ste100-derived]]   ← unambiguous
+ADR-016                                      ← ambiguous; fine only for numbers
+                                               that name one file
+```
+
+They are the last three. The `lore-numbers` check in `lpaa-gate.sh` fails any new
+collision, and its grandfather list must never grow.
+
 ## Why ADR-lite
 
 PRISM canon: ORANGE banks ADRs. The fleet writing decision records is in-character for the
