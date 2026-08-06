@@ -98,6 +98,24 @@ Neither is the spec. The spec is what survives both.
 
 That is why the bases are a *test* and not a route: run them against whatever you produced, from whichever direction you came.
 
+## Where this came from, and its sibling
+
+The four nouns, the cut loop, the fixed gate question, and the clearance ladder are **not ours**.
+They come from The Algorithm — upstream at `algocratic/the-algorithm-lite` (MIT, © 2026
+teacherbot), vendored here as `the-algorithm-lite` (ADR-019, provisional).
+
+**This skill is the teaching form. `the-algorithm-lite` is the operating form.**
+
+| | This file | `the-algorithm-lite` |
+|---|---|---|
+| For | teaching the floor test | running it on real work |
+| Voice | course prose, worked example, the seam | terse; rules without the arguments |
+| Carries | the pseudocode/interview seam | the fixed strings, templates, PROVIDE/ASSAY |
+
+Use the operating form to build. Use this one to explain. **Neither is the other's summary** —
+if a rule here contradicts the invariants there, there wins, and the contradiction is a defect
+worth filing.
+
 ## Where this sits in the course
 
 - It is **not** a sixth prompt pattern. The five are Scaffold, Explain-Then-Generate, Refactor, Debug, Review. This is a floor test you apply *before* picking one.
