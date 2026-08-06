@@ -13,8 +13,9 @@ spine disagree, the spine wins and the disagreement gets an ADR.
 
 ## Mechanical quality bars (no exceptions)
 
-Every deliverable clears all of these. The compile-warden gates on them; a PR
-that fails any is not done.
+Every deliverable clears all of these. Four scripts gate bars #1, #2 and #10
+mechanically (see *The gates* below); the compile-warden owns the rest. A PR that
+fails any is not done.
 
 1. **Clean compile.** Every C++ block in every artifact builds under
    `g++ -std=c++17 -Wall -Wextra` with **zero warnings and zero errors**. Not
@@ -34,10 +35,15 @@ that fails any is not done.
    quote it; `bash .github/scripts/markdown-gate.sh` checks the rest. Broken-on-
    purpose code is an `excerpt=` of a file marked `// GATE: EXPECT-WARNING` or
    `EXPECT-ERROR` — assertions, not mutes: a marked file that stops misbehaving
-   fails. See `.github/scripts/README.md` for how the two gates compose.
+   fails. See `.github/scripts/README.md` for how the gates compose.
 2. **10th-grade readability** on all student-facing prose (code excluded).
    Complexity lives in the *problem*, never in the sentence describing it. Linx
-   owns the readability pass.
+   owns the readability pass — and now has an instrument:
+   `bash .github/scripts/editorial-gate.sh` scores reading grade and sentence
+   length, STE-100-derived (ADR-016). It is **advisory by default** — a syllable
+   heuristic must not veto a warm, correct sentence at grade 10.2 — and enforcing
+   in CI on the grade only, at the loose `target + 2.0` band (12.0). Student prose
+   scores 5–8, so a red editorial gate means a breakdown, not a nuance.
 3. **Single-file convention.** No multi-file projects. **Its form is
    module-dependent:** before M6, everything lives in `main` — no functions, no
    prototypes (the "pre-M6 incomplete form"). From M6 on, the full shape:
@@ -61,7 +67,112 @@ that fails any is not done.
    beat at its module's position; do not hand M4 a spec or M7 a full type-in.
 9. **Staged builds.** Demos and instructor examples build in stages; each stage
    compiles and runs standalone, so complexity accumulates visibly. Mark the
-   stages in comments.
+   stages in comments. Each stage gets its **own gated `.cpp`**
+   (`apply-gatekeeper-stage1.cpp`, `-stage2.cpp`, …) — a stage is a shorter whole
+   program, not a slice of the final one, and that turns this bar into something
+   checked rather than asserted.
+10. **Audience boundary, not an audience label** (ADR-017). Every beat is written
+    **to the student**. Instructor content — pacing, stall notes, reference
+    solutions — sits *below* a heading containing the exact phrase
+    `not part of the student handout`, at the end of the file. A label
+    (`### Instructor-only:`) tells a careful reader to skip; it does not stop a
+    student who scrolls, and an M5 Apply beat shipped the answer eighty lines
+    under one through a build, two cohort rounds, and a `Ready` badge (F-018).
+    Answer keys stay in their **own file** (`practice-exit-ticket-key.md`), and a
+    student-facing beat never links its key. The LPAA gate checks both.
+
+---
+
+## The gates (run them before you claim anything)
+
+Four scripts, same invocation shape, same result on a laptop and in CI. Run them
+from the repo root; no packages needed beyond a compiler and Python 3.
+
+```bash
+bash .github/scripts/compile-gate.sh    # bar #1a — does the .cpp build clean on GCC?
+bash .github/scripts/markdown-gate.sh   # bar #1b — is this fenced listing the real file?
+bash .github/scripts/lpaa-gate.sh       # bar #10 — are the repo's claims about itself true?
+bash .github/scripts/editorial-gate.sh  # bar #2  — does the prose read at grade level?
+```
+
+| Gate | Question it answers | Compiles? | CI |
+|---|---|---|---|
+| `compile-gate.sh` | Does this `.cpp` build clean on the students' compiler? | yes | enforcing |
+| `markdown-gate.sh` | Is this fenced listing a faithful view of one of those `.cpp` files? | no | enforcing |
+| `lpaa-gate.sh` | Is what the repo **says about itself** true? | no | enforcing (since 2026-08-01) |
+| `editorial-gate.sh` | Does this page read at grade level, in short sentences? | no | grade only, at 12.0 |
+
+Two workflows run them: `.github/workflows/compile-gate.yml` (three separate jobs
+— compile, markdown, LPAA — so the signals stay independently readable) and
+`.github/workflows/editorial-gate.yml`. Every dial is an env var locally and a
+`workflow_dispatch` input in the Actions tab; the table lives in
+`.github/scripts/README.md`.
+
+**The LPAA gate is the one you will trip.** It exists because *finishing a piece
+of work is what makes the surrounding status text false* — six false claims landed
+in one week, every one checkable, none visible to the other gates (F-019). Its
+checks: `status-files` (MODULES.md's status implies a file set — asserted **both
+ways**, so authoring past a `First pass` status fails too), `frontmatter`
+(`module:` and `lpaa_beat:` must agree with the path), `stale-stub` (no "NOT YET
+AUTHORED" inside a `Built`/`Ready` module), `key-leak`, `boundary`, and
+`open-questions` (reports only, never fails).
+
+**Every gate has self-tests, because a gate that cannot fail is not a gate:**
+
+```bash
+bash .github/scripts/selftest/markdown/run.sh
+bash .github/scripts/selftest/lpaa/run.sh
+bash .github/scripts/selftest/editorial/run.sh
+SEARCH_PATHS=.github/scripts/selftest/must-warn.cpp bash .github/scripts/compile-gate.sh
+```
+
+**Do not trust a local run on macOS** for bar #1 — `g++` there is Apple clang. The
+other three gates compile nothing, so their results are identical everywhere.
+
+---
+
+## The module tree (`modules/`)
+
+`modules/m0…m8/` is the **canonical, spine-numbered home** for all module
+deliverables (ADR-008). Legacy `assignments/` and `_past_work/` are frozen source —
+mined for material, never scaffold targets. `modules/MODULES.md` is the canonical
+status table; **read it, not `_tracking/course-manifest-csc134.yaml`**, which is
+marked stale in its own header.
+
+**Status vocabulary** (the LPAA gate reads it from `MODULES.md`, so it is not
+hard-coded anywhere):
+
+| Status | Means |
+|---|---|
+| **Skeleton** | `_overview.md`, `_mlos.md`, `_assets.md`, `_assess-spec.STUB.md`. No student-facing content. |
+| **First pass** | One real, gate-green student-facing artifact — the **Learn beat**, plus gated `code/` where there is C++ to gate. |
+| **Built** | All four LPAA beats authored and through the gates. |
+| **Ready** | Built, *plus* taken end to end by a synthetic student cohort, with every finding filed and closed. |
+
+A module is not **Ready** until a cohort has actually failed at it and those
+failures have been fixed. As of the breadth pass (ADR-016) all nine modules are
+`First pass` or better; **M4 and M5 are `Ready`**.
+
+**Per-module file shape** — a Built module:
+
+```
+modules/mN/
+  learn.md                      Learn beat — the reading
+  practice-exit-ticket.md       Practice beat — student-facing, completion-gated
+  practice-exit-ticket-key.md   Practice beat — INSTRUCTOR-FACING answer key
+  apply-tutorial.md             Apply beat — the in-class session
+  assess-lab.md                 Assess beat — the graded lab, with rubric
+  code/                         every C++ source the beats quote — sources only
+```
+
+- **Frontmatter is checked.** `module: M5` and `lpaa_beat: Learn` must match the
+  file's path.
+- **`_assess-spec.STUB.md` stops being a stub once its lab is authored** — retarget
+  its banner to "build record". Leaving "NOT YET AUTHORED" on a shipped module
+  tells every reader the opposite of the truth, and fails the gate.
+- **`.gitignore` ignores everything in `modules/*/code/`** and allows `.cpp`, `.h`,
+  `.md` back in — compiled binaries are extensionless on macOS/Linux. Add a new
+  source type to that allow-list or git will silently ignore your file.
 
 ---
 
@@ -109,19 +220,40 @@ silent edit. See `_contracts/README.md`.
   truth.** (Some subtrees are other sessions' WIP — do not touch what you did not
   open.)
 - `_contracts/` — the frozen interface contracts (above).
-- `_lore/` — the project's memory: ADRs (`_lore/decisions/`), glossary, findings
-  ledger. The wall of record.
+- `modules/m0…m8/` — **the canonical build target** (ADR-008). Status in
+  `modules/MODULES.md`; shape and rules above.
+- `_lore/` — the project's memory and the wall of record: ADRs
+  (`_lore/decisions/`), findings (`_lore/findings/`), `glossary.md`, and
+  `_lore/invariants/` — canonical external text (the CCL catalog entry)
+  preserved **verbatim** for audit and drift checks. Never paraphrase an
+  invariant; it is a snapshot, not prose.
+- `instructor-guide/` — behind-the-screen orientation: which compiler runs where,
+  cohort-harvest material, per-module teaching notes. Derived and freely
+  rewritten. `_lore/` answers *why is it like this*; this answers *how do I work
+  here*. When they disagree, `_lore/` is right and the guide is stale.
 - `_past_work/` — legacy course materials for reference/porting. **Has its own
   `_past_work/CLAUDE.md`; that file is legacy and does not govern this build** —
   in particular its issue-first / feature-branch student workflow is superseded
   by ADR-004 (below). This root file governs.
-- `_tracking/` — the machine-readable course manifest.
+- `assignments/`, `outline/` — legacy chapter-ordered material, **frozen** by
+  ADR-008. Provenance only; never a scaffold target. Its numbering drifts from
+  the spine (legacy `m1`/`m2` hold content that maps to spine **M3**).
+- `_tracking/` — build ledgers: `breadth-pass-ledger.md`, `module-status-review.md`,
+  `numbering-reconciliation-map.md`, and cohort round records under
+  `_tracking/cohort/`. `course-manifest-csc134.yaml` is **stale and says so** —
+  `modules/MODULES.md` supersedes it for "what is done".
 - `_outputs/` — **generated artifacts, not ground truth** (ADR-012). Composed Canvas
   HTML lands here, never in `modules/`. Never hand-edit a file in `_outputs/`: edit the
   Markdown source and re-emit, or the change is lost on the next build — after surviving
   just long enough to be believed. Committed so formatting churn is reviewable in a diff.
-- Module deliverables land in per-module folders as the skeleton pass defines
-  them.
+- `.claude/agents/` — the build fleet's agent definitions (compile-warden,
+  cohort-lead, module-builder, spine-owner, Kevin, Linx, Liza, Clive,
+  cadence-master, program-advisor). `.claude/skills/` — the skill guild below.
+- `.github/scripts/` — the gates and their self-test fixtures.
+  `.github/instructions/` and `.github/agents/` are GitHub Copilot's equivalents;
+  they point back here and at `_lore/invariants/`.
+- `_claude_sage/`, `csc134-refresh-plan/` — reference kits from other builds. Mine
+  them; neither governs this repo.
 
 **Port before authoring.** The spine's asset table says what adapts vs. what is
 new. Adapt existing assets (cheaper, safer); do not duplicate them. Treat
@@ -150,6 +282,13 @@ embodies a decision, write the ADR. If a genuine decision surfaces that you
 cannot make, record it as an open question for a human ruling — **do not grab an
 ADR number** when numbering is contested.
 
+Shape: ADRs are `ADR-NNN-slug.md`, Context → Decision → Consequences, ~1 page max.
+Findings are `F-NNN-slug.md`, transcript-cited. Cross-link with `[[wiki-style]]`
+refs. **Check the directory before taking a number** — `ADR-013` is reserved and
+unwritten, and two different decisions already share `ADR-016` (breadth-first
+pass, editorial gate) because two sessions took it at once. `F-009` and `F-014`
+collide the same way.
+
 ---
 
 ## Skill guild (load these for the details)
@@ -166,6 +305,14 @@ deliberately does not inline.
 | Rubric | `rubric-converter` (builds on the four columns) |
 | Voice / philosophy on any content | `course-content-writer` |
 | Canvas page / assignment HTML | `csc134-canvas-compositor` (ADR-012; output to `_outputs/`, never `modules/`) |
+
+Agents in `.claude/agents/` carry the roles: **compile-warden** (the mechanical
+gate — evidence, never opinions), **linx** (readability, bar #2), **liza** (theme
+and skin), **kevin** (repo hygiene, the lore merge gate), **spine-owner**
+(contracts and acceptance criteria), **module-builder** (graduate-and-teach: take
+module N as a student, build N+1), **cohort-lead** (fresh-spawn synthetic
+students), **cadence-master** (the promotion cycle), **clive** (prompt integrity),
+**program-advisor** (outward-facing rationale).
 
 When in doubt: the spine decides *what*, the contracts fix the *shapes*, the
 skills carry the *how*, and this file holds the *invariants*.
