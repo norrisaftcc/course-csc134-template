@@ -1,11 +1,12 @@
 ---
 name: F-021-claude-md-refresh
-description: CLAUDE.md was refreshed against the repo's actual state — three enforcing gates, the boundary rule, MODULES.md as the status index. Surfaced one open question, an ADR/finding numbering collision, left for a human ruling.
+description: Two sessions refreshed CLAUDE.md against the same stale state within two days. PR #66 landed first and is canon; #65 kept only what #66 lacks. The collision is the finding — and the numbering collisions it documents have the same cause.
 ---
 
-# F-021 — CLAUDE.md refreshed against the built repo
+# F-021 — CLAUDE.md refreshed against the built repo (and refreshed twice)
 
-**Date:** 2026-08-04 · **Status:** Recorded · **Branch:** `claude/claude-md-documentation-y98189`
+**Date:** 2026-08-04, amended 2026-08-06 · **Status:** Recorded ·
+**Branch:** `claude/claude-md-documentation-y98189` (#65) · **Landed first:** #66
 
 `CLAUDE.md` is working memory and stays small (`_lore/README.md`). Small is not the
 same as current. It described a two-gate repo with one status source, and the repo
@@ -22,7 +23,7 @@ for every piece of work in the repo.
 | Was | Is |
 |---|---|
 | "See `.github/scripts/README.md` for how the **two** gates compose" | Three enforcing (compile, markdown, LPAA) + editorial advisory-with-one-enforcing-band |
-| Bar #2 owned by a human who vouches | Bar #2 has an instrument — `editorial-gate.sh` (ADR-016), median grade 5.9 across 18 files |
+| Bar #2 owned by a human who vouched | Bar #2 has an instrument — `editorial-gate.sh` (ADR-016), median grade 5.9 across 18 files |
 | `_tracking/` = "the machine-readable course manifest" | The manifest is **stale by its own banner**; `modules/MODULES.md` is the status index and `breadth-pass-ledger.md` §6 is the live backlog |
 | "Module deliverables land in per-module folders as the skeleton pass defines them" | The per-module file shape is settled and gated; M0/M1 correctly carry no `code/` |
 | No mention of the audience boundary | ADR-017 — the `not part of the student handout` heading, mechanically enforced |
@@ -30,10 +31,32 @@ for every piece of work in the repo.
 | No mention of ADR-011's descope | STL and File I/O are out; M7 names classes rather than teaching them |
 | `_lore/` = decisions, glossary, findings | Plus `invariants/` — and `.github/instructions/` says to read it **first** |
 
-Added alongside: the fleet table (ten agents in `.claude/agents/`, previously
-referenced only by first name — "Linx owns the readability pass" with no pointer to
-`linx-voice-readability-editor`), a local-run block for the gates, and a short ADR
-index.
+## Two sessions, one file, two days apart
+
+**This is the finding.** #66 (`claude/claude-md-docs-bvb3mu`) and #65 (this branch)
+were authored independently against the same stale `CLAUDE.md` and reached
+substantially the same conclusions — same eight gaps, same evidence, different
+prose. #66 merged on 2026-08-06; #65 was still open, and went `dirty`.
+
+**#66 is canon.** #65's conflict was resolved by taking #66's file whole and
+grafting back only what it did not carry:
+
+| Kept from #65 | Why it survived |
+|---|---|
+| The house-style line | `.github/instructions/` says read `_lore/invariants/` **first**, then the XP route — the simplest thing that could work |
+| The ADR-011 descope note by the contracts | The one ruling most likely to be violated by reflex (`std::vector`, `fstream`) and it appeared nowhere in the file |
+| "Decisions worth knowing before you start" | An eleven-row ADR index plus the five findings that changed how the build works |
+| "Fix the status in the same PR" | Names the four places a status claim lives, so F-019's lesson has an action attached |
+
+Everything else in #65 was dropped as redundant — including a fleet **table**,
+because #66 deliberately chose prose with the named agents capitalized.
+
+**Cost of the collision:** one full duplicate authoring pass, and a conflict
+resolution that had to be done by hand because both sides rewrote the same
+sections. Neither session could see the other's branch. The cheap mitigation is
+the same one Kevin already owns — check open PRs before starting a repo-wide doc
+pass — and it is exactly the check that would have prevented the ADR-016
+collision below.
 
 ## Verification
 
@@ -47,6 +70,8 @@ lpaa-gate       STRICT=1 — every structural claim checks out                  
 editorial-gate  18 files, median grade 5.9, highest 8.3; 0 above the band       advisory
 ```
 
+Re-run green after the merge resolution.
+
 ## Open question — the numbering collision (for a human ruling)
 
 CLAUDE.md says: *do not grab an ADR number when numbering is contested.* It is
@@ -59,6 +84,10 @@ contested, in three places:
 | `F-014` | `F-014-breadth-pass-state-audit` | `F-014-m4-m5-hardening` |
 
 `ADR-013` is separately **reserved and unwritten** (#23, the Haiku persona).
+
+**Same cause as the duplicate refresh above** — two sessions acting on the same
+tree without seeing each other. That is worth stating plainly, because it means
+one fix addresses both.
 
 **Not resolved here, on purpose.** Both ADR-016s are cited by bare number across
 workflows, gate scripts, ledgers, and other lore; renumbering is a repo-wide edit
@@ -74,6 +103,7 @@ Two options for whoever rules:
 2. **Let the collisions stand as history** and disambiguate by slug in all future
    citations. Zero blast radius; readers must carry the slug forever.
 
-A third possibility worth naming: a `lpaa-gate` check for duplicate lore numbers,
-which would have caught all three at the moment they were created. Cheap, and it
-fits the gate's remit exactly — a claim the repo makes about itself.
+A third possibility worth naming, and it is cheap: a `lpaa-gate` check for
+duplicate lore numbers. It would have caught all three at the moment they were
+created, and it fits the gate's remit exactly — a claim the repo makes about
+itself.
