@@ -24,8 +24,15 @@ first, what happens next, and what happens when the input is wrong. It never ask
 program is for, and it will never tell you that the thing you are about to build breaks
 something already standing.
 
-**The interview is strong on purpose, weak on order.** Two questions get you the audience
-and the boundary. It will leave a loop's exit condition unwritten forever.
+**The interview is strong on boundaries, weak on order.** A few questions get you the scope
+and the shape. It will leave a loop's exit condition unwritten forever.
+
+> **Corrected by measurement, 2026-08-06.** This section used to say the interview gets you
+> *the audience* in two questions. [[F-022-split-picture-rail-calibration]] measured that and
+> it is false. Across two interviewing rails and twenty questions, **not one asked who else
+> reads the page** — because the repo already answers it, so the question reads as settled.
+> **Audience is the unreliable base on both rails.** Ask it out loud even when you think you
+> know.
 
 Neither route is the spec. **The spec is what survives both.**
 

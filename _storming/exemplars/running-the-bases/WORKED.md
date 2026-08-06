@@ -130,8 +130,36 @@ That is what the clearance rule is for, and it is why the gate has a human on it
 |---|---|---|
 | **Order** | ✅ every step, in sequence | ❌ "and then validate it somehow" |
 | **Edge cases** | ✅ forces the wrong-input branch | ❌ rarely surfaces until build |
-| **Audience** | ❌ never asks | ✅ first question |
-| **Scope** | ❌ describes a mechanism, not a boundary | ✅ the boundary *is* the conversation |
-| **Existing world** | ❌ blind to what already stands | ✅ "there are three of those already" |
+| **Audience** | ❌ never asks | ⚠️ **often does not ask either** |
+| **Scope** | ⚠️ gets structure, misses quantities | ✅ the boundary *is* the conversation |
+| **Intent** | ❌ cannot tell "not yet" from "on purpose" | ✅ a decision, on the record |
+| **Existing world** | ✅ **reads what already stands** | ⚠️ only if someone thinks to ask |
 
 **Teach both. Grade the spec.**
+
+## The table above was corrected by measurement
+
+[[F-022-split-picture-rail-calibration]] ran this seam as an experiment: three builders, three
+slices of the picture, six requirements held back by a customer who volunteered none of them.
+Scores were **4 / 5 / 5 out of 6.** Twelve interview questions bought exactly one requirement
+over asking nothing at all.
+
+Three results changed the table:
+
+**Audience failed on both rails.** Twenty questions across two interviewing builders, and not
+one asked who else reads the page. The repo already says *written to the student* — bar #10,
+ADR-017, F-018 — so the question reads as settled and nobody asks it. **A strong convention
+camouflages the requirement next to it.**
+
+**The pseudocode rail reads the existing world better than the interview does.** It named the
+exact insertion point between two sections, from zero questions, and cited a gate script's
+line number for why the block must not be fenced `cpp`. Structure already committed to disk is
+its home ground. What it cannot reach is **quantities and intentions** — a number the customer
+holds, and the difference between *not done yet* and *deliberately not here*.
+
+**A quantity can look checkable and not be.** "Under 2,200 words" produced three defensible
+counts in this repo, ranging 2,056 to 2,620 depending on what you strip. **Scope needs a unit
+and the instrument that measures it**, or it is a requirement a stranger cannot check.
+
+The lesson survives the correction, and is sharper for it: neither rail is the spec, and
+neither rail is reliably strong where you assume it is. Run the bases against the result.
