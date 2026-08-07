@@ -14,7 +14,7 @@ By the end of this reading, you will be able to:
 
 - **Explain** why programming languages exist at all, in terms of ambiguity (MLO-M2.1).
 - **Describe** what the compiler does, and point at the file it makes (MLO-M2.2).
-- **Read** a straight-line program's flowchart and match it to the code it came from (MLO-M2.3).
+- **Read** a straight-line program's flowchart *and its pseudocode*, and match both to the code they came from (MLO-M2.3).
 - **Predict** the output of a short provided program before you run it (MLO-M2.6).
 - **Classify** an error using the four course words — **Syntax**, **Static semantic**, **Runtime**, **Logic** (MLO-M2.5).
 
@@ -130,6 +130,29 @@ flowchart TD
 ```
 
 One box per statement, one arrow each, no forks. A **straight line** — because the program is one. When you meet a flowchart with a diamond in it, that diamond is a decision, and you will meet your first one in M4.
+
+### The same program, in pseudocode
+
+You have now seen this program twice: once as C++, once as a drawing. Here it is a third time, written as **pseudocode** — the plan in plain sentences, one step per line.
+
+```text
+START
+    print "You are standing at the dungeon door."
+    print "You push it open."
+    print "Inside, a torch is burning."
+    print "The door swings shut behind you."
+END
+```
+
+Read it against the flowchart above. **One box, one line.** `START` and `END` are the two ovals. Nothing was added and nothing was lost — it is the same four steps in a third notation.
+
+Pseudocode is not a language. No compiler reads it, and you never hand it in instead of C++. There is no official spelling, either: `print`, `display`, and `show` are all fine. The only test that matters is whether another person could follow your steps without guessing.
+
+So why write it at all? Because you can write it **before** you know how to say it in C++. The hard part of a program is deciding what happens and in what order. Pseudocode lets you settle that first, while the syntax is still out of the way.
+
+> **⚠️ Common Pitfall**: Writing C++ in disguise. If your pseudocode has `cout <<`, semicolons, or `#include` in it, you skipped the thinking and went straight to typing. Steps, not statements — that is the whole point.
+
+> **🔗 Connection**: Remember the sandwich from M1, and how much a person filled in for you without being asked. Pseudocode is where you stop letting them. It is the same demand for exactness, made before C++ is standing in your way.
 
 ### What the compiler actually does
 
@@ -287,6 +310,19 @@ For explaining an error message, yes — it is genuinely good at that, and this 
 <details><summary>Answer</summary>
 
 **Zero.** Start, three boxes, End, in a straight line. Diamonds are decisions, and this program never chooses anything. Your first diamond arrives in M4.
+</details>
+
+**4.** A classmate hands you this as pseudocode. Name what is wrong with it.
+
+```text
+START
+    cout << "Hello";
+END
+```
+
+<details><summary>Answer</summary>
+
+**It is C++ in disguise.** The `cout <<` and the semicolon are C++ syntax, not steps — so it skipped the thinking it exists to do. The step is `print "Hello"`. Pseudocode describes *what happens*; the language comes after.
 </details>
 
 ## Next Steps
