@@ -74,6 +74,8 @@ Two things it is deliberately not:
   Debug, Review. The bases are a floor test you apply *before* choosing one.
 - **Not student-facing yet.** It lives in `_storming/`. Moving any of it into `modules/`
   is a spine ruling, and it would land on a real gap: `modules/m2/learn.md` does not
-  contain the word "pseudocode" though MLO 2.2 requires it, and the
+  contain the word "pseudocode" though the pseudocode objective requires it
+  (**MLO 2.2** in `CSC-134-learning-objectives.md`, **MLO-M2.3** in the module's own
+  `_mlos.md` — the two number M2 differently, see [[F-024-two-mlo-numbering-schemes]]), and the
   `As a… I want… so that…` form first appears in M8 while being described there as long
   taught. **Both rails of this seam are currently unauthored.**
