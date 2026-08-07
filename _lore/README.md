@@ -47,7 +47,7 @@ MLO 4.1                                     ← fine inside modules/m4/, where l
 ```
 
 **The slug disambiguates; the punctuation does not.** Three citation forms exist in the tree
-(`MLO 4.1`, `MLO-0.4`, `MLO-M2.3`) and **no prefix is mandated** — unifying ~170 citations would
+(`MLO 4.1`, `MLO-0.4`, `MLO-M2.3`) and **no prefix is mandated** — unifying all 202 citations would
 buy nothing the slug does not. The LO document keeps its own numbering for the CLO mapping and
 coverage matrix it serves; that view is not a citation target for build work. No gate enforces
 this: see ADR-020 for why, and what would have to change first.
