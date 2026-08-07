@@ -22,9 +22,11 @@ Three citation forms are in the tree today:
 
 | Form | Where | Count |
 |---|---|---|
-| `MLO 4.1` — bare | m3–m8, and the LO document | ~142 |
+| `MLO 4.1` — bare | m3–m8 (142) and the LO document (32) | 174 |
 | `MLO-0.4` — hyphenated | m0 | 16 |
 | `MLO-M2.3` — hyphenated, module-lettered | m2 | 12 |
+
+**202 citations in total**, counted with `rg -o` per tree.
 
 ## Decision
 
@@ -40,7 +42,7 @@ MLO 4.1                                     ← fine inside modules/m4/
 ```
 
 **3. No prefix is mandated, and no sweep is run.** The tree holds three forms because three
-sessions wrote them; unifying them would touch ~170 citations to buy a cosmetic win. **The slug
+sessions wrote them; unifying them would touch all 202 citations to buy a cosmetic win. **The slug
 is what disambiguates — the punctuation never did.** Existing forms stay as they are.
 
 **4. The LO document is re-scoped, not demoted.** It remains the instructional-design and
@@ -58,7 +60,7 @@ The same blast-radius reasoning as ADR-018, and it lands harder here:
   `MLO-0.3` (inputs/process/outputs) has no counterpart the other way.
 - **The LO document is accreditation-facing.** Its numbers feed the CCL crosswalk and coverage
   matrix — the artifact least able to absorb churn.
-- **~170 citations.** A sweep that misses one leaves a citation pointing at an objective that no
+- **202 citations.** A sweep that misses one leaves a citation pointing at an objective that no
   longer exists: a false claim about the repo, which is the defect class the LPAA gate exists to
   catch. **The fix would risk creating what it cleans up** — ADR-018's exact argument.
 

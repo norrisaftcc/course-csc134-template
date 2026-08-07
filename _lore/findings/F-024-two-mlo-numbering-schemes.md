@@ -107,7 +107,7 @@ false, and checking it before commit is the only reason it did not ship:
 
 | Form | Where | Count |
 |---|---|---|
-| `MLO 4.1` — bare | m3–m8, and the LO document | ~142 |
+| `MLO 4.1` — bare | m3–m8 (142) and the LO document (32) | 174 |
 | `MLO-0.4` — hyphenated | m0 | 16 |
 | `MLO-M2.3` — hyphenated, module-lettered | m2 | 12 |
 
