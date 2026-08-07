@@ -10,6 +10,7 @@
 - **MLO** = Module Level Objective (what a student can do on completing that module). Each MLO is tagged with the CLO(s) it advances, e.g. `(→ CLO3)`.
 - **Coverage matrix** uses the standard **I / D / M** scale: **I**ntroduced · **D**eveloped · **M**astered (assessed).
 - **Measurability:** objectives use observable Bloom verbs (design, implement, classify, refactor…) so each is assessable by the module's *Assess* artifact. Lower-order verbs cluster early; higher-order (design, refactor, defend) arrive later — the same scaffolding-off-the-scaffolding curve as the LPAA Make gradient.
+- **MLO numbering here is internal to this document.** `modules/mN/_mlos.md` decomposes the same objectives more finely and numbers them differently — M2 has four MLOs here and seven there; M0 has three here and four there. Per [[ADR-020-module-mlos-govern-cite-by-slug]], **the module files govern citations**, while this document's numbering serves the CLO mapping and coverage matrix below. Neither is wrong. But **`MLO 2.2` here is not `MLO-M2.2` there**, so a citation crossing between them must carry the objective's slug, not the number alone.
 
 ---
 

@@ -34,6 +34,24 @@ ADR-016                                      ← ambiguous; fine only for number
 They are the last three. The `lore-numbers` check in `lpaa-gate.sh` fails any new
 collision, and its grandfather list must never grow.
 
+### Objective numbers — the same discipline, a different tree
+
+**`modules/mN/_mlos.md` governs MLO numbering** ([[ADR-020-module-mlos-govern-cite-by-slug]]).
+`_storming/CSC-134-learning-objectives.md` numbers M2 differently — four objectives where the
+module file has seven — so a bare number resolves to two different objectives
+([[F-024-two-mlo-numbering-schemes]]).
+
+```
+MLO-M2.3 (read-flowchart-and-pseudocode)   ← crossing documents: carry the slug
+MLO 4.1                                     ← fine inside modules/m4/, where location says which
+```
+
+**The slug disambiguates; the punctuation does not.** Three citation forms exist in the tree
+(`MLO 4.1`, `MLO-0.4`, `MLO-M2.3`) and **no prefix is mandated** — unifying ~170 citations would
+buy nothing the slug does not. The LO document keeps its own numbering for the CLO mapping and
+coverage matrix it serves; that view is not a citation target for build work. No gate enforces
+this: see ADR-020 for why, and what would have to change first.
+
 ## Why ADR-lite
 
 PRISM canon: ORANGE banks ADRs. The fleet writing decision records is in-character for the

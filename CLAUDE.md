@@ -359,6 +359,7 @@ The full set is `_lore/decisions/`; these bite most often.
 | 016 *(`-editorial-gate-ste100-derived`)* | An STE-100-derived editorial gate gives bar #2 an instrument (advisory) |
 | 017 | Apply beats are written to the student; instructor content sits behind the boundary |
 | 018 | Colliding lore numbers stand; citations disambiguate by slug |
+| 020 | **`modules/mN/_mlos.md` governs MLO numbering**; a citation crossing documents carries the objective slug |
 
 Findings that changed how the build works: **F-009** (a macOS "clean" is not a
 clean), **F-013** (Markdown blocks were unversioned copies), **F-018** (the Apply

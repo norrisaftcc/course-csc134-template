@@ -5,7 +5,7 @@ description: Two documents number M2's objectives differently — the LO compani
 
 # F-024 — Two MLO numbering schemes, and a bare number that resolves to both
 
-**Date:** 2026-08-06 · **Status:** Recorded · **Open question — needs a human ruling**
+**Date:** 2026-08-06 · **Status:** Recorded · **Open question CLOSED 2026-08-07 by [[ADR-020-module-mlos-govern-cite-by-slug]]**
 **Found:** while reconciling the M2 pseudocode gap
 **Related:** [[ADR-018-lore-numbers-disambiguate-by-slug]] — same defect class, different tree
 
@@ -83,6 +83,41 @@ Three shapes, none chosen here:
 **No ADR number is taken.** `CLAUDE.md` is explicit: *"If a genuine decision surfaces that you
 cannot make, record it as an open question for a human ruling — do not grab an ADR number when
 numbering is contested."* Numbering is contested. This is the record, not the ruling.
+
+### Ruled, 2026-08-07 — [[ADR-020-module-mlos-govern-cite-by-slug]]
+
+**Shape 2 with shape 3's citation discipline.** `modules/mN/_mlos.md` governs; a citation that
+crosses documents names the objective, not the number alone; the LO document keeps its numbering
+for the accreditation view it serves. Nothing is renumbered — the schemes are different
+*decompositions*, and collapsing them would lose M2.6 and M2.7 entirely.
+
+### Two corrections this finding earned, made while writing the ruling
+
+**1. M2 was not the first case.** `modules/m0/_mlos.md` carries a banner recording the same
+collision — four slots there against three in the LO document, with the AI-collaboration
+objective at `MLO-0.4` in one and `MLO 0.3` in the other. [[F-015-breadth-pass-recipe]] wrote it
+up during the breadth pass. **This finding rediscovered for M2 what was already known about M0**,
+which is the strongest argument that a finding was not enough and a ruling was needed.
+
+Confirmed divergent is therefore **two modules, not one**. Seven remain unaudited.
+
+**2. There is no established prefix convention to lean on.** The first draft of ADR-020 claimed
+every module beat already used an `M`-prefixed form, so the ruling would need no sweep. That was
+false, and checking it before commit is the only reason it did not ship:
+
+| Form | Where | Count |
+|---|---|---|
+| `MLO 4.1` — bare | m3–m8, and the LO document | ~142 |
+| `MLO-0.4` — hyphenated | m0 | 16 |
+| `MLO-M2.3` — hyphenated, module-lettered | m2 | 12 |
+
+The `MLO-M2.3` form exists in exactly one file — `modules/m2/learn.md`, written the day before,
+by the same author who then cited it as a pre-existing convention. **The ruling was rewritten to
+mandate no prefix at all**: the slug disambiguates, the punctuation never did.
+
+The full M0–M8 crosswalk this finding commissioned is **still worth doing and blocks nothing** —
+the ruling holds whatever it finds. See ADR-020 for why no gate was built and what would have to
+be true first.
 
 ## What was done in the meantime
 

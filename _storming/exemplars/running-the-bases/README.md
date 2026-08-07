@@ -76,9 +76,10 @@ Two things it is deliberately not:
   is a spine ruling.
 
 **What this exemplar found, and where it stands.** When this was written, `modules/m2/learn.md`
-did not contain the word "pseudocode" at all, though the pseudocode objective requires it —
-numbered **MLO 2.2** in `CSC-134-learning-objectives.md` and **MLO-M2.3** in the module's own
-`_mlos.md`, which decompose M2 differently ([[F-024-two-mlo-numbering-schemes]]).
+did not contain the word "pseudocode" at all, though **MLO-M2.3 (read-flowchart-and-pseudocode)**
+requires it. Finding that gap also turned up two competing numbering schemes
+([[F-024-two-mlo-numbering-schemes]]); the module file governs and citations carry a slug, per
+[[ADR-020-module-mlos-govern-cite-by-slug]].
 
 **That rail is now authored.** M2's Learn beat teaches pseudocode as the third view of the same
 program it already shows as C++ and as a flowchart.
