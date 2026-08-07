@@ -84,6 +84,8 @@ pseudocode/interview seam F-022 calibrated.
 1. **Upstream becomes readable** — the repo is attached, or the egress policy allows the host.
    Then: diff, record the SHA, and decide whether ours or theirs is canon. The value of that
    diff is finding rules *we dropped*, not making the files match.
+   **Amended 2026-08-06 — see below. Nobody is going to attach the repo to make this fire; the
+   egress half of the clause is what remains live, and it is not something we control.**
 2. **The stand-in is used in anger** — a builder runs a real deliverable through it and the
    result is reviewed. Until then no one knows whether the compression cut something
    load-bearing.
@@ -96,3 +98,32 @@ statement rather than becoming the permanent condition it describes.
 
 Until then `CLAUDE.md`'s Voice and conventions sections remain canon, and this package is
 registered in the Skill guild with the word *provisional* in its row.
+
+## Amendment
+
+Recorded with date and delta rather than applied by drift — the same discipline the vendored
+skill's own Invariants section requires of itself. An unrecorded change to a decision is a
+defect, whoever made it.
+
+**2026-08-06 — reconciliation by attachment is dropped. Ruled by the repo owner.**
+
+The original decision left one loose end: `NOTICE` and expiry clause 1 both pointed at
+attaching `algocratic/the-algorithm-lite` so the vendored compression could be diffed against
+upstream. That was offered and declined. The ruling: **the attribution as captured in `NOTICE`
+is sufficient**, and reconciling against a file we cannot read is not worth the attachment.
+
+What changes:
+
+- **Clause 1 is now a genuine conditional, not a plan.** If the egress policy ever allows
+  `raw.githubusercontent.com`, the diff is still worth running for the reason originally
+  stated — finding rules *our* compression dropped. But nothing is scheduled to make it happen.
+- **Clauses 2 and 3 are the live expiry paths:** the stand-in gets used in anger, or 2026-11-04
+  arrives. Neither depends on upstream.
+- **Nothing about the attribution changes**, because nothing about it was in question. `NOTICE`
+  still records what came from where, and — the part that matters — what could not be verified,
+  including that no upstream SHA is recorded because none was read.
+
+Recorded here because the alternative is that a future session reads `NOTICE`, sees an
+instruction addressed to it, and re-opens a question that already has a human answer. That is
+the same failure as a stale status claim ([[F-019-lpaa-content-gate]]): not a lie, just a
+sentence that outlived the state it described.

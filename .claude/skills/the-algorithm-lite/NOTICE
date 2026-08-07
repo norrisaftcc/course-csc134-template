@@ -63,10 +63,15 @@ Consequences, stated so a later reader does not have to rediscover them:
     artifact reached by a different route.
   - Upstream SKILL.md, registry/, bridge/BRIDGE.md and assay.py were never read.
 
-TO RECONCILE WITH UPSTREAM
---------------------------
+RECONCILING WITH UPSTREAM (NOT PLANNED)
+---------------------------------------
 
-Attach the repo to a session, then compare and record the SHA:
+Considered and declined on 2026-08-06: the attribution recorded above is sufficient, and
+attaching the repo to chase a diff is not worth doing. See the Amendment section of
+ADR-019. This is a reference for anyone who later wants the comparison — it is NOT
+outstanding work, and it does not need doing before this package can be used or promoted.
+
+If you do want it, attach the repo to a session, then compare and record the SHA:
 
     add_repo algocratic/the-algorithm-lite
     diff <upstream SKILL-mini.md> .claude/skills/the-algorithm-lite/SKILL.md
