@@ -150,11 +150,9 @@ Pseudocode is not a language. No compiler reads it, and you never hand it in ins
 
 So why write it at all? Because you can write it **before** you know how to say it in C++. The hard part of a program is deciding what happens and in what order. Pseudocode lets you settle that first, while the syntax is still out of the way.
 
-> **⚠️ Common Pitfall**
-> Writing C++ in disguise. If your pseudocode has `cout <<`, semicolons, or `#include` in it, you skipped the thinking and went straight to typing. Steps, not statements — that is the whole point.
+> **⚠️ Common Pitfall**: Writing C++ in disguise. If your pseudocode has `cout <<`, semicolons, or `#include` in it, you skipped the thinking and went straight to typing. Steps, not statements — that is the whole point.
 
-> **🔗 Connection**
-> Remember the sandwich from M1, and how much a person filled in for you without being asked. Pseudocode is where you stop letting them. It is the same demand for exactness, made before C++ is standing in your way.
+> **🔗 Connection**: Remember the sandwich from M1, and how much a person filled in for you without being asked. Pseudocode is where you stop letting them. It is the same demand for exactness, made before C++ is standing in your way.
 
 ### What the compiler actually does
 

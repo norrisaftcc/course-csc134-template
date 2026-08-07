@@ -73,9 +73,17 @@ Two things it is deliberately not:
 - **Not a sixth prompt pattern.** The five are Scaffold, Explain-Then-Generate, Refactor,
   Debug, Review. The bases are a floor test you apply *before* choosing one.
 - **Not student-facing yet.** It lives in `_storming/`. Moving any of it into `modules/`
-  is a spine ruling, and it would land on a real gap: `modules/m2/learn.md` does not
-  contain the word "pseudocode" though the pseudocode objective requires it
-  (**MLO 2.2** in `CSC-134-learning-objectives.md`, **MLO-M2.3** in the module's own
-  `_mlos.md` — the two number M2 differently, see [[F-024-two-mlo-numbering-schemes]]), and the
-  `As a… I want… so that…` form first appears in M8 while being described there as long
-  taught. **Both rails of this seam are currently unauthored.**
+  is a spine ruling.
+
+**What this exemplar found, and where it stands.** When this was written, `modules/m2/learn.md`
+did not contain the word "pseudocode" at all, though the pseudocode objective requires it —
+numbered **MLO 2.2** in `CSC-134-learning-objectives.md` and **MLO-M2.3** in the module's own
+`_mlos.md`, which decompose M2 differently ([[F-024-two-mlo-numbering-schemes]]).
+
+**That rail is now authored.** M2's Learn beat teaches pseudocode as the third view of the same
+program it already shows as C++ and as a flowchart.
+
+The other rail is still open: the `As a… I want… so that…` form first appears in M8, which
+describes it as long taught. That is **disclosed rather than hidden** — `modules/m2/_mlos.md`
+marks user stories `[TBD]` and warns not to read its markers as covering all seven slots — so it
+is a known gap, not a false claim.
